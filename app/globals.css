@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colour */
+  --black: #000000;
+  --ink: #131313; /* near-black cards, dark sections */
+  --ink-deep: #0a0a0a; /* pricing dark card, dark buttons */
+  --ink-soft: #343434; /* infrastructure feature card */
+  --lime: #d6fd70; /* primary accent */
+  --green: #6f9900; /* heading highlight on light backgrounds */
+  --paper: #ffffff;
+  --paper-muted: #f2f2f2; /* light card fill */
+  --paper-warm: #f6f5f2; /* calendar text on dark */
+
+  /* Text */
+  --text-body: #6e7a76; /* default muted body on light */
+  --text-body-alt: #4c4e4d;
+  --text-body-deep: #4f4f4f;
+  --text-body-soft: #666666;
+  --text-meta: #8e8e8e; /* FROM / PER MONTH labels */
+  --text-back: #7b7b7b; /* "Go back to blogs" */
+  --text-on-dark: #c0c0c0;
+  --text-on-dark-alt: #d1d1d1;
+  --text-on-dark-lo: #dfdfdf;
+  --text-on-dark-hi: #f0f0f0;
+  --text-dim: #a9b0ad; /* muted copy on dark */
+  --text-dim-alt: #9aa3a0; /* card numbers on dark */
+  --text-calendar: #dedede;
+  --text-calendar-lo: #a6a49f;
+
+  /* Lines */
+  --line-light: #e3e3e3; /* KV row dividers */
+  --line-light-alt: #e4e4e4; /* pricing list dividers */
+  --line-dark: #2e2e2e; /* dark pricing list dividers */
+  --line-dark-alt: #3a3a3a; /* infrastructure dark card */
+  --line-cal: #323235; /* calendar day outline */
+
+  /* Radius */
+  --r-pill: 80px; /* buttons */
+  --r-round: 100px; /* time-slot buttons */
+  --r-card: 24px; /* feature and content cards */
+  --r-panel: 16px; /* article cards, pricing cards, images, process strip */
+  --r-input: 12px; /* form inputs */
+  --r-cell: 8px; /* calendar day cells */
+
 }
+
+/* Fonts: headings use Inter, body uses Jost. The --font-heading,
+   --font-body, --font-date-sans and --font-date-display variables are
+   defined by next/font/google's generated classes on <html> in
+   app/layout.tsx. Components must reference only --font-heading /
+   --font-body — never hardcode a family name. --font-date-sans and
+   --font-date-display (DM Sans / Dela Gothic One) are scoped to the
+   booking-confirmation date tile, the only place those fonts appear. */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-black: var(--black);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-ink-soft: var(--ink-soft);
+  --color-lime: var(--lime);
+  --color-green: var(--green);
+  --color-paper: var(--paper);
+  --color-paper-muted: var(--paper-muted);
+  --color-paper-warm: var(--paper-warm);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-text-body: var(--text-body);
+  --color-text-body-alt: var(--text-body-alt);
+  --color-text-body-deep: var(--text-body-deep);
+  --color-text-body-soft: var(--text-body-soft);
+  --color-text-meta: var(--text-meta);
+  --color-text-back: var(--text-back);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-text-on-dark-alt: var(--text-on-dark-alt);
+  --color-text-on-dark-lo: var(--text-on-dark-lo);
+  --color-text-on-dark-hi: var(--text-on-dark-hi);
+  --color-text-dim: var(--text-dim);
+  --color-text-dim-alt: var(--text-dim-alt);
+  --color-text-calendar: var(--text-calendar);
+  --color-text-calendar-lo: var(--text-calendar-lo);
+
+  --color-line-light: var(--line-light);
+  --color-line-light-alt: var(--line-light-alt);
+  --color-line-dark: var(--line-dark);
+  --color-line-dark-alt: var(--line-dark-alt);
+  --color-line-cal: var(--line-cal);
+
+  --radius-pill: var(--r-pill);
+  --radius-round: var(--r-round);
+  --radius-card: var(--r-card);
+  --radius-panel: var(--r-panel);
+  --radius-input: var(--r-input);
+  --radius-cell: var(--r-cell);
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--text-body);
+  font-family: var(--font-body);
+}
+
+/* Focus ring: lime on dark surfaces, ink on light. Components set
+   data-tone="dark" where they sit on a dark/image background. */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+[data-tone="dark"] :focus-visible {
+  outline-color: var(--lime);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
