@@ -5,12 +5,13 @@ import { PublishToggle } from "@/components/admin/PublishToggle";
 import { ReorderButtons } from "@/components/admin/ReorderButtons";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { dummyProjects } from "@/lib/admin/dummy-data";
 import { moveProject, toggleProjectPublished } from "@/app/admin/projects/actions";
 
 export default async function ProjectsList() {
   const { data: projects, connected } = await safeQuery(
     () => prisma.project.findMany({ orderBy: { order: "asc" } }),
-    [],
+    dummyProjects,
   );
 
   return (
@@ -28,7 +29,7 @@ export default async function ProjectsList() {
             <ReorderButtons
               disableUp={i === 0}
               disableDown={i === projects.length - 1}
-              onMove={(direction) => moveProject(p.id, direction)}
+              onMove={moveProject.bind(null, p.id)}
             />
             <Link href={`/admin/projects/${p.id}`} className="flex min-w-0 flex-1 flex-col gap-0.5 hover:underline">
               <span className="truncate font-heading text-[14px] font-medium text-black">{p.title}</span>

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { safeMutate } from "@/lib/admin/safe-query";
 
 const testimonialSchema = z.object({
   quote: z.string().trim().min(1, "Quote is required"),
@@ -27,20 +28,22 @@ export async function createTestimonial(formData: FormData) {
   const data = parseTestimonialForm(formData);
   const published = formData.get("publish") === "true";
 
-  const testimonial = await prisma.testimonial.create({ data: { ...data, published } });
+  const result = await safeMutate(() => prisma.testimonial.create({ data: { ...data, published } }));
 
   revalidatePath("/admin/testimonials");
-  redirect(`/admin/testimonials/${testimonial.id}`);
+  redirect(result.ok ? `/admin/testimonials/${result.data.id}` : "/admin/testimonials");
 }
 
 export async function updateTestimonial(id: string, formData: FormData) {
   const data = parseTestimonialForm(formData);
   const published = formData.get("publish") === "true" ? true : undefined;
 
-  await prisma.testimonial.update({
-    where: { id },
-    data: published !== undefined ? { ...data, published } : data,
-  });
+  await safeMutate(() =>
+    prisma.testimonial.update({
+      where: { id },
+      data: published !== undefined ? { ...data, published } : data,
+    }),
+  );
 
   revalidatePath("/admin/testimonials");
   revalidatePath(`/admin/testimonials/${id}`);
@@ -48,37 +51,40 @@ export async function updateTestimonial(id: string, formData: FormData) {
 }
 
 export async function deleteTestimonial(id: string) {
-  await prisma.testimonial.delete({ where: { id } });
+  await safeMutate(() => prisma.testimonial.delete({ where: { id } }));
   revalidatePath("/admin/testimonials");
   revalidatePublicPaths();
   redirect("/admin/testimonials");
 }
 
 export async function toggleTestimonialPublished(id: string, published: boolean) {
-  await prisma.testimonial.update({ where: { id }, data: { published } });
+  await safeMutate(() => prisma.testimonial.update({ where: { id }, data: { published } }));
   revalidatePath("/admin/testimonials");
   revalidatePublicPaths();
 }
 
 export async function toggleTestimonialApproved(id: string, approved: boolean) {
-  await prisma.testimonial.update({ where: { id }, data: { approved } });
+  await safeMutate(() => prisma.testimonial.update({ where: { id }, data: { approved } }));
   revalidatePath("/admin/testimonials");
   revalidatePublicPaths();
 }
 
 export async function moveTestimonial(id: string, direction: "up" | "down") {
-  const testimonials = await prisma.testimonial.findMany({ orderBy: { order: "asc" } });
-  const index = testimonials.findIndex((t) => t.id === id);
-  if (index === -1) return;
-  const swapIndex = direction === "up" ? index - 1 : index + 1;
-  if (swapIndex < 0 || swapIndex >= testimonials.length) return;
+  const result = await safeMutate(async () => {
+    const testimonials = await prisma.testimonial.findMany({ orderBy: { order: "asc" } });
+    const index = testimonials.findIndex((t) => t.id === id);
+    if (index === -1) return;
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= testimonials.length) return;
 
-  const a = testimonials[index];
-  const b = testimonials[swapIndex];
-  await prisma.$transaction([
-    prisma.testimonial.update({ where: { id: a.id }, data: { order: b.order } }),
-    prisma.testimonial.update({ where: { id: b.id }, data: { order: a.order } }),
-  ]);
+    const a = testimonials[index];
+    const b = testimonials[swapIndex];
+    await prisma.$transaction([
+      prisma.testimonial.update({ where: { id: a.id }, data: { order: b.order } }),
+      prisma.testimonial.update({ where: { id: b.id }, data: { order: a.order } }),
+    ]);
+  });
+  if (!result.ok) return;
 
   revalidatePath("/admin/testimonials");
 }

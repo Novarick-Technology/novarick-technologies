@@ -4,6 +4,7 @@ import { StatCard } from "@/components/admin/StatCard";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { dummyProjects, dummyPosts, dummyTestimonials, dummySubmissions } from "@/lib/admin/dummy-data";
 import type { Submission } from "@/app/generated/prisma/client";
 
 type DashboardData = {
@@ -29,7 +30,14 @@ export default async function AdminDashboard() {
         ]);
       return { projectCount, postCount, testimonialCount, submissionCount, unreadCount, recentSubmissions };
     },
-    { projectCount: 0, postCount: 0, testimonialCount: 0, submissionCount: 0, unreadCount: 0, recentSubmissions: [] },
+    {
+      projectCount: dummyProjects.length,
+      postCount: dummyPosts.length,
+      testimonialCount: dummyTestimonials.length,
+      submissionCount: dummySubmissions.length,
+      unreadCount: dummySubmissions.filter((s) => !s.read).length,
+      recentSubmissions: dummySubmissions,
+    },
   );
   const { projectCount, postCount, testimonialCount, submissionCount, unreadCount, recentSubmissions } = data;
 

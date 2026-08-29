@@ -5,6 +5,7 @@ import { PublishToggle } from "@/components/admin/PublishToggle";
 import { ReorderButtons } from "@/components/admin/ReorderButtons";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { dummyTestimonials } from "@/lib/admin/dummy-data";
 import {
   moveTestimonial,
   toggleTestimonialApproved,
@@ -14,7 +15,7 @@ import {
 export default async function TestimonialsList() {
   const { data: testimonials, connected } = await safeQuery(
     () => prisma.testimonial.findMany({ orderBy: { order: "asc" } }),
-    [],
+    dummyTestimonials,
   );
 
   return (
@@ -32,7 +33,7 @@ export default async function TestimonialsList() {
             <ReorderButtons
               disableUp={i === 0}
               disableDown={i === testimonials.length - 1}
-              onMove={(direction) => moveTestimonial(t.id, direction)}
+              onMove={moveTestimonial.bind(null, t.id)}
             />
             <Link href={`/admin/testimonials/${t.id}`} className="flex min-w-0 flex-1 flex-col gap-0.5 hover:underline">
               <span className="truncate font-heading text-[14px] font-medium text-black">{t.name}</span>

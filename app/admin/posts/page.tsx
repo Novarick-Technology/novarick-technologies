@@ -4,12 +4,13 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { PublishToggle } from "@/components/admin/PublishToggle";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { dummyPosts } from "@/lib/admin/dummy-data";
 import { togglePostPublished } from "@/app/admin/posts/actions";
 
 export default async function PostsList() {
   const { data: posts, connected } = await safeQuery(
     () => prisma.post.findMany({ orderBy: { createdAt: "desc" } }),
-    [],
+    dummyPosts,
   );
 
   return (

@@ -3,17 +3,19 @@ import { prisma } from "@/lib/prisma";
 import { toCsv } from "@/lib/admin/csv";
 import { buildSubmissionsWhere } from "@/app/admin/submissions/query";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { filterDummySubmissions } from "@/lib/admin/dummy-data";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const where = buildSubmissionsWhere({
+  const params = {
     filter: searchParams.get("filter") ?? undefined,
     q: searchParams.get("q") ?? undefined,
-  });
+  };
+  const where = buildSubmissionsWhere(params);
 
   const { data: submissions } = await safeQuery(
     () => prisma.submission.findMany({ where, orderBy: { createdAt: "desc" } }),
-    [],
+    filterDummySubmissions(params),
   );
 
   const csv = toCsv(

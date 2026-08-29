@@ -3,10 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { TestimonialForm } from "@/app/admin/testimonials/TestimonialForm";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { dummyTestimonials } from "@/lib/admin/dummy-data";
 
 export default async function EditTestimonial({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { data: testimonial } = await safeQuery(() => prisma.testimonial.findUnique({ where: { id } }), null);
+  const { data: testimonial } = await safeQuery(
+    () => prisma.testimonial.findUnique({ where: { id } }),
+    dummyTestimonials.find((t) => t.id === id) ?? null,
+  );
   if (!testimonial) notFound();
 
   return (

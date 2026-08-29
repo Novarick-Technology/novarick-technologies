@@ -19,3 +19,19 @@ export async function safeQuery<T>(fn: () => Promise<T>, fallback: T): Promise<{
     return { data: fallback, connected: false };
   }
 }
+
+/**
+ * Same idea for writes: with dummy data standing in for real rows, Save/
+ * Delete/Publish/Reorder on a dummy record would otherwise throw against
+ * the placeholder DATABASE_URL. Callers treat `ok: false` as "no-op, but
+ * behave as if it worked" so the demo stays interactive.
+ */
+export async function safeMutate<T>(fn: () => Promise<T>): Promise<{ ok: true; data: T } | { ok: false }> {
+  try {
+    const data = await fn();
+    return { ok: true, data };
+  } catch (error) {
+    console.error("Admin: database mutation failed —", error instanceof Error ? error.message : error);
+    return { ok: false };
+  }
+}

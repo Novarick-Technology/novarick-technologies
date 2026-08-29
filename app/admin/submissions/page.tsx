@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { filterDummySubmissions } from "@/lib/admin/dummy-data";
 import { buildSubmissionsWhere } from "@/app/admin/submissions/query";
 
 export default async function SubmissionsList({
@@ -15,7 +16,7 @@ export default async function SubmissionsList({
   const where = buildSubmissionsWhere(params);
   const { data: submissions, connected } = await safeQuery(
     () => prisma.submission.findMany({ where, orderBy: { createdAt: "desc" } }),
-    [],
+    filterDummySubmissions(params),
   );
 
   const exportHref = `/admin/submissions/export?${new URLSearchParams(

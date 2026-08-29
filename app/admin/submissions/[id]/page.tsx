@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { MarkReadButton } from "@/components/admin/MarkReadButton";
 import { safeQuery } from "@/lib/admin/safe-query";
+import { dummySubmissions } from "@/lib/admin/dummy-data";
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
@@ -15,7 +16,10 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 
 export default async function SubmissionDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { data: submission } = await safeQuery(() => prisma.submission.findUnique({ where: { id } }), null);
+  const { data: submission } = await safeQuery(
+    () => prisma.submission.findUnique({ where: { id } }),
+    dummySubmissions.find((s) => s.id === id) ?? null,
+  );
   if (!submission) notFound();
 
   return (

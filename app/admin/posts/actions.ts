@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { isRichTextBlockArray } from "@/lib/rich-text";
+import { safeMutate } from "@/lib/admin/safe-query";
 
 const postSchema = z.object({
   slug: z.string().trim().min(1, "Slug is required"),
@@ -32,22 +33,26 @@ export async function createPost(formData: FormData) {
   const data = parsePostForm(formData);
   const published = formData.get("publish") === "true";
 
-  const post = await prisma.post.create({
-    data: { ...data, published, publishedAt: published ? new Date() : null },
-  });
+  const result = await safeMutate(() =>
+    prisma.post.create({
+      data: { ...data, published, publishedAt: published ? new Date() : null },
+    }),
+  );
 
   revalidatePath("/admin/posts");
-  redirect(`/admin/posts/${post.id}`);
+  redirect(result.ok ? `/admin/posts/${result.data.id}` : "/admin/posts");
 }
 
 export async function updatePost(id: string, formData: FormData) {
   const data = parsePostForm(formData);
   const publish = formData.get("publish") === "true";
 
-  await prisma.post.update({
-    where: { id },
-    data: publish ? { ...data, published: true, publishedAt: new Date() } : data,
-  });
+  await safeMutate(() =>
+    prisma.post.update({
+      where: { id },
+      data: publish ? { ...data, published: true, publishedAt: new Date() } : data,
+    }),
+  );
 
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${id}`);
@@ -55,17 +60,19 @@ export async function updatePost(id: string, formData: FormData) {
 }
 
 export async function deletePost(id: string) {
-  await prisma.post.delete({ where: { id } });
+  await safeMutate(() => prisma.post.delete({ where: { id } }));
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
   redirect("/admin/posts");
 }
 
 export async function togglePostPublished(id: string, published: boolean) {
-  await prisma.post.update({
-    where: { id },
-    data: { published, publishedAt: published ? new Date() : null },
-  });
+  await safeMutate(() =>
+    prisma.post.update({
+      where: { id },
+      data: { published, publishedAt: published ? new Date() : null },
+    }),
+  );
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
 }
