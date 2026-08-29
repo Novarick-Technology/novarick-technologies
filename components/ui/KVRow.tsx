@@ -12,19 +12,20 @@ export function KVRow({
 }) {
   return (
     <div
-      className={`flex w-full flex-col gap-3 border-t border-line-light py-8 md:flex-row md:items-center md:gap-8 ${
+      className={`flex w-full flex-col gap-3 border-t border-line-light py-6 lg:flex-row lg:items-center lg:gap-8 lg:py-8 ${
         isLast ? "border-b" : ""
       } ${className}`}
     >
-      {/* 280px is the literal label-column width pulled from the source
-       * (About Us Detail, node 450:6753). CLAUDE.md's prose gives a
-       * 280–326px range, but only 280px was confirmed against an actual
-       * instance — not inventing a second breakpoint for the unconfirmed
-       * upper bound. */}
-      <p className="w-full shrink-0 font-heading text-[24px] font-medium tracking-[-0.96px] text-black md:w-[280px]">
+      {/* Label: 20px/-0.8px mobile, 24px/-0.96px desktop (About Us Detail,
+       * nodes 524:71 mobile / 450:6753 desktop — CLAUDE.md's KV label role
+       * table: 20/26 mobile, 24/26 desktop). 280px column width is the
+       * literal desktop value; CLAUDE.md's prose gives a 280–326px range
+       * but only 280px was confirmed against a real instance. */}
+      <p className="w-full shrink-0 font-heading text-[20px] font-medium tracking-[-0.8px] text-black lg:w-[280px] lg:text-[24px] lg:tracking-[-0.96px]">
         {label}
       </p>
-      <p className="flex-1 font-body text-[18px] leading-6 text-text-body">
+      {/* Value: 14px mobile, 18px desktop (same nodes). */}
+      <p className="flex-1 font-body text-[14px] leading-[22px] text-text-body lg:text-[18px] lg:leading-6">
         {value}
       </p>
     </div>
