@@ -16,7 +16,7 @@ export function FinalCTA() {
         <Image src="/images/final-cta.png" alt="" fill className="object-cover opacity-30" />
       </div>
 
-      <p className="relative text-center font-heading text-[34px] font-medium leading-[42px] tracking-[-2.04px] text-white lg:w-[934px] lg:text-[64px] lg:leading-[80px] lg:tracking-[-3.84px]">
+      <p className="relative text-center font-heading text-[34px] font-medium leading-[42px] tracking-[-2.04px] text-white lg:w-full lg:max-w-[934px] lg:text-[64px] lg:leading-[80px] lg:tracking-[-3.84px]">
         {"Tell us what the business needs to do. We will tell you what it takes to "}
         <span className="text-lime">build, host and run it.</span>
       </p>

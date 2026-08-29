@@ -134,7 +134,7 @@ export function WhoWeAre({
       <div
         className={`flex w-full flex-col items-center justify-center ${gap ?? "gap-7 lg:gap-8"} px-4 py-10 text-center lg:px-20 lg:pb-10 lg:pt-[100px]`}
       >
-        <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:w-[930px] lg:text-[60px] lg:leading-[66px] lg:tracking-[-3.6px]">
+        <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:w-full lg:max-w-[930px] lg:text-[60px] lg:leading-[66px] lg:tracking-[-3.6px]">
           <HighlightedText
             text={headline}
             highlight={headlineHighlight}
@@ -142,7 +142,7 @@ export function WhoWeAre({
             breakBeforeWord={headlineBreakBeforeWord}
           />
         </p>
-        <p className="font-body text-[14px] leading-[22px] text-text-body lg:w-[759px] lg:text-[20px] lg:leading-7">
+        <p className="font-body text-[14px] leading-[22px] text-text-body lg:w-full lg:max-w-[759px] lg:text-[20px] lg:leading-7">
           {Array.isArray(text) ? (
             <>
               {text[0]}
@@ -159,7 +159,7 @@ export function WhoWeAre({
 
   return (
     <div className="flex w-full flex-col items-center justify-center px-4 py-[60px] lg:px-20 lg:py-16">
-      <p className="text-center font-body text-[22px] leading-[30px] tracking-[-0.44px] text-text-body lg:w-[1078px] lg:text-[40px] lg:leading-[55px] lg:tracking-[-0.8px]">
+      <p className="text-center font-body text-[22px] leading-[30px] tracking-[-0.44px] text-text-body lg:w-full lg:max-w-[1078px] lg:text-[40px] lg:leading-[55px] lg:tracking-[-0.8px]">
         {Array.isArray(text) ? (
           <>
             {text[0]}

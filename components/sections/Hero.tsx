@@ -43,7 +43,7 @@ export function Hero() {
        * the later copy block would paint (and catch clicks) above this,
        * even though its box is transparent outside the visible text,
        * silently swallowing every click on the nav links underneath it. */}
-      <div className="absolute left-3 top-6 z-10 flex h-[52px] w-[361px] items-center justify-between rounded-pill border border-white/10 bg-white/[0.14] px-6 py-2 lg:left-1/2 lg:top-[42px] lg:h-auto lg:w-auto lg:-translate-x-1/2 lg:justify-start lg:gap-6 lg:py-2 lg:pl-5 lg:pr-2">
+      <div className="absolute left-3 top-6 z-10 flex h-[52px] w-[calc(100%-29px)] max-w-[361px] items-center justify-between rounded-pill border border-white/10 bg-white/[0.14] px-6 py-2 lg:left-1/2 lg:top-[42px] lg:h-auto lg:w-auto lg:max-w-none lg:-translate-x-1/2 lg:justify-start lg:gap-6 lg:py-2 lg:pl-5 lg:pr-2">
         <Link href="/" className="shrink-0">
           <Logo tone="white" className="h-[21.6px] w-auto lg:h-[26px]" />
         </Link>
