@@ -14,7 +14,7 @@ export default function PortfolioList() {
       <WhoWeAre
         headline="Problem. Execution. Infrastructure. Outcome."
         headlineHighlight={["Problem.", "Outcome."]}
-        headlineBreakBeforeHighlight={1}
+        headlineBreakBeforeWord="Infrastructure."
         text="Every project here follows the same arc — what the business needed, what we designed and built, where it runs, and what changed afterwards."
       />
 
