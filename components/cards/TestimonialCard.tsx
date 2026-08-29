@@ -10,13 +10,17 @@ export function TestimonialCard({
   role: string;
 }) {
   return (
-    // Literal fixed height from the source (Homepage Testimonials, node
-    // 437:4367): h-[240px], not min-h. Longer real quotes will need trimming
-    // to fit — flagging rather than silently switching to a flexible height.
-    <Card tone="light" className="flex h-[240px] flex-col justify-between gap-6 overflow-hidden p-6">
+    // Mobile (Homepage — Mobile, node 506:3013) has no fixed height — auto
+    // height with a 32px gap. Desktop (node 437:4367) is a literal fixed
+    // 240px with justify-between instead. Not the same layout, not just a
+    // smaller version of it.
+    <Card
+      tone="light"
+      className="flex flex-col gap-8 overflow-hidden px-4 py-6 lg:h-[240px] lg:justify-between lg:gap-6 lg:p-6"
+    >
       {/* Quote uses Jost Medium — the source file's "Satoshi:Medium" label is
        * a leftover from an earlier draft per CLAUDE.md, not a real font. */}
-      <p className="font-body text-[18px] font-medium leading-6 text-black">
+      <p className="font-body text-[16px] font-medium leading-[22px] text-black lg:text-[18px] lg:leading-6">
         &ldquo;{quote}&rdquo;
       </p>
       <div className="flex flex-col gap-0.5">

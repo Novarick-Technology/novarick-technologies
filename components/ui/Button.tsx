@@ -93,7 +93,7 @@ export function Button({
   const showKnob = knob && variant !== "ghost";
   const content = (
     <>
-      <span className="text-[14px] font-medium font-heading">{children}</span>
+      <span className="whitespace-nowrap text-[14px] font-medium font-heading">{children}</span>
       {showKnob && (
         <Knob
           size={knobSize}
