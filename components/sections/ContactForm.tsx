@@ -7,6 +7,50 @@ import { type ContactFormState, submitContactForm } from "@/app/contact/actions"
 
 const initialState: ContactFormState = { status: "idle", attempt: 0 };
 
+const needOptions = [
+  "Mobile application build",
+  "Web application build",
+  "SaaS tool",
+  "Website design/redesign",
+  "Infrastructure & hosting",
+  "Technology strategy & consulting",
+  "Other",
+];
+
+function SelectField({
+  label,
+  name,
+  defaultValue,
+}: {
+  label: string;
+  name: string;
+  defaultValue?: string;
+}) {
+  return (
+    <div className="flex w-full flex-1 flex-col gap-2">
+      <label htmlFor={name} className="font-body text-[16px] font-medium text-black">
+        {label}
+      </label>
+      <select
+        id={name}
+        name={name}
+        required
+        defaultValue={defaultValue ?? ""}
+        className="w-full appearance-none rounded-input border border-black/10 bg-white bg-[url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236E7A76%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%2F%3E%3C%2Fsvg%3E')] bg-[right_16px_center] bg-no-repeat px-4 py-[14px] font-body text-[14px] text-black focus:outline-none focus:ring-1 focus:ring-black/20 lg:text-[16px]"
+      >
+        <option value="" disabled>
+          Select what you need
+        </option>
+        {needOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 function Field({
   label,
   name,
@@ -37,7 +81,7 @@ function Field({
         defaultValue={defaultValue}
         required={required}
         maxLength={maxLength}
-        className="w-full rounded-input border border-black/10 bg-white px-4 py-[14px] font-body text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-2 focus:ring-ink lg:text-[16px]"
+        className="w-full rounded-input border border-black/10 bg-white px-4 py-[14px] font-body text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/20 lg:text-[16px]"
       />
     </div>
   );
@@ -106,13 +150,7 @@ export function ContactForm() {
           />
         </div>
 
-        <Field
-          label="What do you need"
-          name="need"
-          placeholder="Mobile application, web application, SaaS tool, website, etc..."
-          defaultValue={state.values?.need}
-          maxLength={200}
-        />
+        <SelectField label="What do you need" name="need" defaultValue={state.values?.need} />
 
         <div className="flex w-full flex-col gap-2">
           <label htmlFor="details" className="font-body text-[16px] font-medium text-black">
@@ -126,7 +164,7 @@ export function ContactForm() {
             maxLength={2000}
             placeholder="How can we help? Please describe what you're looking for specifically..."
             defaultValue={state.values?.details}
-            className="h-[140px] w-full resize-none rounded-input border border-black/10 bg-white px-4 py-[14px] font-body text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-2 focus:ring-ink lg:text-[16px]"
+            className="h-[140px] w-full resize-none rounded-input border border-black/10 bg-white px-4 py-[14px] font-body text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/20 lg:text-[16px]"
           />
         </div>
 
