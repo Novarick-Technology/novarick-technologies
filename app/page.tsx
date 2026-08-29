@@ -176,18 +176,14 @@ export default function Home() {
               </div>
             ))}
           </div>
-          {/* Same 40px mobile / 32px desktop knob split as the Tracks and
-           * Infrastructure inner CTAs (nodes 504:79 / 450:5672). */}
-          <div className="w-full lg:hidden">
-            <Button variant="primary" href="/portfolio" className="w-full uppercase">
-              View our portfolio
-            </Button>
-          </div>
-          <div className="hidden lg:block">
-            <Button variant="primary" knobSize={32} href="/portfolio" fullWidthMobile={false} className="h-12 uppercase">
-              View our portfolio
-            </Button>
-          </div>
+          <Button
+            variant="primary"
+            href="/portfolio"
+            fullWidthMobile={false}
+            className="w-full uppercase lg:w-auto"
+          >
+            View our portfolio
+          </Button>
         </div>
       </Section>
 
@@ -203,29 +199,14 @@ export default function Home() {
                 Take one track or all four. Most businesses start with Build
                 and stay for Host and Manage.
               </p>
-              {/* Knob size (40 mobile / 32 desktop, nodes 505:11 / 488:4479)
-               * and explicit height (48px both, node 505:9 / 488:4477 — the
-               * desktop knob alone would only computed to 40px) both differ
-               * by breakpoint. Button can't render two knob geometries
-               * responsively via CSS alone, so two instances toggled on
-               * wrapper visibility (not Button's own className — see the
-               * Hero fix). */}
-              <div className="w-full lg:hidden">
-                <Button variant="primary" href="/contact" fullWidthMobile className="w-full">
-                  Book a Strategy Call
-                </Button>
-              </div>
-              <div className="hidden lg:block">
-                <Button
-                  variant="primary"
-                  knobSize={32}
-                  href="/contact"
-                  fullWidthMobile={false}
-                  className="h-12 w-[222px]"
-                >
-                  Book a Strategy Call
-                </Button>
-              </div>
+              <Button
+                variant="primary"
+                href="/contact"
+                fullWidthMobile={false}
+                className="w-full lg:w-[222px]"
+              >
+                Book a Strategy Call
+              </Button>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

@@ -4,73 +4,40 @@ import { type ReactNode } from "react";
 type ButtonVariant = "primary" | "dark" | "ghost";
 
 /**
- * Arrow glyph + circle sizing traced from the two knob sizes in the Figma
- * file (40px on primary/CTA buttons, 32px on navbar CTAs). The two sizes
- * use slightly different stroke weights in the source, not a linear scale,
- * so both are reproduced exactly rather than deriving one from the other.
- */
-const knobGeometry = {
-  40: { viewBox: "0 0 40 40", d: "M14 26L26 14M26 24.08V14H15.92", strokeWidth: 1.13333 },
-  32: { viewBox: "0 0 32 32", d: "M11 21L21 11M21 19.3333V11H12.6667", strokeWidth: 1.33333 },
-} as const;
-
-function Knob({
-  size,
-  circleClassName,
-  arrowClassName,
-}: {
-  size: 32 | 40;
-  circleClassName: string;
-  arrowClassName: string;
-}) {
-  const { viewBox, d, strokeWidth } = knobGeometry[size];
-  return (
-    <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-full ${circleClassName}`}
-      style={{ width: size, height: size }}
-      aria-hidden
-    >
-      <svg viewBox={viewBox} width={size * 0.6} height={size * 0.6} fill="none">
-        <path
-          d={d}
-          strokeWidth={strokeWidth}
-          className={`motion-safe:transition-transform motion-safe:duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5 ${arrowClassName}`}
-          stroke="currentColor"
-        />
-      </svg>
-    </span>
-  );
-}
-
-/**
  * "dark" fill is literally two different colours in the source file, not
  * one token: the navbar/Hero CTA ("Button / Start a Project", nodes
  * 450:5474 / 458:7025 / 482:523) is #000000, while the Pricing card CTA
  * ("Button / Primary", node 488:4253) is #0A0A0A. Kept as two literal
- * fills rather than merged into one, per instance.
+ * fills rather than merged into one, per instance. Text colour now also
+ * differs per fill since the redesign (see module note below): black
+ * fill pairs with lime text, ink-deep fill keeps white text.
  */
 const darkFillClasses: Record<"black" | "ink-deep", string> = {
-  black: "bg-black",
-  "ink-deep": "bg-ink-deep",
+  black: "bg-black text-lime",
+  "ink-deep": "bg-ink-deep text-white",
 };
 
+/**
+ * Redesign (checked across every instance — Navbar, Hero, Final CTA,
+ * PricingCard, the Tracks/Infrastructure/What-we-do head CTAs): the knob
+ * arrow circle is gone. Every button is now a plain pill; primary/dark
+ * padding went from the knob-reserving pl-4/pr-1 split to a symmetric
+ * px-4, and ghost's from px-5 to px-4. Confirmed on the desktop frames;
+ * the mobile frames in Figma still show the old knobbed style (not yet
+ * updated there), but per direction this same no-knob style applies to
+ * mobile too — there is no breakpoint split left in this component.
+ */
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-lime text-black pl-4 pr-1 py-1 hover:brightness-95",
-  dark: "text-white pl-4 pr-1 py-1 hover:brightness-125",
+  primary: "bg-lime text-black px-4 py-1 hover:brightness-95",
+  dark: "px-4 py-1 hover:brightness-125",
   ghost:
-    "bg-[rgba(18,40,53,0.25)] border border-white/50 text-white px-5 py-3 h-12 hover:bg-[rgba(18,40,53,0.4)] hover:border-white",
-};
-
-const knobColors: Record<Extract<ButtonVariant, "primary" | "dark">, { circle: string; arrow: string }> = {
-  primary: { circle: "bg-ink", arrow: "text-white" },
-  dark: { circle: "bg-lime", arrow: "text-black" },
+    "bg-[rgba(18,40,53,0.25)] border border-white/50 text-white px-4 py-3 hover:bg-[rgba(18,40,53,0.4)] hover:border-white",
 };
 
 export function Button({
   variant = "primary",
   darkFill = "ink-deep",
-  knob = true,
-  knobSize = 40,
+  height = "h-12",
   href,
   onClick,
   type = "button",
@@ -81,8 +48,9 @@ export function Button({
   variant?: ButtonVariant;
   /** Required literal fill when variant="dark" — see darkFillClasses. */
   darkFill?: "black" | "ink-deep";
-  knob?: boolean;
-  knobSize?: 32 | 40;
+  /** Full literal class — Navbar/Hero's embedded CTA is a real 40px
+   * (h-10) against every other instance's 48px (h-12) default. */
+  height?: string;
   href?: string;
   onClick?: () => void;
   type?: "button" | "submit";
@@ -90,21 +58,9 @@ export function Button({
   className?: string;
   children: ReactNode;
 }) {
-  const showKnob = knob && variant !== "ghost";
-  const content = (
-    <>
-      <span className="whitespace-nowrap text-[14px] font-medium font-heading">{children}</span>
-      {showKnob && (
-        <Knob
-          size={knobSize}
-          circleClassName={knobColors[variant as "primary" | "dark"].circle}
-          arrowClassName={knobColors[variant as "primary" | "dark"].arrow}
-        />
-      )}
-    </>
-  );
+  const content = <span className="whitespace-nowrap text-[14px] font-medium font-heading">{children}</span>;
 
-  const classes = `group inline-flex items-center justify-center gap-2 rounded-pill transition-[filter,background-color,border-color] duration-200 ${
+  const classes = `inline-flex items-center justify-center gap-2 rounded-pill transition-[filter,background-color,border-color] duration-200 ${height} ${
     fullWidthMobile ? "w-full sm:w-auto" : ""
   } ${variantClasses[variant]} ${variant === "dark" ? darkFillClasses[darkFill] : ""} ${className}`;
 

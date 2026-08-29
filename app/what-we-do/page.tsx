@@ -219,7 +219,6 @@ export default function WhatWeDo() {
               </p>
               <Button
                 variant="primary"
-                knobSize={32}
                 href="/contact"
                 fullWidthMobile
                 className="w-full lg:w-[222px]"

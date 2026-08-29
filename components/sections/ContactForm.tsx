@@ -174,7 +174,7 @@ export function ContactForm() {
           </p>
         )}
 
-        <Button type="submit" variant="primary" knob={false} className="h-12 w-full uppercase">
+        <Button type="submit" variant="primary" className="w-full uppercase">
           {pending ? "Sending…" : "Book a Strategy Call"}
         </Button>
       </form>

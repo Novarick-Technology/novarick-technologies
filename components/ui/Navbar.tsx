@@ -51,7 +51,7 @@ export function Navbar({ tone = "light" }: { tone?: NavbarTone }) {
               </li>
             ))}
           </ul>
-          <Button variant="dark" darkFill="black" knobSize={32} fullWidthMobile={false} href="/contact">
+          <Button variant="dark" darkFill="black" height="h-10" fullWidthMobile={false} href="/contact">
             Book a Strategy Call
           </Button>
         </nav>
