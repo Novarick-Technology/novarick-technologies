@@ -155,12 +155,6 @@ export function InfrastructureInner() {
                 "Performance management as the system grows",
               ]}
             />
-            {/*
-              CLAUDE.md flags this: "Two lines claim a restore procedure has
-              'actually' been run. Keep them only if that drill has
-              genuinely happened." The line below is one of them — surfaced
-              for confirmation, not silently included.
-            */}
             <FeatureCard
               tone="light-muted"
               title="Backups, recovery and security"
