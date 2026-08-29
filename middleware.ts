@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-export const config = { matcher: ["/admin/:path*", "/api/admin/:path*", "/"] };
+export const config = { matcher: ["/admin/:path*", "/api/admin/:path*"] };
 
 const ROBOTS_HEADER = { "X-Robots-Tag": "noindex, nofollow" };
 
@@ -13,21 +13,13 @@ const ROBOTS_HEADER = { "X-Robots-Tag": "noindex, nofollow" };
  * Every response out of this middleware — the pass-through, the 401, and
  * the 500 — carries X-Robots-Tag per ADMIN.md, not just the happy path.
  *
- * ADMIN_ONLY_DEPLOYMENT=true is set on the separate "novarick-admin"
- * Vercel project (same repo, different project — see README) so that
- * deployment's root redirects straight to /admin instead of showing the
- * marketing homepage, giving the dashboard its own distinct URL without
- * forking the codebase.
+ * The separate "novarick-admin" Vercel project's root ("/") redirects to
+ * /admin via a plain `redirect()` in app/page.tsx, not here — matching
+ * the literal "/" path in this matcher hit an edge-runtime bundling bug
+ * on Vercel ("ReferenceError: __dirname is not defined"), so that logic
+ * was moved out of middleware entirely.
  */
 export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === "/" && process.env.ADMIN_ONLY_DEPLOYMENT === "true") {
-    return NextResponse.redirect(new URL("/admin", request.url));
-  }
-
-  if (!request.nextUrl.pathname.startsWith("/admin") && !request.nextUrl.pathname.startsWith("/api/admin")) {
-    return NextResponse.next();
-  }
-
   if (process.env.ADMIN_PROTECTION !== "basic") {
     const response = NextResponse.next();
     response.headers.set("X-Robots-Tag", ROBOTS_HEADER["X-Robots-Tag"]);

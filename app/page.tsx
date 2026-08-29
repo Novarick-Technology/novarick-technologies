@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Hero } from "@/components/sections/Hero";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { InfrastructureInner } from "@/components/sections/InfrastructureInner";
@@ -119,6 +120,15 @@ const posts = [
 ];
 
 export default function Home() {
+  // Handled here rather than in middleware — matching the literal "/"
+  // path in middleware.ts's matcher hit an edge-runtime bundling bug on
+  // Vercel ("ReferenceError: __dirname is not defined"); a plain redirect
+  // in the page itself sidesteps it entirely and is the more idiomatic
+  // place for a route-specific redirect anyway. See middleware.ts's note.
+  if (process.env.ADMIN_ONLY_DEPLOYMENT === "true") {
+    redirect("/admin");
+  }
+
   return (
     <>
       <Hero />
