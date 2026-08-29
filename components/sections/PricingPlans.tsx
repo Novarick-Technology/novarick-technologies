@@ -29,7 +29,7 @@ export function PricingPlans() {
           then move onto a managed retainer once the system is live.
         </p>
       </div>
-      <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-0">
+      <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:gap-0">
         {plans.map((plan) => (
           <PricingCard key={plan.title} {...plan} />
         ))}

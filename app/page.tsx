@@ -219,7 +219,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {tracks.map((t) => (
               <NumberedCard
                 key={t.eyebrow}
@@ -248,7 +248,7 @@ export default function Home() {
           <p className="font-heading text-[32px] font-medium leading-9 tracking-[-1.92px] text-black lg:w-[656px] lg:text-[52px] lg:leading-[60px] lg:tracking-[-3.12px]">
             Latest thinking from the department
           </p>
-          <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...posts, ...posts, ...posts].map((post, i) => (
               <ArticleCard
                 key={`${post.slug}-${i}`}

@@ -10,7 +10,7 @@ import { testimonials } from "@/lib/data/testimonials";
  */
 export function Testimonials({ heading }: { heading?: string }) {
   const grid = (
-    <div className="grid w-full grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-4">
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
       {testimonials.map((t) => (
         <TestimonialCard key={t.name} quote={t.quote} name={t.name} role={t.role} />
       ))}
