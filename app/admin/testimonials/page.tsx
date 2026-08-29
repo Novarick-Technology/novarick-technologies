@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { PublishToggle } from "@/components/admin/PublishToggle";
 import { ReorderButtons } from "@/components/admin/ReorderButtons";
+import { DbNotice } from "@/components/admin/DbNotice";
+import { safeQuery } from "@/lib/admin/safe-query";
 import {
   moveTestimonial,
   toggleTestimonialApproved,
@@ -10,11 +12,16 @@ import {
 } from "@/app/admin/testimonials/actions";
 
 export default async function TestimonialsList() {
-  const testimonials = await prisma.testimonial.findMany({ orderBy: { order: "asc" } });
+  const { data: testimonials, connected } = await safeQuery(
+    () => prisma.testimonial.findMany({ orderBy: { order: "asc" } }),
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader title="Testimonials" action={{ label: "New testimonial", href: "/admin/testimonials/new" }} />
+
+      {!connected && <DbNotice />}
 
       <div className="flex flex-col divide-y divide-black/10 rounded-panel border border-black/10">
         {testimonials.length === 0 && (

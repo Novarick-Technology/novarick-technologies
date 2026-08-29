@@ -2,10 +2,11 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { ProjectForm } from "@/app/admin/projects/ProjectForm";
+import { safeQuery } from "@/lib/admin/safe-query";
 
 export default async function EditProject({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const project = await prisma.project.findUnique({ where: { id } });
+  const { data: project } = await safeQuery(() => prisma.project.findUnique({ where: { id } }), null);
   if (!project) notFound();
 
   return (

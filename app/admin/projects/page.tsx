@@ -3,14 +3,21 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { PublishToggle } from "@/components/admin/PublishToggle";
 import { ReorderButtons } from "@/components/admin/ReorderButtons";
+import { DbNotice } from "@/components/admin/DbNotice";
+import { safeQuery } from "@/lib/admin/safe-query";
 import { moveProject, toggleProjectPublished } from "@/app/admin/projects/actions";
 
 export default async function ProjectsList() {
-  const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
+  const { data: projects, connected } = await safeQuery(
+    () => prisma.project.findMany({ orderBy: { order: "asc" } }),
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader title="Projects" action={{ label: "New project", href: "/admin/projects/new" }} />
+
+      {!connected && <DbNotice />}
 
       <div className="flex flex-col divide-y divide-black/10 rounded-panel border border-black/10">
         {projects.length === 0 && (

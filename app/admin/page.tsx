@@ -2,21 +2,42 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { StatCard } from "@/components/admin/StatCard";
 import { PageHeader } from "@/components/admin/PageHeader";
+import { DbNotice } from "@/components/admin/DbNotice";
+import { safeQuery } from "@/lib/admin/safe-query";
+import type { Submission } from "@/app/generated/prisma/client";
+
+type DashboardData = {
+  projectCount: number;
+  postCount: number;
+  testimonialCount: number;
+  submissionCount: number;
+  unreadCount: number;
+  recentSubmissions: Submission[];
+};
 
 export default async function AdminDashboard() {
-  const [projectCount, postCount, testimonialCount, submissionCount, unreadCount, recentSubmissions] =
-    await Promise.all([
-      prisma.project.count(),
-      prisma.post.count(),
-      prisma.testimonial.count(),
-      prisma.submission.count(),
-      prisma.submission.count({ where: { read: false } }),
-      prisma.submission.findMany({ orderBy: { createdAt: "desc" }, take: 8 }),
-    ]);
+  const { data, connected } = await safeQuery<DashboardData>(
+    async () => {
+      const [projectCount, postCount, testimonialCount, submissionCount, unreadCount, recentSubmissions] =
+        await Promise.all([
+          prisma.project.count(),
+          prisma.post.count(),
+          prisma.testimonial.count(),
+          prisma.submission.count(),
+          prisma.submission.count({ where: { read: false } }),
+          prisma.submission.findMany({ orderBy: { createdAt: "desc" }, take: 8 }),
+        ]);
+      return { projectCount, postCount, testimonialCount, submissionCount, unreadCount, recentSubmissions };
+    },
+    { projectCount: 0, postCount: 0, testimonialCount: 0, submissionCount: 0, unreadCount: 0, recentSubmissions: [] },
+  );
+  const { projectCount, postCount, testimonialCount, submissionCount, unreadCount, recentSubmissions } = data;
 
   return (
     <div className="flex flex-col gap-8">
       <PageHeader title="Dashboard" />
+
+      {!connected && <DbNotice />}
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Projects" value={projectCount} href="/admin/projects" />

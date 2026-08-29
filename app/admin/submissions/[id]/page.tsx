@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { MarkReadButton } from "@/components/admin/MarkReadButton";
+import { safeQuery } from "@/lib/admin/safe-query";
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
@@ -14,7 +15,7 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 
 export default async function SubmissionDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const submission = await prisma.submission.findUnique({ where: { id } });
+  const { data: submission } = await safeQuery(() => prisma.submission.findUnique({ where: { id } }), null);
   if (!submission) notFound();
 
   return (

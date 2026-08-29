@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Button } from "@/components/ui/Button";
+import { DbNotice } from "@/components/admin/DbNotice";
+import { safeQuery } from "@/lib/admin/safe-query";
 import { buildSubmissionsWhere } from "@/app/admin/submissions/query";
 
 export default async function SubmissionsList({
@@ -11,7 +13,10 @@ export default async function SubmissionsList({
 }) {
   const params = await searchParams;
   const where = buildSubmissionsWhere(params);
-  const submissions = await prisma.submission.findMany({ where, orderBy: { createdAt: "desc" } });
+  const { data: submissions, connected } = await safeQuery(
+    () => prisma.submission.findMany({ where, orderBy: { createdAt: "desc" } }),
+    [],
+  );
 
   const exportHref = `/admin/submissions/export?${new URLSearchParams(
     Object.entries(params).filter((entry): entry is [string, string] => Boolean(entry[1])),
@@ -27,6 +32,8 @@ export default async function SubmissionsList({
           </Button>
         }
       />
+
+      {!connected && <DbNotice />}
 
       <form className="flex flex-wrap items-center gap-3" action="/admin/submissions">
         <input
