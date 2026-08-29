@@ -22,7 +22,7 @@ export function FinalCTA() {
       </p>
 
       <div className="relative flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-center">
-        <Button variant="primary" href="/book-call" className="w-full lg:w-auto">
+        <Button variant="primary" href="/contact" className="w-full lg:w-auto">
           BUILD WITH US
         </Button>
         <Button variant="ghost" href="/infrastructure" className="w-full lg:w-auto">

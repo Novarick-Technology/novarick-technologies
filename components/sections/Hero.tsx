@@ -64,7 +64,7 @@ export function Hero() {
          * stylesheet order — not className order — decides). Toggle
          * visibility on a wrapper instead. */}
         <div className="hidden lg:block">
-          <Button variant="dark" darkFill="black" knobSize={32} fullWidthMobile={false} href="/book-call">
+          <Button variant="dark" darkFill="black" knobSize={32} fullWidthMobile={false} href="/contact">
             Book a Strategy Call
           </Button>
         </div>
@@ -95,12 +95,12 @@ export function Hero() {
            * (node 450:5485). Visibility toggled on wrappers, not Button's
            * own className — see note above. */}
           <div className="w-full lg:hidden">
-            <Button variant="primary" href="/book-call" className="w-full uppercase">
+            <Button variant="primary" href="/contact" className="w-full uppercase">
               Book a Strategy Call
             </Button>
           </div>
           <div className="hidden lg:block">
-            <Button variant="primary" href="/book-call">
+            <Button variant="primary" href="/contact">
               BUILD WITH US
             </Button>
           </div>

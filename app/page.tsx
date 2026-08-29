@@ -262,7 +262,7 @@ export default function Home() {
                * wrapper visibility (not Button's own className — see the
                * Hero fix). */}
               <div className="w-full lg:hidden">
-                <Button variant="primary" href="/book-call" fullWidthMobile className="w-full">
+                <Button variant="primary" href="/contact" fullWidthMobile className="w-full">
                   Book a Strategy Call
                 </Button>
               </div>
@@ -270,7 +270,7 @@ export default function Home() {
                 <Button
                   variant="primary"
                   knobSize={32}
-                  href="/book-call"
+                  href="/contact"
                   fullWidthMobile={false}
                   className="h-12 w-[222px]"
                 >

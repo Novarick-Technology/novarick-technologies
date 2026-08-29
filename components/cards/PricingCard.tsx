@@ -47,7 +47,7 @@ export function PricingCard({
   description,
   features,
   ctaLabel = "Book a Strategy Call",
-  ctaHref = "/book-call",
+  ctaHref = "/contact",
 }: {
   tone?: Tone;
   /** Desktop-only edge-sharing position — ignored on mobile, where every

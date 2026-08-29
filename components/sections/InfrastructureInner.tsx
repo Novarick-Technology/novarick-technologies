@@ -175,7 +175,7 @@ export function InfrastructureInner() {
        * compute to 40px) both differ by breakpoint, same as the Tracks
        * CTA. Toggled on wrapper visibility, not Button's own className. */}
       <div className="relative w-full lg:hidden">
-        <Button variant="primary" href="/book-call" fullWidthMobile className="w-full">
+        <Button variant="primary" href="/contact" fullWidthMobile className="w-full">
           Book a Strategy Call
         </Button>
       </div>
@@ -183,7 +183,7 @@ export function InfrastructureInner() {
         <Button
           variant="primary"
           knobSize={32}
-          href="/book-call"
+          href="/contact"
           fullWidthMobile={false}
           className="h-12 w-[222px]"
         >

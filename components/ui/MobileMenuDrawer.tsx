@@ -42,7 +42,7 @@ export function MobileMenuDrawer({ onClose }: { onClose: () => void }) {
           </li>
         ))}
       </ul>
-      <Button variant="primary" href="/book-call" onClick={onClose}>
+      <Button variant="primary" href="/contact" onClick={onClose}>
         Book a Strategy Call
       </Button>
     </div>
