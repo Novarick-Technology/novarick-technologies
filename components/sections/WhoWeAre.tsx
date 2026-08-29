@@ -76,6 +76,7 @@ export function WhoWeAre({
   headline,
   headlineHighlight,
   headlineBreakBeforeHighlight = false,
+  gap,
 }: {
   text: string;
   /** Optional — What we do and Infrastructure's paragraphs have no
@@ -90,13 +91,20 @@ export function WhoWeAre({
   /** Literal desktop-only line break right before the highlighted portion
    * of the headline (What we do / Infrastructure; not present on About Us). */
   headlineBreakBeforeHighlight?: boolean;
+  /** Blog list (nodes 471:9606 desktop, 534:67 mobile) uses a literal
+   * gap-[16px] between headline and paragraph at BOTH breakpoints, unlike
+   * every other headline instance's gap-7/gap-8 (28px/32px) pair. Full
+   * literal class string, same reasoning as KVRow's color props. */
+  gap?: string;
 }) {
   if (headline) {
     if (!headlineHighlight) {
       throw new Error("WhoWeAre: headlineHighlight is required when headline is set");
     }
     return (
-      <div className="flex w-full flex-col items-center justify-center gap-7 px-4 py-10 text-center lg:gap-8 lg:px-20 lg:pb-10 lg:pt-[100px]">
+      <div
+        className={`flex w-full flex-col items-center justify-center ${gap ?? "gap-7 lg:gap-8"} px-4 py-10 text-center lg:px-20 lg:pb-10 lg:pt-[100px]`}
+      >
         <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:w-[930px] lg:text-[60px] lg:leading-[66px] lg:tracking-[-3.6px]">
           <HighlightedText
             text={headline}
