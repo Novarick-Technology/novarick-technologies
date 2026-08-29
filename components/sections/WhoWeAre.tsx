@@ -34,7 +34,12 @@ function HighlightedText({
 }: {
   text: string;
   highlight?: string | string[];
-  breakBefore?: boolean;
+  /** Which highlighted segment (by order of appearance) gets the
+   * desktop-only line break before it. `true` means the first (index 0) —
+   * What we do / Infrastructure. Portfolio list's two-highlight headline
+   * (node 466:8298) needs the break before its second highlight
+   * ("Outcome.") instead, so a number targets that one directly. */
+  breakBefore?: boolean | number;
 }) {
   if (!highlight) return <>{text}</>;
   const highlights = Array.isArray(highlight) ? highlight : [highlight];
@@ -53,6 +58,8 @@ function HighlightedText({
     parts.push({ text: last.text.slice(index + h.length), isHighlight: false });
   }
 
+  const breakBeforeIndex = breakBefore === true ? 0 : breakBefore === false ? -1 : breakBefore;
+
   let highlightIndex = -1;
   return (
     <>
@@ -61,7 +68,7 @@ function HighlightedText({
         highlightIndex += 1;
         return (
           <span key={i}>
-            {breakBefore && highlightIndex === 0 && <br aria-hidden className="hidden lg:block" />}
+            {highlightIndex === breakBeforeIndex && <br aria-hidden className="hidden lg:block" />}
             <span className="font-medium text-green lg:font-normal">{part.text}</span>
           </span>
         );
@@ -88,9 +95,11 @@ export function WhoWeAre({
    * ("Problem." and "Outcome.", node 466:8298) — pass an array for that
    * case. */
   headlineHighlight?: string | string[];
-  /** Literal desktop-only line break right before the highlighted portion
-   * of the headline (What we do / Infrastructure; not present on About Us). */
-  headlineBreakBeforeHighlight?: boolean;
+  /** Literal desktop-only line break right before a highlighted portion of
+   * the headline. `true` breaks before the first highlight (What we do /
+   * Infrastructure); a number breaks before that highlight index instead
+   * (Portfolio list breaks before its second highlight, "Outcome."). */
+  headlineBreakBeforeHighlight?: boolean | number;
   /** Blog list (nodes 471:9606 desktop, 534:67 mobile) uses a literal
    * gap-[16px] between headline and paragraph at BOTH breakpoints, unlike
    * every other headline instance's gap-7/gap-8 (28px/32px) pair. Full
