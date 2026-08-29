@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Novarick Technologies — Website
 
-## Getting Started
+Marketing site + lightweight admin for Novarick Technologies. Built to a Figma
+design (1440px desktop / 390px mobile) and a written spec — see
+[`CLAUDE.md`](./CLAUDE.md) for the full design system, page list and build
+order, and [`ADMIN.md`](./ADMIN.md) for the admin/data-model spec. Read those
+two files before making changes — they're the source of truth for design
+decisions, not this README.
 
-First, run the development server:
+## Stack
+
+- **Next.js 15** (App Router) + TypeScript
+- **Tailwind CSS v4** — CSS-first config, no `tailwind.config.ts` (see
+  `app/globals.css`)
+- **Prisma 7** + Postgres (Neon), using the `pg` driver adapter
+- **Vercel Blob** for image uploads (admin, not yet built)
+- **Resend** for transactional email (not yet built)
+- **Cal.com Platform atoms** for booking (not yet built)
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env   # fill in DATABASE_URL at minimum to run Prisma commands
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The site renders and builds without a database connection — Prisma is only
+needed once you're running `npm run db:seed`, `prisma studio`, etc. against a
+real Neon database.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Useful commands
 
-## Learn More
+```bash
+npm run dev       # dev server
+npm run build     # production build (also typechecks + lints)
+npm run lint      # eslint only
+npx prisma studio # browse the database
+npx prisma db seed # seed placeholder Project/Post/Testimonial rows
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/                       Routes (App Router). One page built so far: Home.
+  globals.css               Design tokens as CSS variables, mapped through
+                             Tailwind v4's @theme. Read this before adding
+                             any new color/radius/font value.
+  layout.tsx                Root layout — loads Inter/Jost/DM Sans/Dela
+                             Gothic One via next/font/google.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+components/
+  ui/                        Reusable primitives with no page-specific
+                             content: Section, Button, Card, NumberedCard,
+                             KVRow, ListRow, Navbar, Footer, Logo,
+                             MobileMenuDrawer.
+  cards/                     Composite cards built from ui/ primitives, each
+                             tied to a Prisma model: ProjectCard, ArticleCard,
+                             PricingCard, TestimonialCard.
+  sections/                  Larger page-specific blocks that are either
+                             unique to one page (Hero) or reused verbatim
+                             across several (InfrastructureInner, FinalCTA,
+                             WhoWeAre) per CLAUDE.md.
 
-## Deploy on Vercel
+prisma/
+  schema.prisma              Project / Post / Testimonial / Submission models.
+  migrations/                 Initial migration (generated statically —
+                              no live DB was available when it was created).
+  seed.ts                     Seeds one placeholder row per model, matching
+                              ADMIN.md's seeding rules.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+lib/
+  prisma.ts                  Prisma client singleton (pg adapter, Neon-ready).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+docs/
+  component-inventory.md     Cross-page audit of every recurring visual
+                              pattern in the Figma file, resolved to one
+                              canonical component each. Read this before
+                              building a new primitive — it likely already
+                              exists or is documented as a deliberate
+                              variant.
+```
+
+## Design system
+
+Every token (`--lime`, `--r-card`, `--font-heading`, etc.) lives in
+`app/globals.css` and is documented with its source in `CLAUDE.md`. Never
+hardcode a hex value or pixel radius in a component — if the token you need
+doesn't exist yet, add it to `globals.css` first, matching CLAUDE.md's naming
+convention.
+
+Two breakpoints are designed in Figma: mobile (390px, the default/unprefixed
+Tailwind classes throughout this codebase) and desktop (1440px, `lg:`
+prefix). There is no tablet design — `md:` is used sparingly for a
+conservative intermediate layout per CLAUDE.md's guidance, not for pixel-
+accurate tablet frames that don't exist.
+
+**A rule this codebase follows strictly**: component code should match the
+literal Figma data (colors, spacing, breakpoint differences) rather than
+interpolating or assuming one breakpoint from another. Where the two
+breakpoints genuinely differ in ways that look like they shouldn't (e.g. a
+different font weight, a skipped list item, a button rendering a different
+literal string), that's usually intentional and called out in a code
+comment with the Figma node ID it was checked against — don't "fix" it
+without checking the source first.
+
+## Environment variables
+
+See `.env.example`. `ADMIN_PROTECTION=off` is the local default; production
+must use `basic` (see `ADMIN.md`'s Access section — this is a hard
+requirement, not a suggestion, given the personal data the contact form and
+admin routes handle).
+
+## What's built so far
+
+Homepage only. See `CLAUDE.md`'s Build order section for what's next
+(About Us, What we do, Infrastructure, then Portfolio/Blog, Contact,
+Booking, Pricing, Admin, SEO, accessibility pass).
