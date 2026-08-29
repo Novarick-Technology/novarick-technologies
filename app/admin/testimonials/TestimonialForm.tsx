@@ -16,7 +16,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
         </p>
       )}
       <TextAreaField label="Quote" name="quote" required rows={3} defaultValue={testimonial?.quote} />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Name / title" name="name" required defaultValue={testimonial?.name} placeholder="Operations lead" />
         <Field label="Role / business" name="role" required defaultValue={testimonial?.role} placeholder="Novarick Group business" />
       </div>

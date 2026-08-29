@@ -13,7 +13,7 @@ export function PostForm({ post }: { post?: Post }) {
 
   return (
     <form action={action} className="flex flex-col gap-8">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Title" name="title" required defaultValue={post?.title} />
         <Field label="Slug" name="slug" required defaultValue={post?.slug} hint="Used in the URL, e.g. /blog/your-slug" />
       </div>

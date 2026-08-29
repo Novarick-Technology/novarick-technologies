@@ -23,7 +23,7 @@ export function SaveBar({
   const { pending } = useFormStatus();
 
   return (
-    <div className="sticky bottom-0 -mx-6 mt-8 flex items-center justify-between gap-3 border-t border-black/10 bg-white/95 px-6 py-4 backdrop-blur">
+    <div className="sticky bottom-0 -mx-4 mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-black/10 bg-white/95 px-4 py-4 backdrop-blur lg:-mx-8 lg:px-8">
       <div>
         {onDelete && (
           <button

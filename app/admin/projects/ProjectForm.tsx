@@ -29,7 +29,7 @@ export function ProjectForm({ project }: { project?: Project }) {
     <form action={action} className="flex flex-col gap-10">
       <div className="flex flex-col gap-4">
         <h2 className="font-heading text-[15px] font-semibold text-black">Card</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="Title" name="title" required defaultValue={project?.title} />
           <Field label="Slug" name="slug" required defaultValue={project?.slug} hint="Used in the URL, e.g. /portfolio/your-slug" />
         </div>

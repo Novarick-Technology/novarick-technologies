@@ -28,7 +28,7 @@ export default async function SubmissionsList({
         }
       />
 
-      <form className="flex items-center gap-3" action="/admin/submissions">
+      <form className="flex flex-wrap items-center gap-3" action="/admin/submissions">
         <input
           type="search"
           name="q"
@@ -49,34 +49,39 @@ export default async function SubmissionsList({
         </Link>
       </form>
 
-      <div className="flex flex-col divide-y divide-black/10 rounded-panel border border-black/10">
-        <div className="grid grid-cols-[100px_1fr_1fr_1fr_80px] gap-4 bg-paper-muted px-4 py-2 font-heading text-[12px] font-medium text-text-body">
-          <span>Date</span>
-          <span>Name</span>
-          <span>Email</span>
-          <span>Need</span>
-          <span>State</span>
+      {/* Fixed-column grid needs its own scroll container below the
+       * column widths' combined minimum — otherwise it forces the whole
+       * page wider on a phone screen instead of just this table. */}
+      <div className="w-full overflow-x-auto rounded-panel border border-black/10">
+        <div className="flex min-w-[640px] flex-col divide-y divide-black/10">
+          <div className="grid grid-cols-[100px_1fr_1fr_1fr_80px] gap-4 bg-paper-muted px-4 py-2 font-heading text-[12px] font-medium text-text-body">
+            <span>Date</span>
+            <span>Name</span>
+            <span>Email</span>
+            <span>Need</span>
+            <span>State</span>
+          </div>
+          {submissions.length === 0 && (
+            <p className="p-4 font-body text-[14px] text-text-body">No submissions match.</p>
+          )}
+          {submissions.map((s) => (
+            <Link
+              key={s.id}
+              href={`/admin/submissions/${s.id}`}
+              className="grid grid-cols-[100px_1fr_1fr_1fr_80px] items-center gap-4 px-4 py-3 hover:bg-black/5"
+            >
+              <span className="font-body text-[13px] text-text-body">
+                {s.createdAt.toLocaleDateString()}
+              </span>
+              <span className={`truncate font-heading text-[14px] text-black ${s.read ? "" : "font-semibold"}`}>
+                {s.fullName}
+              </span>
+              <span className="truncate font-body text-[13px] text-text-body">{s.email}</span>
+              <span className="truncate font-body text-[13px] text-text-body">{s.need}</span>
+              <span className="font-body text-[12px] text-text-body">{s.read ? "Read" : "Unread"}</span>
+            </Link>
+          ))}
         </div>
-        {submissions.length === 0 && (
-          <p className="p-4 font-body text-[14px] text-text-body">No submissions match.</p>
-        )}
-        {submissions.map((s) => (
-          <Link
-            key={s.id}
-            href={`/admin/submissions/${s.id}`}
-            className="grid grid-cols-[100px_1fr_1fr_1fr_80px] items-center gap-4 px-4 py-3 hover:bg-black/5"
-          >
-            <span className="font-body text-[13px] text-text-body">
-              {s.createdAt.toLocaleDateString()}
-            </span>
-            <span className={`truncate font-heading text-[14px] text-black ${s.read ? "" : "font-semibold"}`}>
-              {s.fullName}
-            </span>
-            <span className="truncate font-body text-[13px] text-text-body">{s.email}</span>
-            <span className="truncate font-body text-[13px] text-text-body">{s.need}</span>
-            <span className="font-body text-[12px] text-text-body">{s.read ? "Read" : "Unread"}</span>
-          </Link>
-        ))}
       </div>
     </div>
   );
