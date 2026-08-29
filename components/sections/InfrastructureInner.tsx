@@ -170,14 +170,26 @@ export function InfrastructureInner() {
         </div>
       </div>
 
-      <Button
-        variant="primary"
-        href="/book-call"
-        fullWidthMobile
-        className="relative w-full lg:w-[222px]"
-      >
-        Book a Strategy Call
-      </Button>
+      {/* Knob size (40 mobile / 32 desktop, nodes 503:109 / 448:4835) and
+       * explicit height (48px both — the desktop knob alone would only
+       * compute to 40px) both differ by breakpoint, same as the Tracks
+       * CTA. Toggled on wrapper visibility, not Button's own className. */}
+      <div className="relative w-full lg:hidden">
+        <Button variant="primary" href="/book-call" fullWidthMobile className="w-full">
+          Book a Strategy Call
+        </Button>
+      </div>
+      <div className="relative hidden lg:block">
+        <Button
+          variant="primary"
+          knobSize={32}
+          href="/book-call"
+          fullWidthMobile={false}
+          className="h-12 w-[222px]"
+        >
+          Book a Strategy Call
+        </Button>
+      </div>
     </div>
   );
 }
