@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -86,6 +87,16 @@ export default async function PortfolioDetails({
       <div className="w-full px-4 py-10 lg:px-20 lg:py-20">
         <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 lg:gap-20">
           <div className="flex w-full flex-col gap-10">
+            {/* Back link — desktop only (node 561:18); the mobile frame
+             * (532:67) has no equivalent, confirmed via metadata. */}
+            <Link
+              href="/portfolio"
+              className="hidden shrink-0 items-center gap-1 text-[16px] text-[#7b7b7b] lg:flex"
+            >
+              <Image src="/icons/arrow-left.svg" alt="" width={24} height={24} className="size-6" />
+              Go back to portfolio
+            </Link>
+
             <p className="font-heading text-[32px] font-medium leading-[38px] tracking-[-1.92px] text-black lg:text-[52px] lg:leading-[normal]">
               {project.title}
             </p>
