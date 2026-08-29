@@ -17,7 +17,7 @@ export function PricingPlans() {
   return (
     <div className="flex w-full flex-col gap-8 lg:gap-10">
       <div className="flex w-full flex-col gap-3">
-        <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:text-[52px] lg:tracking-[-3.12px]">
+        <p className="font-heading text-[32px] font-medium leading-[38px] tracking-[-1.92px] text-black lg:text-[52px] lg:leading-[normal] lg:tracking-[-3.12px]">
           {"Four ways to engage, "}
           <span className="text-green">
             four <br aria-hidden className="hidden lg:block" />
