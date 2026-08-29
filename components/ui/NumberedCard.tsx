@@ -75,7 +75,7 @@ export function NumberedCard(props: NumberedCardProps) {
     return (
       <Card
         tone={tone}
-        border={tone === "dark"}
+        darkTrackBorder={tone === "dark"}
         className={`flex flex-col gap-4 px-4 py-6 lg:p-6 ${className}`}
       >
         <p

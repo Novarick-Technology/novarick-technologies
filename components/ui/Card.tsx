@@ -17,16 +17,17 @@ const radiusClasses: Record<CardRadius, string> = {
 export function Card({
   tone = "light",
   radius = "card",
-  border = false,
+  darkTrackBorder = false,
   className = "",
   children,
 }: {
   tone?: CardTone;
   radius?: CardRadius;
-  /** Extra border on top of the tone fill — used for the dark bullet-list
-   * Track card, which gets a #4D4D4D border its paragraph-variant sibling
-   * doesn't have. */
-  border?: boolean;
+  /** The #4D4D4D border on the dark bullet-list Track card specifically —
+   * its paragraph-variant sibling doesn't have it. Not a generic "add a
+   * border" flag; for any other border (e.g. the black/10 on Project/
+   * Article cards), add it via className instead. */
+  darkTrackBorder?: boolean;
   className?: string;
   children: ReactNode;
 }) {
@@ -34,7 +35,7 @@ export function Card({
     <div
       data-tone={tone === "dark" ? "dark" : undefined}
       className={`${toneClasses[tone]} ${radiusClasses[radius]} ${
-        border ? "border border-[#4d4d4d]" : ""
+        darkTrackBorder ? "border border-[#4d4d4d]" : ""
       } ${className}`}
     >
       {children}

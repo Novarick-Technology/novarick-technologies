@@ -92,12 +92,16 @@ export function PricingCard({
           ))}
         </div>
       </div>
+      {/* uppercase confirmed literal on this CTA specifically (all three
+       * pulls: Pricing page 488:4254, Homepage desktop 488:4367/4392/4417,
+       * Homepage mobile 506:2961/2984/3007) — unlike the navbar/Hero/
+       * Infrastructure/Tracks CTAs, which don't have it. */}
       {tone === "dark" ? (
-        <Button variant="primary" href={ctaHref} fullWidthMobile={false} className="w-full">
+        <Button variant="primary" href={ctaHref} fullWidthMobile={false} className="w-full uppercase">
           {ctaLabel}
         </Button>
       ) : (
-        <Button variant="dark" darkFill="ink-deep" href={ctaHref} fullWidthMobile={false} className="w-full">
+        <Button variant="dark" darkFill="ink-deep" href={ctaHref} fullWidthMobile={false} className="w-full uppercase">
           {ctaLabel}
         </Button>
       )}

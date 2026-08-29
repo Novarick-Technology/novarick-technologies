@@ -19,7 +19,9 @@ export function ProjectCard({
 }) {
   return (
     <Link href={`/portfolio/${slug}`} className="block">
-      <Card tone="light" border className="flex flex-col gap-5 p-6">
+      {/* border-black/10 directly — Card's `border` boolean is specifically
+       * the #4D4D4D Track-card border and would be wrong here. */}
+      <Card tone="light" className="flex flex-col gap-5 border border-black/10 p-6">
         {/* Literal cover ratios from Figma: mobile Shot is 326x212 (Portfolio
          * list — Mobile, node 531:73), desktop Shot is 580x380 (Portfolio
          * list, node 466:8670). Not the same ratio — kept as two literal

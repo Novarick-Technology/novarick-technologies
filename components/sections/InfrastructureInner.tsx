@@ -105,13 +105,13 @@ export function InfrastructureInner() {
           {process.map((label, i) => (
             <div
               key={label}
-              className={
+              className={`lg:flex-1 ${
                 i === 0
                   ? "lg:rounded-l-panel lg:overflow-hidden"
                   : i === process.length - 1
                     ? "lg:rounded-r-panel lg:overflow-hidden"
                     : ""
-              }
+              }`}
             >
               <ProcessCard index={i + 1} label={label} />
             </div>

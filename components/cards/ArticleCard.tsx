@@ -17,7 +17,9 @@ export function ArticleCard({
 }) {
   return (
     <Link href={`/blog/${slug}`} className="block">
-      <Card tone="light" border radius="panel" className="flex flex-col gap-4 px-4 pb-6 pt-4">
+      {/* border-black/10 directly — Card's `border` boolean is specifically
+       * the #4D4D4D Track-card border and would be wrong here. */}
+      <Card tone="light" radius="panel" className="flex flex-col gap-4 border border-black/10 px-4 pb-6 pt-4">
         {/* Literal cover dims from Figma: mobile Image is a fixed 220px tall
          * (Blog list — Mobile, node 534:73, at up to 326px wide), desktop
          * Image is 384x280 (Blog list, node 471:9612). Neither is 16:9 —
