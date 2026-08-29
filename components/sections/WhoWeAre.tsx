@@ -1,14 +1,21 @@
 /**
- * Two confirmed configurations, not one component reused verbatim:
+ * Confirmed configurations so far (all four "headline" instances checked
+ * — About Us, What we do, Infrastructure — share identical structure,
+ * sizes and padding, so this is genuinely one reusable shape, unlike the
+ * paragraph-card grids):
  *
  * - Homepage (desktop node 437:4023, mobile node 501:4): paragraph only,
  *   40px/22px, own padding (px-20 py-16 desktop, px-16 py-60 mobile).
- * - About Us (desktop node 450:5835, mobile node 524:66): an extra
- *   headline above the paragraph, and the paragraph itself drops to
- *   20px/14px — different padding again (px-80 pt-100 pb-40 desktop,
- *   px-16 py-40 mobile). Passing `headline` switches to this
- *   configuration; other pages get pulled and checked against their own
- *   instance before assuming either shape applies.
+ * - About Us / What we do / Infrastructure (e.g. desktop nodes 450:5835,
+ *   458:7241, 466:7791; mobile 524:66, 527:4, 529:67): headline above the
+ *   paragraph, paragraph drops to 20px/14px, padding px-80 pt-100 pb-40
+ *   desktop / px-16 py-40 mobile. Passing `headline` switches to this
+ *   configuration. The paragraph highlight is optional here — About Us
+ *   highlights "Novarick Technologies" in it, What we do and
+ *   Infrastructure don't highlight anything in the paragraph at all
+ *   (confirmed on both, not an oversight). The headline itself sometimes
+ *   has a literal line break before the highlighted portion at desktop
+ *   only (What we do, Infrastructure) — `headlineBreakBeforeHighlight`.
  *
  * Both configurations' highlighted span is Jost Regular on desktop but
  * Jost Medium on mobile — a real per-breakpoint difference, not a single
@@ -17,10 +24,13 @@
 function HighlightedText({
   text,
   highlight,
+  breakBefore = false,
 }: {
   text: string;
-  highlight: string;
+  highlight?: string;
+  breakBefore?: boolean;
 }) {
+  if (!highlight) return <>{text}</>;
   const index = text.indexOf(highlight);
   if (index === -1) {
     throw new Error(`WhoWeAre: highlight "${highlight}" not found in text`);
@@ -28,6 +38,7 @@ function HighlightedText({
   return (
     <>
       {text.slice(0, index)}
+      {breakBefore && <br aria-hidden className="hidden lg:block" />}
       <span className="font-medium text-green lg:font-normal">{highlight}</span>
       {text.slice(index + highlight.length)}
     </>
@@ -39,12 +50,18 @@ export function WhoWeAre({
   highlight,
   headline,
   headlineHighlight,
+  headlineBreakBeforeHighlight = false,
 }: {
   text: string;
-  highlight: string;
-  /** Presence switches to the About-Us-style configuration — see module comment. */
+  /** Optional — What we do and Infrastructure's paragraphs have no
+   * highlighted phrase at all, confirmed on both, not an oversight. */
+  highlight?: string;
+  /** Presence switches to the headline configuration — see module comment. */
   headline?: string;
   headlineHighlight?: string;
+  /** Literal desktop-only line break right before the highlighted portion
+   * of the headline (What we do / Infrastructure; not present on About Us). */
+  headlineBreakBeforeHighlight?: boolean;
 }) {
   if (headline) {
     if (!headlineHighlight) {
@@ -53,7 +70,11 @@ export function WhoWeAre({
     return (
       <div className="flex w-full flex-col items-center justify-center gap-7 px-4 py-10 text-center lg:gap-8 lg:px-20 lg:pb-10 lg:pt-[100px]">
         <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:w-[930px] lg:text-[60px] lg:leading-[66px] lg:tracking-[-3.6px]">
-          <HighlightedText text={headline} highlight={headlineHighlight} />
+          <HighlightedText
+            text={headline}
+            highlight={headlineHighlight}
+            breakBefore={headlineBreakBeforeHighlight}
+          />
         </p>
         <p className="font-body text-[14px] leading-[22px] text-text-body lg:w-[759px] lg:text-[20px] lg:leading-7">
           <HighlightedText text={text} highlight={highlight} />

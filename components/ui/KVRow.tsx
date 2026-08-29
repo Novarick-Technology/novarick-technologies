@@ -1,11 +1,29 @@
+/**
+ * Value text colour genuinely differs per page, and not always the same
+ * way between breakpoints — confirmed across three instances:
+ * - About Us (nodes 450:6754 desktop / 524:72 mobile): text-body both.
+ * - What we do (458:7247 desktop / 526:70 mobile): text-body-deep desktop,
+ *   text-body mobile.
+ * - Infrastructure (466:8208 desktop / 530:56 mobile): text-body-deep both.
+ * Not safe to assume one colour generalizes — each page passes its own
+ * confirmed values instead of relying on a shared default silently.
+ */
 export function KVRow({
   label,
   value,
+  // Full literal classes, lg: prefix included by the caller — Tailwind's
+  // compiler needs the complete static string at build time; concatenating
+  // "lg:" onto a variable here would never be detected and the class would
+  // silently never generate.
+  mobileValueColor = "text-text-body",
+  desktopValueColor = "lg:text-text-body",
   isLast = false,
   className = "",
 }: {
   label: string;
   value: string;
+  mobileValueColor?: string;
+  desktopValueColor?: string;
   /** Closes the list with a bottom divider — the last row in a KVRow list. */
   isLast?: boolean;
   className?: string;
@@ -24,8 +42,10 @@ export function KVRow({
       <p className="w-full shrink-0 font-heading text-[20px] font-medium tracking-[-0.8px] text-black lg:w-[280px] lg:text-[24px] lg:tracking-[-0.96px]">
         {label}
       </p>
-      {/* Value: 14px mobile, 18px desktop (same nodes). */}
-      <p className="flex-1 font-body text-[14px] leading-[22px] text-text-body lg:text-[18px] lg:leading-6">
+      {/* Value: 14px mobile, 18px desktop (same nodes) — colour is a prop, see above. */}
+      <p
+        className={`flex-1 font-body text-[14px] leading-[22px] lg:text-[18px] lg:leading-6 ${mobileValueColor} ${desktopValueColor}`}
+      >
         {value}
       </p>
     </div>
