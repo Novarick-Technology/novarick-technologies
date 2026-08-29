@@ -1,20 +1,17 @@
 /**
  * Placeholder blog data — real content is DB-driven per ADMIN.md (the
- * BlogPost model, body as rich text). The Figma file repeats one post
- * nine times as a placeholder (CLAUDE.md); seeded once here and reused
- * for every card, matching that.
+ * Post model, body as rich text — RichTextBlock[], see lib/rich-text.ts).
+ * The Figma file repeats one post nine times as a placeholder (CLAUDE.md);
+ * seeded once here and reused for every card, matching that.
  *
- * Body blocks: "paragraph" and "subhead" (Jost Medium at the same size
- * as surrounding body copy, per CLAUDE.md — not a larger heading size).
- * The reference article's four Jost:Medium lines (nodes under 471:9436 /
- * 535:75) are the quoted question and the three title-case lines; a
- * blank block reproduces the source's blank spacer paragraphs between
- * blocks.
+ * "paragraph" and "subhead" (Jost Medium at the same size as surrounding
+ * body copy, per CLAUDE.md — not a larger heading size) are the only
+ * block types this reference article actually uses. The reference
+ * article's four Jost:Medium lines (nodes under 471:9436 / 535:75) are
+ * the quoted question and the three title-case lines; a blank block
+ * reproduces the source's blank spacer paragraphs between blocks.
  */
-export type BlogBodyBlock =
-  | { type: "paragraph"; text: string }
-  | { type: "subhead"; text: string }
-  | { type: "blank" };
+import type { RichTextBlock } from "@/lib/rich-text";
 
 export type BlogPostSummary = {
   slug: string;
@@ -26,7 +23,7 @@ export type BlogPostSummary = {
 
 export type BlogPostDetail = BlogPostSummary & {
   coverDetailUrl: string;
-  body: BlogBodyBlock[];
+  body: RichTextBlock[];
 };
 
 const placeholderCover = "https://placehold.co/384x280/7a7a7a/7a7a7a.png";

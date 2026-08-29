@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
+  experimental: {
+    // Default 1MB is well under ADMIN.md's 8MB upload cap.
+    serverActions: { bodySizeLimit: "9mb" },
+  },
 };
 
 export default nextConfig;

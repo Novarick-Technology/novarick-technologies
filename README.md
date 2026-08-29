@@ -13,8 +13,9 @@ decisions, not this README.
 - **Tailwind CSS v4** — CSS-first config, no `tailwind.config.ts` (see
   `app/globals.css`)
 - **Prisma 7** + Postgres (Supabase), using the `pg` driver adapter
-- **Vercel Blob** for image uploads (admin, not yet built)
-- **Resend** for transactional email (not yet built)
+- **Vercel Blob** + **sharp** for image uploads (admin — converts to WebP
+  at two widths on upload)
+- **Resend** for transactional email (Contact form notifications)
 - **Cal.com Platform atoms** for booking (not yet built)
 
 ## Getting started
@@ -44,12 +45,37 @@ npx prisma db seed # seed placeholder Project/Post/Testimonial rows
 ## Project structure
 
 ```
-app/                       Routes (App Router). One page built so far: Home.
+app/                       Routes (App Router) — the marketing site's pages
+                             (Home, About, What we do, Infrastructure,
+                             Portfolio, Blog, Contact, Pricing) live directly
+                             under app/, one folder per route.
   globals.css               Design tokens as CSS variables, mapped through
                              Tailwind v4's @theme. Read this before adding
                              any new color/radius/font value.
   layout.tsx                Root layout — loads Inter/Jost/DM Sans/Dela
                              Gothic One via next/font/google.
+  admin/                     The admin dashboard — see below. Everything
+                             under app/admin/** is gated by middleware.ts
+                             and deliberately doesn't share the marketing
+                             page/layout tree.
+    layout.tsx                Admin chrome (sidebar) + `dynamic =
+                               "force-dynamic"`, inherited by every admin
+                               route so nothing here is ever prerendered.
+    page.tsx                   Dashboard — counts, recent submissions.
+    projects/ posts/            One folder per resource: page.tsx (list),
+    testimonials/ submissions/   new/page.tsx, [id]/page.tsx, actions.ts
+                                 (Server Actions — no separate API layer,
+                                 per ADMIN.md), and a *Form.tsx client
+                                 component shared by the new/edit pages.
+    upload-image.ts             Shared Server Action behind the ImageUpload
+                                 component — validates the file server-side
+                                 from the decoded buffer, converts to WebP,
+                                 uploads two widths to Vercel Blob.
+
+middleware.ts               Admin auth gate — ADMIN_PROTECTION=off (open,
+                             local dev) or "basic" (HTTP Basic Auth,
+                             production default). Matches /admin/:path* and
+                             /api/admin/:path*; see ADMIN.md's Access section.
 
 components/
   ui/                        Reusable primitives with no page-specific
@@ -63,6 +89,22 @@ components/
                              unique to one page (Hero) or reused verbatim
                              across several (InfrastructureInner, FinalCTA,
                              WhoWeAre) per CLAUDE.md.
+  admin/                     Admin-only primitives — deliberately separate
+                             from ui/, since ADMIN.md calls for plain forms,
+                             not the marketing components: AdminButton,
+                             AdminSidebar, PageHeader, StatCard, SaveBar,
+                             PublishToggle, ReorderButtons, ImageUpload,
+                             BlockEditor (the Post body rich-text editor),
+                             MarkReadButton, and form/ (Field, TextAreaField,
+                             Toggle).
+
+lib/
+  rich-text.ts               RichTextBlock type (Post.body's shape) and the
+                             inline **bold**/[link](url) parser — shared by
+                             the admin BlockEditor and the public ArticleBody
+                             renderer, so both sides agree on the format.
+  admin/                     slug.ts, csv.ts — small helpers used only by
+                             the admin routes.
 
 prisma/
   schema.prisma              Project / Post / Testimonial / Submission models.
