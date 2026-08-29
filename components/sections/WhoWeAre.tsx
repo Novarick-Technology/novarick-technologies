@@ -102,7 +102,10 @@ export function WhoWeAre({
   headlineBreakBeforeWord,
   gap,
 }: {
-  text: string;
+  /** Pricing (nodes 486:3695 desktop, 539:71 mobile) has a literal `<br>`
+   * between two sentences at both breakpoints — pass a 2-tuple for that;
+   * `highlight` is ignored in that case (no instance combines the two). */
+  text: string | [string, string];
   /** Optional — What we do and Infrastructure's paragraphs have no
    * highlighted phrase at all, confirmed on both, not an oversight. */
   highlight?: string;
@@ -140,7 +143,15 @@ export function WhoWeAre({
           />
         </p>
         <p className="font-body text-[14px] leading-[22px] text-text-body lg:w-[759px] lg:text-[20px] lg:leading-7">
-          <HighlightedText text={text} highlight={highlight} />
+          {Array.isArray(text) ? (
+            <>
+              {text[0]}
+              <br aria-hidden />
+              {text[1]}
+            </>
+          ) : (
+            <HighlightedText text={text} highlight={highlight} />
+          )}
         </p>
       </div>
     );
@@ -149,7 +160,15 @@ export function WhoWeAre({
   return (
     <div className="flex w-full flex-col items-center justify-center px-4 py-[60px] lg:px-20 lg:py-16">
       <p className="text-center font-body text-[22px] leading-[30px] tracking-[-0.44px] text-text-body lg:w-[1078px] lg:text-[40px] lg:leading-[55px] lg:tracking-[-0.8px]">
-        <HighlightedText text={text} highlight={highlight} />
+        {Array.isArray(text) ? (
+          <>
+            {text[0]}
+            <br aria-hidden />
+            {text[1]}
+          </>
+        ) : (
+          <HighlightedText text={text} highlight={highlight} />
+        )}
       </p>
     </div>
   );
