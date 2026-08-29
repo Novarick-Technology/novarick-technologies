@@ -5,8 +5,8 @@ import { KVRow } from "@/components/ui/KVRow";
 import { NumberedCard } from "@/components/ui/NumberedCard";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { InfrastructureInner } from "@/components/sections/InfrastructureInner";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
-import { TestimonialCard } from "@/components/cards/TestimonialCard";
 
 const detail = [
   {
@@ -70,26 +70,6 @@ const functions = [
   },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "They did not hand us a system and walk away. They still run it, and we still call the same people.",
-    name: "Operations lead",
-    role: "Novarick Group business",
-  },
-  {
-    quote:
-      "The first thing they did was follow our team for a week and count the steps we were doing by hand.",
-    name: "Business manager",
-    role: "Novarick Group business",
-  },
-  {
-    quote: "Policies used to take days. A customer can now buy one and hold the document in minutes.",
-    name: "Head of distribution",
-    role: "Insurance business",
-  },
-];
-
 export default function AboutUs() {
   return (
     <>
@@ -148,11 +128,7 @@ export default function AboutUs() {
       </Section>
 
       <Section>
-        <div className="grid w-full grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-4">
-          {testimonials.map((t) => (
-            <TestimonialCard key={t.name} quote={t.quote} name={t.name} role={t.role} />
-          ))}
-        </div>
+        <Testimonials />
       </Section>
 
       <Section>

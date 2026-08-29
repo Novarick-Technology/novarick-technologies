@@ -1,6 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { InfrastructureInner } from "@/components/sections/InfrastructureInner";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -9,7 +10,6 @@ import { NumberedCard } from "@/components/ui/NumberedCard";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { ArticleCard } from "@/components/cards/ArticleCard";
 import { PricingCard } from "@/components/cards/PricingCard";
-import { TestimonialCard } from "@/components/cards/TestimonialCard";
 
 // Placeholder project/post data — the real content is DB-driven per
 // ADMIN.md (Project/Post models). This mirrors the Figma placeholders
@@ -104,26 +104,6 @@ const tracks = [
     title: "Consult",
     description: "Work out what should exist before anyone starts building it.",
     items: ["Technology strategy", "Product strategy", "Digital transformation", "Technology architecture"],
-  },
-];
-
-const testimonials = [
-  {
-    quote:
-      "They did not hand us a system and walk away. They still run it, and we still call the same people.",
-    name: "Operations lead",
-    role: "Novarick Group business",
-  },
-  {
-    quote:
-      "The first thing they did was follow our team for a week and count the steps we were doing by hand.",
-    name: "Business manager",
-    role: "Novarick Group business",
-  },
-  {
-    quote: "Policies used to take days. A customer can now buy one and hold the document in minutes.",
-    name: "Head of distribution",
-    role: "Insurance business",
   },
 ];
 
@@ -337,11 +317,7 @@ export default function Home() {
       </Section>
 
       <Section>
-        <div className="grid w-full grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-4">
-          {testimonials.map((t) => (
-            <TestimonialCard key={t.name} quote={t.quote} name={t.name} role={t.role} />
-          ))}
-        </div>
+        <Testimonials />
       </Section>
 
       <Section>

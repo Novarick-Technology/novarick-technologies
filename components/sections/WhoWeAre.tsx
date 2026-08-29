@@ -127,9 +127,6 @@ export function WhoWeAre({
   gap?: string;
 }) {
   if (headline) {
-    if (!headlineHighlight) {
-      throw new Error("WhoWeAre: headlineHighlight is required when headline is set");
-    }
     return (
       <div
         className={`flex w-full flex-col items-center justify-center ${gap ?? "gap-7 lg:gap-8"} px-4 py-10 text-center lg:px-20 lg:pb-10 lg:pt-[100px]`}
