@@ -25,7 +25,7 @@ export function Hero() {
   return (
     <div
       data-tone="dark"
-      className="relative flex flex-col items-center justify-center overflow-hidden rounded-b-card bg-black px-4 py-6 lg:px-0 lg:py-0"
+      className="relative flex h-[620px] flex-col items-center justify-center overflow-hidden rounded-b-card bg-black px-4 py-6 lg:h-auto lg:px-0 lg:py-0"
     >
       <div aria-hidden className="absolute inset-0">
         <Image
@@ -70,7 +70,14 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative flex w-full flex-col items-center gap-6 py-16 lg:w-[946px] lg:py-[220px]">
+      {/* Mobile: no padding here at all — Hero's own fixed 620px height
+       * (node 499:5) plus its justify-center do the centering, matching
+       * the source exactly (confirmed via get_metadata: Hero copy sits at
+       * y=137 in a 620px frame, which is precisely padding-top(24) +
+       * center-offset((620-48-346)/2), not an extra padding block).
+       * Desktop uses true absolute-transform centering in Figma; py-220
+       * approximates it and was already visually verified correct. */}
+      <div className="relative flex w-full flex-col items-center gap-6 lg:w-[946px] lg:py-[220px]">
         <div className="flex w-full flex-col items-center gap-4 text-center text-white">
           <p className="font-heading text-[40px] font-medium leading-[44px] tracking-[-2.4px] lg:text-[80px] lg:leading-[90px] lg:tracking-[-4.8px]">
             Technology that powers what comes next
