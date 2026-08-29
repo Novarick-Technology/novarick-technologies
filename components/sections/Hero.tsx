@@ -50,7 +50,9 @@ export function Hero() {
         <ul className="hidden whitespace-nowrap font-body text-[15px] text-white lg:flex lg:items-center lg:gap-6">
           {navLinks.map((link) => (
             <li key={link.href} className="shrink-0">
-              <Link href={link.href}>{link.label}</Link>
+              <Link href={link.href} className="transition-opacity duration-200 hover:opacity-60">
+                {link.label}
+              </Link>
             </li>
           ))}
         </ul>

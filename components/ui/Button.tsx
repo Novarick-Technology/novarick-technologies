@@ -34,7 +34,7 @@ function Knob({
         <path
           d={d}
           strokeWidth={strokeWidth}
-          className={arrowClassName}
+          className={`motion-safe:transition-transform motion-safe:duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5 ${arrowClassName}`}
           stroke="currentColor"
         />
       </svg>
@@ -55,10 +55,10 @@ const darkFillClasses: Record<"black" | "ink-deep", string> = {
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-lime text-black pl-4 pr-1 py-1",
-  dark: "text-white pl-4 pr-1 py-1",
+  primary: "bg-lime text-black pl-4 pr-1 py-1 hover:brightness-95",
+  dark: "text-white pl-4 pr-1 py-1 hover:brightness-125",
   ghost:
-    "bg-[rgba(18,40,53,0.25)] border border-white/50 text-white px-5 py-3 h-12",
+    "bg-[rgba(18,40,53,0.25)] border border-white/50 text-white px-5 py-3 h-12 hover:bg-[rgba(18,40,53,0.4)] hover:border-white",
 };
 
 const knobColors: Record<Extract<ButtonVariant, "primary" | "dark">, { circle: string; arrow: string }> = {
@@ -104,7 +104,7 @@ export function Button({
     </>
   );
 
-  const classes = `inline-flex items-center justify-center gap-2 rounded-pill ${
+  const classes = `group inline-flex items-center justify-center gap-2 rounded-pill transition-[filter,background-color,border-color] duration-200 ${
     fullWidthMobile ? "w-full sm:w-auto" : ""
   } ${variantClasses[variant]} ${variant === "dark" ? darkFillClasses[darkFill] : ""} ${className}`;
 

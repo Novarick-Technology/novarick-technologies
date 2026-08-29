@@ -42,7 +42,12 @@ export function Navbar({ tone = "light" }: { tone?: NavbarTone }) {
           <ul className={`flex items-center gap-6 whitespace-nowrap font-body text-[15px] ${linkClasses[tone]}`}>
             {navLinks.map((link) => (
               <li key={link.href} className="shrink-0">
-                <Link href={link.href}>{link.label}</Link>
+                <Link
+                  href={link.href}
+                  className="transition-opacity duration-200 hover:opacity-60"
+                >
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>
