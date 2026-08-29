@@ -368,9 +368,7 @@ export default function Home() {
         <FinalCTA />
       </Section>
 
-      <div className="px-4 pb-4 lg:px-20 lg:pb-8">
-        <Footer />
-      </div>
+      <Footer />
     </>
   );
 }

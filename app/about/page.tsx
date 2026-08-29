@@ -107,7 +107,7 @@ export default function AboutUs() {
        * 524:69 (mobile) — asymmetric (no top padding), not the generic
        * Section wrapper's symmetric py. */}
       <div className="w-full px-4 pb-10 lg:px-20 lg:pb-20">
-        <div className="flex w-full flex-col">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col">
           {detail.map((row, i) => (
             <KVRow key={row.label} label={row.label} value={row.value} isLast={i === detail.length - 1} />
           ))}
@@ -118,7 +118,7 @@ export default function AboutUs() {
        * pt-40 pb-80) / 524:82 (mobile: px-16 py-40, confirmed via
        * get_metadata) — not the generic Section wrapper. */}
       <div className="w-full px-4 py-10 lg:px-20 lg:pb-20 lg:pt-10">
-        <div className="flex w-full flex-col gap-8 lg:gap-10">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-8 lg:gap-10">
           <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-end lg:justify-between lg:gap-5">
             <p className="font-heading text-[32px] font-medium leading-9 tracking-[-1.92px] text-black lg:w-[655px] lg:text-[52px] lg:leading-[normal] lg:tracking-[-3.12px]">
               <span className="text-green">Five functions,</span> one accountability line
@@ -159,9 +159,7 @@ export default function AboutUs() {
         <FinalCTA />
       </Section>
 
-      <div className="px-4 pb-4 lg:px-20 lg:pb-8">
-        <Footer />
-      </div>
+      <Footer />
     </>
   );
 }

@@ -24,42 +24,51 @@ export function Navbar({ tone = "light" }: { tone?: NavbarTone }) {
 
   return (
     <div className="w-full p-4 lg:px-20 lg:py-8">
-      {/* Desktop / tablet pill */}
-      <nav
-        className={`hidden items-center gap-6 rounded-pill border py-2 pl-5 pr-2 lg:flex ${pillClasses[tone]}`}
-      >
-        <Link href="/" className="shrink-0">
-          <Logo tone={tone === "dark" ? "white" : "black"} />
-        </Link>
-        <ul className={`flex flex-1 items-center gap-6 whitespace-nowrap font-body text-[15px] ${linkClasses[tone]}`}>
-          {navLinks.map((link) => (
-            <li key={link.href} className="shrink-0">
-              <Link href={link.href}>{link.label}</Link>
-            </li>
-          ))}
-        </ul>
-        <Button variant="dark" darkFill="black" knobSize={32} fullWidthMobile={false} href="/book-call">
-          Book a Strategy Call
-        </Button>
-      </nav>
-
-      {/* Mobile pill: logo + hamburger */}
-      <div
-        className={`flex h-[52px] items-center justify-between rounded-pill border px-6 py-2 lg:hidden ${pillClasses[tone]}`}
-      >
-        <Link href="/" className="shrink-0">
-          <Logo tone={tone === "dark" ? "white" : "black"} className="h-[18.6px] w-auto" />
-        </Link>
-        <button
-          type="button"
-          aria-label="Open menu"
-          aria-expanded={open}
-          onClick={() => setOpen(true)}
-          className="flex flex-col items-end gap-1.5 p-1"
+      {/* Content stays capped at 1280px and centered, same as Section —
+       * without this, the pill stretches to fill any viewport wider than
+       * 1280px. Within that cap, the pill itself hugs its own content
+       * width and centers (mx-auto lg:w-fit) rather than stretching to
+       * fill 1280px — flex-1 on the ul previously made it do that, turning
+       * the space before the button into one giant gap instead of the
+       * pill just being as wide as its content, per the source. */}
+      <div className="mx-auto w-full max-w-[1280px]">
+        {/* Desktop / tablet pill */}
+        <nav
+          className={`hidden items-center gap-6 rounded-pill border py-2 pl-5 pr-2 lg:mx-auto lg:flex lg:w-fit ${pillClasses[tone]}`}
         >
-          <span className={`h-0.5 w-5 rounded-full ${tone === "dark" ? "bg-white" : "bg-black"}`} />
-          <span className={`h-0.5 w-[13px] rounded-full ${tone === "dark" ? "bg-white" : "bg-black"}`} />
-        </button>
+          <Link href="/" className="shrink-0">
+            <Logo tone={tone === "dark" ? "white" : "black"} />
+          </Link>
+          <ul className={`flex items-center gap-6 whitespace-nowrap font-body text-[15px] ${linkClasses[tone]}`}>
+            {navLinks.map((link) => (
+              <li key={link.href} className="shrink-0">
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+          <Button variant="dark" darkFill="black" knobSize={32} fullWidthMobile={false} href="/book-call">
+            Book a Strategy Call
+          </Button>
+        </nav>
+
+        {/* Mobile pill: logo + hamburger */}
+        <div
+          className={`flex h-[52px] items-center justify-between rounded-pill border px-6 py-2 lg:hidden ${pillClasses[tone]}`}
+        >
+          <Link href="/" className="shrink-0">
+            <Logo tone={tone === "dark" ? "white" : "black"} className="h-[18.6px] w-auto" />
+          </Link>
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={open}
+            onClick={() => setOpen(true)}
+            className="flex flex-col items-end gap-1.5 p-1"
+          >
+            <span className={`h-0.5 w-5 rounded-full ${tone === "dark" ? "bg-white" : "bg-black"}`} />
+            <span className={`h-0.5 w-[13px] rounded-full ${tone === "dark" ? "bg-white" : "bg-black"}`} />
+          </button>
+        </div>
       </div>
 
       {open && <MobileMenuDrawer onClose={() => setOpen(false)} />}
