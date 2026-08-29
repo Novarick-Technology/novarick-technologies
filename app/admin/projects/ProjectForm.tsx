@@ -63,7 +63,7 @@ export function ProjectForm({ project }: { project?: Project }) {
 
       <div className="flex flex-col gap-4">
         <h2 className="font-heading text-[15px] font-semibold text-black">Case study</h2>
-        <p className="font-heading text-[12px] text-text-body">
+        <p className="font-body text-[12px] text-text-body">
           Same order as the live Portfolio details page.
         </p>
         {caseStudyFields.map((f) => (

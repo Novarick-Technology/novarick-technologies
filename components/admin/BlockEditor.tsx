@@ -46,7 +46,7 @@ export function BlockEditor({ name, defaultValue }: { name: string; defaultValue
       <input type="hidden" name={name} value={JSON.stringify(blocks)} />
 
       {blocks.map((block, i) => (
-        <div key={i} className="flex flex-col gap-2 rounded-input border border-black/15 bg-white p-3">
+        <div key={i} className="flex flex-col gap-2 rounded-panel border border-black/10 bg-white p-3">
           <div className="flex items-center justify-between gap-2">
             <span className="font-heading text-[12px] font-medium text-text-body">{blockLabels[block.type]}</span>
             <div className="flex items-center gap-1">
@@ -84,7 +84,7 @@ export function BlockEditor({ name, defaultValue }: { name: string; defaultValue
               value={block.text}
               onChange={(e) => update(i, { type: block.type, text: e.target.value })}
               placeholder="Supports **bold** and [link text](https://…)"
-              className="w-full resize-y rounded-input border border-black/10 bg-white px-3 py-2 font-heading text-[14px] text-black focus:outline-none focus:ring-1 focus:ring-black/30"
+              className="w-full resize-y rounded-input border border-black/10 bg-white px-3 py-2 font-body text-[14px] text-black focus:outline-none focus:ring-1 focus:ring-black/20"
             />
           ) : block.type === "list" ? (
             <textarea
@@ -92,22 +92,22 @@ export function BlockEditor({ name, defaultValue }: { name: string; defaultValue
               value={block.items.join("\n")}
               onChange={(e) => update(i, { type: "list", items: e.target.value.split("\n") })}
               placeholder="One item per line"
-              className="w-full resize-y rounded-input border border-black/10 bg-white px-3 py-2 font-heading text-[14px] text-black focus:outline-none focus:ring-1 focus:ring-black/30"
+              className="w-full resize-y rounded-input border border-black/10 bg-white px-3 py-2 font-body text-[14px] text-black focus:outline-none focus:ring-1 focus:ring-black/20"
             />
           ) : (
-            <p className="font-heading text-[12px] italic text-text-body">Renders as a blank spacer line.</p>
+            <p className="font-body text-[12px] italic text-text-body">Renders as a blank spacer line.</p>
           )}
         </div>
       ))}
 
       <div className="flex flex-wrap items-center gap-2 pt-1">
-        <span className="font-heading text-[12px] text-text-body">Add:</span>
+        <span className="font-body text-[12px] text-text-body">Add:</span>
         {(["paragraph", "subhead", "list", "blank"] as const).map((type) => (
           <button
             key={type}
             type="button"
             onClick={() => add(type)}
-            className="rounded-input border border-black/15 bg-white px-2.5 py-1 font-heading text-[12px] text-black hover:bg-black/5"
+            className="rounded-pill border border-black/10 bg-white px-3 py-1 font-heading text-[12px] text-black hover:bg-black/5"
           >
             {blockLabels[type]}
           </button>

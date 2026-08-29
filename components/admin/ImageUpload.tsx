@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
+import { Button } from "@/components/ui/Button";
 import { uploadImage } from "@/app/admin/upload-image";
 
 /**
@@ -53,35 +54,38 @@ export function ImageUpload({
       <span className="font-heading text-[13px] font-medium text-black">{label}</span>
       <input type="hidden" name={name} value={url} />
 
-      <div className="relative aspect-video w-full max-w-[400px] overflow-hidden rounded-input border border-black/15 bg-paper-muted">
+      <div className="relative aspect-video w-full max-w-[400px] overflow-hidden rounded-panel border border-black/10 bg-paper-muted">
         {url ? (
           <Image src={url} alt="" fill sizes="400px" className="object-cover" />
         ) : (
-          <div className="flex size-full items-center justify-center font-heading text-[13px] text-text-body">
+          <div className="flex size-full items-center justify-center font-body text-[13px] text-text-body">
             16:9 cover — no image yet
           </div>
         )}
         {pending && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/70 font-heading text-[13px] text-black">
+          <div className="absolute inset-0 flex items-center justify-center bg-white/70 font-body text-[13px] text-black">
             Uploading…
           </div>
         )}
       </div>
 
       <div className="flex items-center gap-3">
-        <button
+        <Button
           type="button"
-          onClick={() => inputRef.current?.click()}
+          variant="dark"
+          darkFill="ink-deep"
+          height="h-9"
+          fullWidthMobile={false}
           disabled={pending}
-          className="inline-flex h-9 items-center justify-center rounded-input border border-black/15 bg-white px-3 font-heading text-[13px] font-medium text-black hover:bg-black/5 disabled:opacity-60"
+          onClick={() => inputRef.current?.click()}
         >
           {url ? "Replace" : "Upload"}
-        </button>
+        </Button>
         {url && (
           <button
             type="button"
             onClick={() => setUrl("")}
-            className="font-heading text-[13px] text-text-body hover:text-red-600"
+            className="font-body text-[13px] text-text-body hover:text-red-600"
           >
             Remove
           </button>
@@ -94,7 +98,7 @@ export function ImageUpload({
         className="hidden"
         onChange={(e) => handleFile(e.target.files?.[0])}
       />
-      {error && <p className="font-heading text-[12px] text-red-600">{error}</p>}
+      {error && <p className="font-body text-[12px] text-red-600">{error}</p>}
     </div>
   );
 }

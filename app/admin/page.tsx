@@ -30,13 +30,13 @@ export default async function AdminDashboard() {
           <h2 className="font-heading text-[16px] font-medium text-black">
             Recent submissions ({submissionCount} total)
           </h2>
-          <Link href="/admin/submissions" className="font-heading text-[13px] text-text-body hover:text-black">
+          <Link href="/admin/submissions" className="font-body text-[13px] text-text-body hover:text-black">
             View all
           </Link>
         </div>
-        <div className="flex flex-col divide-y divide-black/10 rounded-input border border-black/10">
+        <div className="flex flex-col divide-y divide-black/10 rounded-panel border border-black/10">
           {recentSubmissions.length === 0 && (
-            <p className="p-4 font-heading text-[14px] text-text-body">No submissions yet.</p>
+            <p className="p-4 font-body text-[14px] text-text-body">No submissions yet.</p>
           )}
           {recentSubmissions.map((s) => (
             <Link
@@ -48,9 +48,9 @@ export default async function AdminDashboard() {
                 <span className={`font-heading text-[14px] ${s.read ? "font-normal" : "font-semibold"} text-black`}>
                   {s.fullName}
                 </span>
-                <span className="truncate font-heading text-[13px] text-text-body">{s.need}</span>
+                <span className="truncate font-body text-[13px] text-text-body">{s.need}</span>
               </div>
-              <span className="shrink-0 font-heading text-[12px] text-text-body">
+              <span className="shrink-0 font-body text-[12px] text-text-body">
                 {s.createdAt.toLocaleDateString()}
               </span>
             </Link>

@@ -13,7 +13,7 @@ export function Field({
 } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="flex w-full flex-col gap-1.5">
-      <label htmlFor={name} className="font-heading text-[13px] font-medium text-black">
+      <label htmlFor={name} className="font-heading text-[14px] font-medium text-black">
         {label}
         {required && <span className="text-red-600"> *</span>}
       </label>
@@ -22,9 +22,9 @@ export function Field({
         name={name}
         required={required}
         {...rest}
-        className="w-full rounded-input border border-black/15 bg-white px-3.5 py-2.5 font-heading text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/30"
+        className="w-full rounded-input border border-black/10 bg-white px-4 py-[14px] font-body text-[15px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/20"
       />
-      {hint && <p className="font-heading text-[12px] text-text-body">{hint}</p>}
+      {hint && <p className="font-body text-[13px] text-text-body">{hint}</p>}
     </div>
   );
 }

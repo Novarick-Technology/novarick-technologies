@@ -136,7 +136,7 @@ Server Actions for all mutations. No separate API layer.
 
 ## Interface
 
-The admin does not need to match the marketing design. It needs to be fast to use. Reuse the tokens — Inter, the lime for primary actions, `#F2F2F2` panels, 12px input radius — but build plain forms, not the marketing components.
+Fully on brand — reuses the actual marketing components (`Logo`, `Button`, the design tokens) rather than a re-styled admin-only set, so there is one source of truth for what a button or the logo looks like, not two that can drift. Layout stays admin-shaped (sidebar, dense tables, plain single-column forms) since none of that exists in the marketing design — it is the visual language (fonts, colours, button/pill shapes, radii) that matches, not the page structure.
 
 Every editor is a single-column form with a sticky action bar holding Save, Save and publish, and Delete. Delete asks for confirmation.
 

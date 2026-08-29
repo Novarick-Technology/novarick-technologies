@@ -16,9 +16,9 @@ export default async function TestimonialsList() {
     <div className="flex flex-col gap-6">
       <PageHeader title="Testimonials" action={{ label: "New testimonial", href: "/admin/testimonials/new" }} />
 
-      <div className="flex flex-col divide-y divide-black/10 rounded-input border border-black/10">
+      <div className="flex flex-col divide-y divide-black/10 rounded-panel border border-black/10">
         {testimonials.length === 0 && (
-          <p className="p-4 font-heading text-[14px] text-text-body">No testimonials yet.</p>
+          <p className="p-4 font-body text-[14px] text-text-body">No testimonials yet.</p>
         )}
         {testimonials.map((t, i) => (
           <div key={t.id} className="flex items-center gap-4 px-4 py-3">
@@ -29,7 +29,7 @@ export default async function TestimonialsList() {
             />
             <Link href={`/admin/testimonials/${t.id}`} className="flex min-w-0 flex-1 flex-col gap-0.5 hover:underline">
               <span className="truncate font-heading text-[14px] font-medium text-black">{t.name}</span>
-              <span className="truncate font-heading text-[12px] text-text-body">{t.quote}</span>
+              <span className="truncate font-body text-[12px] text-text-body">{t.quote}</span>
             </Link>
             <PublishToggle
               published={t.approved}

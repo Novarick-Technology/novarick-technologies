@@ -44,6 +44,10 @@ export function Button({
   fullWidthMobile = true,
   className = "",
   children,
+  formAction,
+  name,
+  value,
+  disabled,
 }: {
   variant?: ButtonVariant;
   /** Required literal fill when variant="dark" — see darkFillClasses. */
@@ -52,17 +56,26 @@ export function Button({
    * (h-10) against every other instance's 48px (h-12) default. */
   height?: string;
   href?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   type?: "button" | "submit";
   fullWidthMobile?: boolean;
   className?: string;
   children: ReactNode;
+  /** Native <button> form-submission props — used when this Button is a
+   * submit control routed to a specific Server Action within a form (the
+   * admin's SaveBar), not a link. Ignored when `href` is set. */
+  formAction?: (formData: FormData) => void;
+  name?: string;
+  value?: string;
+  disabled?: boolean;
 }) {
   const content = <span className="whitespace-nowrap text-[14px] font-medium font-heading">{children}</span>;
 
   const classes = `inline-flex items-center justify-center gap-2 rounded-pill transition-[filter,background-color,border-color] duration-200 ${height} ${
     fullWidthMobile ? "w-full sm:w-auto" : ""
-  } ${variantClasses[variant]} ${variant === "dark" ? darkFillClasses[darkFill] : ""} ${className}`;
+  } ${variantClasses[variant]} ${variant === "dark" ? darkFillClasses[darkFill] : ""} ${
+    disabled ? "cursor-not-allowed opacity-60" : ""
+  } ${className}`;
 
   if (href) {
     return (
@@ -73,7 +86,15 @@ export function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button
+      type={type}
+      onClick={onClick}
+      formAction={formAction}
+      name={name}
+      value={value}
+      disabled={disabled}
+      className={classes}
+    >
       {content}
     </button>
   );

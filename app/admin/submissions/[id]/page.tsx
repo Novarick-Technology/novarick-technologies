@@ -7,7 +7,7 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1 border-b border-black/10 py-4">
       <span className="font-heading text-[12px] font-medium text-text-body">{label}</span>
-      <div className="font-heading text-[15px] text-black">{value}</div>
+      <div className="font-body text-[15px] text-black">{value}</div>
     </div>
   );
 }

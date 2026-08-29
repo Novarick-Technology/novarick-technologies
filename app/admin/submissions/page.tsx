@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
+import { Button } from "@/components/ui/Button";
 import { buildSubmissionsWhere } from "@/app/admin/submissions/query";
 
 export default async function SubmissionsList({
@@ -21,12 +22,9 @@ export default async function SubmissionsList({
       <PageHeader
         title="Submissions"
         action={
-          <a
-            href={exportHref}
-            className="inline-flex h-10 items-center justify-center rounded-input border border-black/15 bg-white px-4 font-heading text-[14px] font-medium text-black hover:bg-black/5"
-          >
+          <Button variant="dark" darkFill="ink-deep" height="h-10" fullWidthMobile={false} href={exportHref}>
             Export CSV
-          </a>
+          </Button>
         }
       />
 
@@ -36,25 +34,22 @@ export default async function SubmissionsList({
           name="q"
           defaultValue={params.q}
           placeholder="Search name, email or need…"
-          className="w-full max-w-[320px] rounded-input border border-black/15 bg-white px-3.5 py-2 font-heading text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/30"
+          className="w-full max-w-[320px] rounded-input border border-black/10 bg-white px-3.5 py-2 font-body text-[14px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/20"
         />
-        <button
-          type="submit"
-          className="h-10 rounded-input border border-black/15 bg-white px-4 font-heading text-[13px] text-black hover:bg-black/5"
-        >
+        <Button type="submit" variant="dark" darkFill="ink-deep" height="h-10" fullWidthMobile={false}>
           Search
-        </button>
+        </Button>
         <Link
           href={params.filter === "unread" ? "/admin/submissions" : "/admin/submissions?filter=unread"}
-          className={`h-10 shrink-0 rounded-input px-4 font-heading text-[13px] font-medium leading-10 ${
-            params.filter === "unread" ? "bg-lime text-black" : "border border-black/15 bg-white text-black"
+          className={`inline-flex h-10 shrink-0 items-center justify-center rounded-pill px-4 font-heading text-[14px] font-medium ${
+            params.filter === "unread" ? "bg-lime text-black" : "border border-black/10 bg-white text-black"
           }`}
         >
           Unread only
         </Link>
       </form>
 
-      <div className="flex flex-col divide-y divide-black/10 rounded-input border border-black/10">
+      <div className="flex flex-col divide-y divide-black/10 rounded-panel border border-black/10">
         <div className="grid grid-cols-[100px_1fr_1fr_1fr_80px] gap-4 bg-paper-muted px-4 py-2 font-heading text-[12px] font-medium text-text-body">
           <span>Date</span>
           <span>Name</span>
@@ -63,7 +58,7 @@ export default async function SubmissionsList({
           <span>State</span>
         </div>
         {submissions.length === 0 && (
-          <p className="p-4 font-heading text-[14px] text-text-body">No submissions match.</p>
+          <p className="p-4 font-body text-[14px] text-text-body">No submissions match.</p>
         )}
         {submissions.map((s) => (
           <Link
@@ -71,15 +66,15 @@ export default async function SubmissionsList({
             href={`/admin/submissions/${s.id}`}
             className="grid grid-cols-[100px_1fr_1fr_1fr_80px] items-center gap-4 px-4 py-3 hover:bg-black/5"
           >
-            <span className="font-heading text-[13px] text-text-body">
+            <span className="font-body text-[13px] text-text-body">
               {s.createdAt.toLocaleDateString()}
             </span>
             <span className={`truncate font-heading text-[14px] text-black ${s.read ? "" : "font-semibold"}`}>
               {s.fullName}
             </span>
-            <span className="truncate font-heading text-[13px] text-text-body">{s.email}</span>
-            <span className="truncate font-heading text-[13px] text-text-body">{s.need}</span>
-            <span className="font-heading text-[12px] text-text-body">{s.read ? "Read" : "Unread"}</span>
+            <span className="truncate font-body text-[13px] text-text-body">{s.email}</span>
+            <span className="truncate font-body text-[13px] text-text-body">{s.need}</span>
+            <span className="font-body text-[12px] text-text-body">{s.read ? "Read" : "Unread"}</span>
           </Link>
         ))}
       </div>

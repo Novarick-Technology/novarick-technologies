@@ -10,7 +10,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
   return (
     <form action={action} className="flex flex-col gap-6">
       {testimonial && !testimonial.approved && (
-        <p className="rounded-input bg-paper-muted px-4 py-3 font-heading text-[13px] text-black">
+        <p className="rounded-panel bg-paper-muted px-4 py-3 font-body text-[13px] text-black">
           Not yet approved by the person quoted — won&rsquo;t render on the site even if published. Approve it
           from the list page.
         </p>
