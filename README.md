@@ -12,7 +12,7 @@ decisions, not this README.
 - **Next.js 15** (App Router) + TypeScript
 - **Tailwind CSS v4** — CSS-first config, no `tailwind.config.ts` (see
   `app/globals.css`)
-- **Prisma 7** + Postgres (Neon), using the `pg` driver adapter
+- **Prisma 7** + Postgres (Supabase), using the `pg` driver adapter
 - **Vercel Blob** for image uploads (admin, not yet built)
 - **Resend** for transactional email (not yet built)
 - **Cal.com Platform atoms** for booking (not yet built)
@@ -29,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 The site renders and builds without a database connection — Prisma is only
 needed once you're running `npm run db:seed`, `prisma studio`, etc. against a
-real Neon database.
+real Supabase database.
 
 ### Useful commands
 
@@ -72,7 +72,7 @@ prisma/
                               ADMIN.md's seeding rules.
 
 lib/
-  prisma.ts                  Prisma client singleton (pg adapter, Neon-ready).
+  prisma.ts                  Prisma client singleton (pg adapter, Supabase-ready).
 
 docs/
   component-inventory.md     Cross-page audit of every recurring visual

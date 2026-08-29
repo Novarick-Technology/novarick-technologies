@@ -10,7 +10,7 @@ Figma file: `TAJ0j8I2mJfXwDlDw05tX7`, page "Website Design". Desktop frames and 
 
 - Next.js 15, App Router, TypeScript
 - Tailwind CSS
-- Prisma + Postgres (Neon)
+- Prisma + Postgres (Supabase)
 - Vercel Blob for image uploads
 - Motion for animation
 - Resend for transactional email

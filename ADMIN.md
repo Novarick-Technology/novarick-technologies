@@ -40,7 +40,7 @@ If you decide you want it fully open in production regardless, set `ADMIN_PROTEC
 
 ## Schema
 
-Prisma, Postgres on Neon.
+Prisma, Postgres on Supabase.
 
 ```prisma
 model Project {
