@@ -18,7 +18,11 @@ export function ArticleCard({
   return (
     <Link href={`/blog/${slug}`} className="block">
       <Card tone="light" border radius="panel" className="flex flex-col gap-4 px-4 pb-6 pt-4">
-        <div className="relative h-[210px] w-full overflow-hidden rounded-panel md:aspect-video md:h-auto">
+        {/* Literal cover dims from Figma: mobile Image is a fixed 220px tall
+         * (Blog list — Mobile, node 534:73, at up to 326px wide), desktop
+         * Image is 384x280 (Blog list, node 471:9612). Neither is 16:9 —
+         * kept as the two literal values instead of one assumed ratio. */}
+        <div className="relative h-[220px] w-full overflow-hidden rounded-panel lg:aspect-[384/280] lg:h-auto">
           <Image src={coverUrl} alt="" fill className="object-cover" />
         </div>
         <div className="flex w-full flex-col gap-3.5">

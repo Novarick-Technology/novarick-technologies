@@ -20,7 +20,11 @@ export function ProjectCard({
   return (
     <Link href={`/portfolio/${slug}`} className="block">
       <Card tone="light" border className="flex flex-col gap-5 p-6">
-        <div className="relative aspect-video w-full overflow-hidden rounded-[12px]">
+        {/* Literal cover ratios from Figma: mobile Shot is 326x212 (Portfolio
+         * list — Mobile, node 531:73), desktop Shot is 580x380 (Portfolio
+         * list, node 466:8670). Not the same ratio — kept as two literal
+         * values rather than one assumed aspect-video. */}
+        <div className="relative aspect-[326/212] w-full overflow-hidden rounded-[12px] lg:aspect-[580/380]">
           <Image src={coverUrl} alt="" fill className="object-cover" />
         </div>
         <div className="flex w-full flex-col gap-5">

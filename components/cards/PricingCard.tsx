@@ -43,7 +43,7 @@ export function PricingCard({
           ))}
         </div>
       </div>
-      <Button variant="dark" href={ctaHref} fullWidthMobile={false} className="w-full">
+      <Button variant="dark" darkFill="ink-deep" href={ctaHref} fullWidthMobile={false} className="w-full">
         {ctaLabel}
       </Button>
     </Card>

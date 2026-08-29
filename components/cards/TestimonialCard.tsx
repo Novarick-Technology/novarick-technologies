@@ -10,7 +10,10 @@ export function TestimonialCard({
   role: string;
 }) {
   return (
-    <Card tone="light" className="flex min-h-[240px] flex-col justify-between gap-6 p-6">
+    // Literal fixed height from the source (Homepage Testimonials, node
+    // 437:4367): h-[240px], not min-h. Longer real quotes will need trimming
+    // to fit — flagging rather than silently switching to a flexible height.
+    <Card tone="light" className="flex h-[240px] flex-col justify-between gap-6 overflow-hidden p-6">
       {/* Quote uses Jost Medium — the source file's "Satoshi:Medium" label is
        * a leftover from an earlier draft per CLAUDE.md, not a real font. */}
       <p className="font-body text-[18px] font-medium leading-6 text-black">

@@ -16,7 +16,12 @@ export function KVRow({
         isLast ? "border-b" : ""
       } ${className}`}
     >
-      <p className="w-full shrink-0 font-heading text-[24px] font-medium tracking-[-0.96px] text-black md:w-[280px] lg:w-[326px]">
+      {/* 280px is the literal label-column width pulled from the source
+       * (About Us Detail, node 450:6753). CLAUDE.md's prose gives a
+       * 280–326px range, but only 280px was confirmed against an actual
+       * instance — not inventing a second breakpoint for the unconfirmed
+       * upper bound. */}
+      <p className="w-full shrink-0 font-heading text-[24px] font-medium tracking-[-0.96px] text-black md:w-[280px]">
         {label}
       </p>
       <p className="flex-1 font-body text-[18px] leading-6 text-text-body">

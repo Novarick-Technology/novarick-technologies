@@ -42,9 +42,21 @@ function Knob({
   );
 }
 
+/**
+ * "dark" fill is literally two different colours in the source file, not
+ * one token: the navbar/Hero CTA ("Button / Start a Project", nodes
+ * 450:5474 / 458:7025 / 482:523) is #000000, while the Pricing card CTA
+ * ("Button / Primary", node 488:4253) is #0A0A0A. Kept as two literal
+ * fills rather than merged into one, per instance.
+ */
+const darkFillClasses: Record<"black" | "ink-deep", string> = {
+  black: "bg-black",
+  "ink-deep": "bg-ink-deep",
+};
+
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-lime text-black pl-4 pr-1 py-1",
-  dark: "bg-ink-deep text-white pl-4 pr-1 py-1",
+  dark: "text-white pl-4 pr-1 py-1",
   ghost:
     "bg-[rgba(18,40,53,0.25)] border border-white/50 text-white px-5 py-3 h-12",
 };
@@ -56,6 +68,7 @@ const knobColors: Record<Extract<ButtonVariant, "primary" | "dark">, { circle: s
 
 export function Button({
   variant = "primary",
+  darkFill = "ink-deep",
   knob = true,
   knobSize = 40,
   href,
@@ -66,6 +79,8 @@ export function Button({
   children,
 }: {
   variant?: ButtonVariant;
+  /** Required literal fill when variant="dark" — see darkFillClasses. */
+  darkFill?: "black" | "ink-deep";
   knob?: boolean;
   knobSize?: 32 | 40;
   href?: string;
@@ -91,7 +106,7 @@ export function Button({
 
   const classes = `inline-flex items-center justify-center gap-2 rounded-pill ${
     fullWidthMobile ? "w-full sm:w-auto" : ""
-  } ${variantClasses[variant]} ${className}`;
+  } ${variantClasses[variant]} ${variant === "dark" ? darkFillClasses[darkFill] : ""} ${className}`;
 
   if (href) {
     return (
