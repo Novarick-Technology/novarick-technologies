@@ -34,7 +34,7 @@ export function Navbar({ tone = "light" }: { tone?: NavbarTone }) {
       <div className="mx-auto w-full max-w-[1280px]">
         {/* Desktop / tablet pill */}
         <nav
-          className={`hidden items-center justify-between gap-6 rounded-pill border py-2 pl-5 pr-2 lg:mx-auto lg:flex lg:w-[clamp(700px,60vw,1200px)] 2xl:pl-8 2xl:pr-4 ${pillClasses[tone]}`}
+          className={`hidden items-center justify-between gap-6 rounded-pill border py-2 pl-5 pr-4 lg:mx-auto lg:flex lg:w-[clamp(700px,60vw,1200px)] 2xl:pl-8 2xl:pr-6 ${pillClasses[tone]}`}
         >
           <Link href="/" className="shrink-0">
             <Logo tone={tone === "dark" ? "white" : "black"} />

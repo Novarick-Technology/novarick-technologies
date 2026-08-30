@@ -43,7 +43,7 @@ export function Hero() {
        * the later copy block would paint (and catch clicks) above this,
        * even though its box is transparent outside the visible text,
        * silently swallowing every click on the nav links underneath it. */}
-      <div className="absolute left-3 top-6 z-10 flex h-[52px] w-[calc(100%-29px)] max-w-[361px] items-center justify-between rounded-pill border border-white/10 bg-white/[0.14] px-6 py-2 min-[900px]:left-1/2 min-[900px]:top-[42px] min-[900px]:h-auto min-[900px]:w-[clamp(700px,60vw,1200px)] min-[900px]:max-w-none min-[900px]:-translate-x-1/2 min-[900px]:justify-between min-[900px]:gap-6 min-[900px]:py-2 min-[900px]:pl-5 min-[900px]:pr-2 2xl:pl-8 2xl:pr-4">
+      <div className="absolute left-3 top-6 z-10 flex h-[52px] w-[calc(100%-29px)] max-w-[361px] items-center justify-between rounded-pill border border-white/10 bg-white/[0.14] px-6 py-2 min-[900px]:left-1/2 min-[900px]:top-[42px] min-[900px]:h-auto min-[900px]:w-[clamp(700px,60vw,1200px)] min-[900px]:max-w-none min-[900px]:-translate-x-1/2 min-[900px]:justify-between min-[900px]:gap-6 min-[900px]:py-2 min-[900px]:pl-5 min-[900px]:pr-4 2xl:pl-8 2xl:pr-6">
         <Link href="/" className="shrink-0">
           <Logo tone="white" className="h-[21.6px] w-auto min-[900px]:h-[26px]" />
         </Link>
