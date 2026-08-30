@@ -36,7 +36,7 @@ CREATE TABLE "Post" (
     "title" TEXT NOT NULL,
     "excerpt" TEXT NOT NULL,
     "coverUrl" TEXT NOT NULL,
-    "body" JSONB NOT NULL,
+    "body" TEXT NOT NULL,
     "publishedAt" TIMESTAMP(3),
     "published" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

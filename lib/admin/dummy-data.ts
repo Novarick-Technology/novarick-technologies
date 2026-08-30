@@ -115,7 +115,7 @@ export const dummyPosts: Post[] = [
     excerpt:
       "Technology is easy to talk about. Building something that actually works for a business is a different challenge.",
     coverUrl: "https://placehold.co/384x280/7a7a7a/7a7a7a.png",
-    body: [{ type: "paragraph", text: "Draft — not yet written." }],
+    body: "<p>Draft — not yet written.</p>",
     published: false,
     publishedAt: null,
     createdAt: now,

@@ -66,7 +66,7 @@ export default async function BlogDetails({
         </div>
       </div>
 
-      <ArticleBody blocks={post.body} />
+      <ArticleBody html={post.body} />
 
       <Section>
         <FinalCTA />

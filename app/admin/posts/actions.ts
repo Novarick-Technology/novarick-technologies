@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { isRichTextBlockArray } from "@/lib/rich-text";
 import { safeMutate } from "@/lib/admin/safe-query";
 
 const postSchema = z.object({
@@ -12,16 +11,9 @@ const postSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
   excerpt: z.string().trim().min(1, "Excerpt is required"),
   coverUrl: z.string().trim().min(1, "Cover image is required"),
-  body: z.string().transform((v, ctx) => {
-    try {
-      const parsed = JSON.parse(v);
-      if (!isRichTextBlockArray(parsed)) throw new Error("invalid shape");
-      return parsed;
-    } catch {
-      ctx.addIssue({ code: "custom", message: "Body could not be parsed." });
-      return z.NEVER;
-    }
-  }),
+  // HTML from the admin's WYSIWYG editor (components/admin/RichTextEditor.tsx) —
+  // trusted, since only authenticated admin writers ever produce it.
+  body: z.string().min(1, "Body is required"),
 });
 
 function parsePostForm(formData: FormData) {

@@ -102,6 +102,113 @@ body {
   font-family: var(--font-body);
 }
 
+/* Rich text body styling — shared between the public article
+   (.article-body, components/sections/ArticleBody.tsx) and the admin's
+   WYSIWYG editor (.admin-article-body, components/admin/RichTextEditor.tsx)
+   so what an author sees while writing matches what ships. Plain CSS
+   rather than Tailwind utility classes because the content is raw HTML
+   from TipTap, not JSX we control element-by-element. */
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.admin-article-body h1,
+.admin-article-body h2,
+.admin-article-body h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--black);
+  line-height: 1.25;
+}
+.article-body h1,
+.admin-article-body h1 {
+  font-size: 28px;
+  margin: 1.4em 0 0.6em;
+}
+.article-body h2,
+.admin-article-body h2 {
+  font-size: 23px;
+  margin: 1.3em 0 0.5em;
+}
+.article-body h3,
+.admin-article-body h3 {
+  font-size: 19px;
+  margin: 1.2em 0 0.5em;
+}
+
+.article-body p,
+.admin-article-body p {
+  margin: 0 0 1em;
+}
+.article-body p:last-child,
+.admin-article-body p:last-child {
+  margin-bottom: 0;
+}
+
+.article-body ul,
+.article-body ol,
+.admin-article-body ul,
+.admin-article-body ol {
+  margin: 0 0 1em;
+  padding-left: 1.4em;
+}
+.article-body ul,
+.admin-article-body ul {
+  list-style: disc;
+}
+.article-body ol,
+.admin-article-body ol {
+  list-style: decimal;
+}
+.article-body li,
+.admin-article-body li {
+  margin: 0.3em 0;
+}
+
+.article-body blockquote,
+.admin-article-body blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--line-light);
+  color: var(--text-body);
+  font-style: italic;
+}
+
+.article-body code,
+.admin-article-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: var(--paper-muted);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.9em;
+}
+
+.article-body hr,
+.admin-article-body hr {
+  border: none;
+  border-top: 1px solid var(--line-light);
+  margin: 2em 0;
+}
+
+.article-body a,
+.admin-article-body a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.article-body a:hover,
+.admin-article-body a:hover {
+  color: var(--text-body);
+}
+
+/* TipTap's Placeholder extension marks the empty node itself rather than
+   injecting styles — this is the documented hook it expects. */
+.admin-article-body p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--text-body);
+  pointer-events: none;
+  height: 0;
+}
+
 /* Focus ring: lime on dark surfaces, ink on light. Components set
    data-tone="dark" where they sit on a dark/image background. */
 :focus-visible {

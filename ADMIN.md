@@ -77,7 +77,7 @@ model Post {
   title       String
   excerpt     String
   coverUrl    String
-  body        Json     // rich text
+  body        String   // rich text, stored as HTML from the admin's WYSIWYG editor
   publishedAt DateTime?
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())

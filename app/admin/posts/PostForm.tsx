@@ -4,11 +4,10 @@ import { useState } from "react";
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { BlockEditor } from "@/components/admin/BlockEditor";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { VisibilityCard } from "@/components/admin/VisibilityCard";
 import { SaveBar } from "@/components/admin/SaveBar";
 import { createPost, deletePost, updatePost } from "@/app/admin/posts/actions";
-import { isRichTextBlockArray } from "@/lib/rich-text";
 import type { Post } from "@/app/generated/prisma/client";
 
 /**
@@ -21,7 +20,6 @@ import type { Post } from "@/app/generated/prisma/client";
  */
 export function PostForm({ post }: { post?: Post }) {
   const action = post ? updatePost.bind(null, post.id) : createPost;
-  const body = isRichTextBlockArray(post?.body) ? post.body : [];
 
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
@@ -46,9 +44,9 @@ export function PostForm({ post }: { post?: Post }) {
             />
           </div>
 
-          <div className="flex flex-col gap-2 rounded-panel border border-black/10 bg-white p-4">
+          <div className="flex flex-col gap-2">
             <span className="font-heading text-[13px] font-medium text-black">Content</span>
-            <BlockEditor name="body" defaultValue={body} />
+            <RichTextEditor name="body" defaultValue={post?.body ?? ""} />
           </div>
 
           <TextAreaField
