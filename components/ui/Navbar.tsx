@@ -34,12 +34,12 @@ export function Navbar({ tone = "light" }: { tone?: NavbarTone }) {
       <div className="mx-auto w-full max-w-[1280px]">
         {/* Desktop / tablet pill */}
         <nav
-          className={`hidden items-center gap-6 rounded-pill border py-2 pl-5 pr-2 lg:mx-auto lg:flex lg:w-fit ${pillClasses[tone]}`}
+          className={`hidden items-center gap-6 rounded-pill border py-2 pl-5 pr-2 lg:mx-auto lg:flex lg:w-fit 2xl:gap-8 2xl:pl-6 2xl:pr-3 ${pillClasses[tone]}`}
         >
           <Link href="/" className="shrink-0">
             <Logo tone={tone === "dark" ? "white" : "black"} />
           </Link>
-          <ul className={`flex items-center gap-6 whitespace-nowrap font-body text-[15px] ${linkClasses[tone]}`}>
+          <ul className={`flex items-center gap-6 whitespace-nowrap font-body text-[15px] 2xl:gap-8 ${linkClasses[tone]}`}>
             {navLinks.map((link) => (
               <li key={link.href} className="shrink-0">
                 <Link
