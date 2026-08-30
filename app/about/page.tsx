@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -7,6 +8,11 @@ import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { InfrastructureInner } from "@/components/sections/InfrastructureInner";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+
+export const metadata = pageMetadata(
+  "About Us",
+  "At Novarick Technologies, we design, build, and operate technology that powers real businesses, creating practical solutions that drive growth, improve operations, and deliver value beyond the businesses we serve."
+);
 
 const detail = [
   {

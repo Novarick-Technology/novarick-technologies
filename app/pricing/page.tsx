@@ -1,9 +1,15 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
 import { KVRow } from "@/components/ui/KVRow";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { PricingPlans } from "@/components/sections/PricingPlans";
+
+export const metadata = pageMetadata(
+  "Pricing",
+  "Final pricing follows a strategy call and a written scope. We would rather quote something we can stand behind than surprise you later."
+);
 
 const terms = [
   {

@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -5,6 +6,11 @@ import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { projects } from "@/lib/data/projects";
+
+export const metadata = pageMetadata(
+  "Portfolio",
+  "Every project here follows the same arc — what the business needed, what we designed and built, where it runs, and what changed."
+);
 
 export default function PortfolioList() {
   return (

@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -10,6 +12,18 @@ import { blogPostSlugs, getBlogPost } from "@/lib/data/blog";
 
 export function generateStaticParams() {
   return blogPostSlugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getBlogPost(slug);
+  if (!post) return {};
+  const meta = pageMetadata(post.title, post.excerpt);
+  return { ...meta, openGraph: { ...meta.openGraph, type: "article" } };
 }
 
 export default async function BlogDetails({

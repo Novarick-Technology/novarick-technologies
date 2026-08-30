@@ -1,9 +1,15 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
 import { KVRow } from "@/components/ui/KVRow";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+
+export const metadata = pageMetadata(
+  "Infrastructure",
+  "We provide and manage the infrastructure that keeps digital products running — server and hosting environments where business applications, databases and digital assets are securely deployed and operated."
+);
 
 /**
  * "What we operate" 8-card grid (nodes 466:7829/8075/8103 desktop,

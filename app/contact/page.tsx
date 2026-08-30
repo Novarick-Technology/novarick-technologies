@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -5,6 +6,11 @@ import { Card } from "@/components/ui/Card";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { ContactForm } from "@/components/sections/ContactForm";
+
+export const metadata = pageMetadata(
+  "Contact",
+  "Let's talk about what you need. Schedule a call with our team so we can learn more about your vision, understand your goals, and explore how we can bring them to life."
+);
 
 /**
  * Contact details card (nodes 480:381 desktop, 536:97 mobile) — value is

@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -5,6 +6,11 @@ import { KVRow } from "@/components/ui/KVRow";
 import { Button } from "@/components/ui/Button";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+
+export const metadata = pageMetadata(
+  "What We Do",
+  "We turn business problems into technology products, design experiences people can actually use, build the systems behind them, and keep those systems running afterwards."
+);
 
 /**
  * "What we do" 4-card grid (nodes 466:7661 desktop / 527:8 mobile) —

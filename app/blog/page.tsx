@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
@@ -5,6 +6,11 @@ import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ArticleCard } from "@/components/cards/ArticleCard";
 import { blogPosts } from "@/lib/data/blog";
+
+export const metadata = pageMetadata(
+  "Insights",
+  "Insights, lessons, and ideas from a team that designs, builds, and operates technology for real businesses."
+);
 
 export default function BlogList() {
   return (
