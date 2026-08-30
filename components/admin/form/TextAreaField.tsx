@@ -15,6 +15,7 @@ export function TextAreaField({
   recommendedMin,
   recommendedMax,
   defaultValue,
+  onValueChange,
   ...rest
 }: {
   label: string;
@@ -22,6 +23,10 @@ export function TextAreaField({
   hint?: string;
   recommendedMin?: number;
   recommendedMax?: number;
+  /** Separate from the native onChange (which this component already uses
+   * internally for the character count) — for callers that want the
+   * current value without fighting that internal handler. */
+  onValueChange?: (value: string) => void;
 } & TextareaHTMLAttributes<HTMLTextAreaElement>) {
   const [count, setCount] = useState(typeof defaultValue === "string" ? defaultValue.length : 0);
   const inRange =
@@ -47,7 +52,10 @@ export function TextAreaField({
         name={name}
         required={required}
         defaultValue={defaultValue}
-        onChange={(e) => setCount(e.target.value.length)}
+        onChange={(e) => {
+          setCount(e.target.value.length);
+          onValueChange?.(e.target.value);
+        }}
         {...rest}
         className="w-full resize-y rounded-input border border-black/10 bg-white px-4 py-[14px] font-body text-[15px] text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/20"
       />

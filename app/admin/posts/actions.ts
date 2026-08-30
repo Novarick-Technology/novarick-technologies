@@ -31,7 +31,7 @@ function parsePostForm(formData: FormData) {
 
 export async function createPost(formData: FormData) {
   const data = parsePostForm(formData);
-  const published = formData.get("publish") === "true";
+  const published = formData.get("published") === "true";
 
   const result = await safeMutate(() =>
     prisma.post.create({
@@ -43,16 +43,29 @@ export async function createPost(formData: FormData) {
   redirect(result.ok ? `/admin/posts/${result.data.id}` : "/admin/posts");
 }
 
+/**
+ * The Visibility card (Shopify-style, replacing the old two-button
+ * "Save" / "Save and publish" split, and the list page's inline toggle)
+ * drives `published` directly from a single form field, so a plain Save
+ * can now un-publish too. The publish date is preserved across re-saves
+ * while a post stays visible, set once on the transition into visible,
+ * and cleared on hide.
+ */
 export async function updatePost(id: string, formData: FormData) {
   const data = parsePostForm(formData);
-  const publish = formData.get("publish") === "true";
+  const published = formData.get("published") === "true";
 
-  await safeMutate(() =>
-    prisma.post.update({
+  await safeMutate(async () => {
+    const existing = await prisma.post.findUnique({ where: { id }, select: { publishedAt: true } });
+    return prisma.post.update({
       where: { id },
-      data: publish ? { ...data, published: true, publishedAt: new Date() } : data,
-    }),
-  );
+      data: {
+        ...data,
+        published,
+        publishedAt: published ? (existing?.publishedAt ?? new Date()) : null,
+      },
+    });
+  });
 
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${id}`);
@@ -64,15 +77,4 @@ export async function deletePost(id: string) {
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
   redirect("/admin/posts");
-}
-
-export async function togglePostPublished(id: string, published: boolean) {
-  await safeMutate(() =>
-    prisma.post.update({
-      where: { id },
-      data: { published, publishedAt: published ? new Date() : null },
-    }),
-  );
-  revalidatePath("/admin/posts");
-  revalidatePath("/blog");
 }

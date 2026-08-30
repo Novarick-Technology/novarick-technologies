@@ -123,6 +123,22 @@ export const dummyPosts: Post[] = [
   },
 ];
 
+export function filterDummyPosts(params: { filter?: string; q?: string }): Post[] {
+  let result = dummyPosts;
+  if (params.filter === "published") {
+    result = result.filter((p) => p.published);
+  } else if (params.filter === "draft") {
+    result = result.filter((p) => !p.published);
+  }
+  if (params.q) {
+    const q = params.q.toLowerCase();
+    result = result.filter(
+      (p) => p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q),
+    );
+  }
+  return result;
+}
+
 export const dummyTestimonials: Testimonial[] = siteTestimonials.map((t, i) => ({
   id: `dummy-testimonial-${i + 1}`,
   quote: t.quote,
