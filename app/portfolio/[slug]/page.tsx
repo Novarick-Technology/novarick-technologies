@@ -128,13 +128,13 @@ export default async function PortfolioDetails({
              * flex-1 — roles card takes the remaining space (node
              * 474:10299). Mobile stacks with roles card first (node
              * 532:67's child order: Roles, then Case study). */}
-            <div className="flex w-full flex-col-reverse gap-6 lg:flex-row lg:items-start lg:gap-4">
-              <div className="w-full rounded-panel bg-paper-muted px-4 py-2 lg:w-[854px] lg:px-6">
+            <div className="flex w-full flex-col-reverse gap-6 min-[1300px]:flex-row min-[1300px]:items-start min-[1300px]:gap-4">
+              <div className="w-full rounded-panel bg-paper-muted px-4 py-2 lg:px-6 min-[1300px]:w-[854px]">
                 {caseStudyRows.map((row) => (
                   <CaseStudyRow key={row.label} {...row} />
                 ))}
               </div>
-              <div className="flex w-full flex-col gap-7 rounded-panel bg-ink px-4 py-6 lg:flex-1">
+              <div className="flex w-full flex-col gap-7 rounded-panel bg-ink px-4 py-6 min-[1300px]:flex-1">
                 {roleRows.map((row) => (
                   <RoleRow key={row.label} {...row} />
                 ))}

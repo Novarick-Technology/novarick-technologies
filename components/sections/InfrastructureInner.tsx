@@ -34,14 +34,14 @@ export function InfrastructureInner() {
       </div>
 
       <div className="relative flex w-full flex-col gap-6 lg:gap-10">
-        <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-end lg:gap-5">
-          <p className="font-heading text-[30px] font-medium leading-9 tracking-[-1.8px] text-white lg:w-[760px] lg:text-[52px] lg:leading-[60px] lg:tracking-[-3.12px]">
+        <div className="flex w-full flex-col gap-4 min-[1400px]:flex-row min-[1400px]:items-end min-[1400px]:gap-5">
+          <p className="font-heading text-[30px] font-medium leading-9 tracking-[-1.8px] text-white lg:text-[52px] lg:leading-[60px] lg:tracking-[-3.12px] min-[1400px]:w-[760px]">
             More than software.{" "}
             <span className="text-lime">
               We manage the infrastructure behind it.
             </span>
           </p>
-          <p className="font-body text-[14px] leading-[22px] tracking-[-0.28px] text-text-dim lg:flex-1 lg:text-[16px] lg:tracking-[-0.32px]">
+          <p className="font-body text-[14px] leading-[22px] tracking-[-0.28px] text-text-dim lg:text-[16px] lg:tracking-[-0.32px] min-[1400px]:flex-1">
             Novarick Technologies operates and manages server and hosting
             environments where business applications, databases and digital
             assets are securely deployed and operated.

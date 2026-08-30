@@ -95,7 +95,7 @@ export function ContactForm() {
       <Card
         tone="light"
         radius="panel"
-        className="flex w-full flex-col items-start gap-3 border border-black/5 px-4 py-16 text-center lg:w-[767px] lg:items-center lg:px-6"
+        className="flex w-full flex-col items-start gap-3 border border-black/5 px-4 py-16 text-center lg:items-center lg:px-6 min-[1300px]:w-[767px]"
       >
         <p className="w-full font-heading text-[24px] font-medium text-black">Message sent</p>
         <p className="w-full font-body text-[16px] text-text-body">
@@ -109,7 +109,7 @@ export function ContactForm() {
     <Card
       tone="light"
       radius="panel"
-      className="flex w-full flex-col items-end gap-6 border border-black/5 px-4 py-6 lg:w-[767px] lg:px-6"
+      className="flex w-full flex-col items-end gap-6 border border-black/5 px-4 py-6 lg:px-6 min-[1300px]:w-[767px]"
     >
       {/* Keyed on `attempt` so a re-render after a failed submission
        * remounts the (uncontrolled) inputs — React resets their values

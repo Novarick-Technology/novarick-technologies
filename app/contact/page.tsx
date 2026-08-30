@@ -44,12 +44,12 @@ export default function Contact() {
       />
 
       <div className="w-full px-4 pb-10 lg:px-20 lg:pb-6">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 lg:flex-row lg:items-start">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 min-[1300px]:flex-row min-[1300px]:items-start">
           <ContactForm />
           <Card
             tone="light"
             radius="panel"
-            className="flex w-full flex-col gap-4 border border-black/5 px-4 py-6 lg:flex-1 lg:px-6"
+            className="flex w-full flex-col gap-4 border border-black/5 px-4 py-6 lg:px-6 min-[1300px]:flex-1"
           >
             {contactDetails.flatMap((row, i) => [
               <ContactDetailRow key={row.label} {...row} />,
