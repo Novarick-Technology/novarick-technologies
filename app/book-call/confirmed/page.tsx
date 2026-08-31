@@ -38,23 +38,25 @@ export default async function BookCallConfirmed({
       <Navbar />
 
       <div className="flex w-full flex-col items-center gap-6 px-4 py-10 lg:gap-8 lg:px-20 lg:py-20">
-        <div className="flex w-full flex-col items-center gap-2 text-center">
-          <p className="font-heading text-[32px] font-normal tracking-[-0.96px] text-black lg:text-[52px] lg:tracking-[-1.5px]">
-            Your strategy call is booked
-          </p>
-          <p className="font-body text-[14px] text-text-body lg:w-[580px]">
-            Your onboarding call is booked and a calendar invite is on its way to{" "}
-            <span className="font-medium">you@brand.com</span>.
-          </p>
-        </div>
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-6 lg:gap-8">
+          <div className="flex w-full flex-col items-center gap-2 text-center">
+            <p className="font-heading text-[32px] font-normal tracking-[-0.96px] text-black lg:text-[52px] lg:tracking-[-1.5px]">
+              Your strategy call is booked
+            </p>
+            <p className="font-body text-[14px] text-text-body lg:w-[580px]">
+              Your onboarding call is booked and a calendar invite is on its way to{" "}
+              <span className="font-medium">you@brand.com</span>.
+            </p>
+          </div>
 
-        <div className="w-full lg:w-[767px]">
-          <AppointmentCard date={date} time={timeRange} />
-        </div>
+          <div className="w-full lg:w-[767px]">
+            <AppointmentCard date={date} time={timeRange} />
+          </div>
 
-        <Button variant="primary" href="/" fullWidthMobile={false} className="w-full lg:w-[209px]">
-          Go back home
-        </Button>
+          <Button variant="primary" href="/" fullWidthMobile={false} className="w-full lg:w-[209px]">
+            Go back home
+          </Button>
+        </div>
       </div>
 
       <Footer />

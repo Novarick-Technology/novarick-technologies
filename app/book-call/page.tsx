@@ -31,7 +31,9 @@ export default function BookCall() {
       </div>
 
       <div className="w-full px-4 pb-10 pt-6 lg:px-20 lg:pb-20 lg:pt-6">
-        <BookingWidget />
+        <div className="mx-auto w-full max-w-[1280px]">
+          <BookingWidget />
+        </div>
       </div>
 
       <div className="w-full">
