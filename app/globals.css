@@ -94,6 +94,8 @@
 
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
+  --font-date-sans: var(--font-date-sans);
+  --font-date-display: var(--font-date-display);
 }
 
 body {
