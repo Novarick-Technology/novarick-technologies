@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { Resend } from "resend";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
@@ -34,7 +35,7 @@ export type ContactFormValues = {
 };
 
 export type ContactFormState = {
-  status: "idle" | "success" | "error";
+  status: "idle" | "error";
   message?: string;
   /** Re-applied to the inputs on error so a failed submission doesn't
    * clear the form, per ADMIN.md — React resets uncontrolled fields once
@@ -93,7 +94,7 @@ export async function submitContactForm(
 
   if (raw.company) {
     // Honeypot tripped — accept and silently discard, per ADMIN.md.
-    return { status: "success", attempt };
+    redirect("/book-call");
   }
 
   const parsed = schema.safeParse(raw);
@@ -147,7 +148,6 @@ export async function submitContactForm(
       });
     }
 
-    return { status: "success", attempt };
   } catch {
     return {
       status: "error",
@@ -156,4 +156,8 @@ export async function submitContactForm(
       attempt,
     };
   }
+
+  // Outside the try/catch — redirect() throws internally, and a catch
+  // block above would otherwise swallow that as if the save had failed.
+  redirect("/book-call");
 }
