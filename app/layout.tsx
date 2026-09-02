@@ -3,7 +3,7 @@ import { Inter, Jost, DM_Sans, Dela_Gothic_One } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 const inter = Inter({
   variable: "--font-heading",
