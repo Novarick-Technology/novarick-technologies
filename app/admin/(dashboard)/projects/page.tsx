@@ -6,7 +6,7 @@ import { ReorderButtons } from "@/components/admin/ReorderButtons";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
 import { dummyProjects } from "@/lib/admin/dummy-data";
-import { moveProject, toggleProjectPublished } from "@/app/admin/projects/actions";
+import { moveProject, toggleProjectPublished } from "@/app/admin/(dashboard)/projects/actions";
 
 export default async function ProjectsList() {
   const { data: projects, connected } = await safeQuery(

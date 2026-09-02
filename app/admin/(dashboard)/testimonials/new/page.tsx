@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/admin/PageHeader";
-import { TestimonialForm } from "@/app/admin/testimonials/TestimonialForm";
+import { TestimonialForm } from "@/app/admin/(dashboard)/testimonials/TestimonialForm";
 
 export default function NewTestimonial() {
   return (

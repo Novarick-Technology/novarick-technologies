@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
-import { ProjectForm } from "@/app/admin/projects/ProjectForm";
+import { ProjectForm } from "@/app/admin/(dashboard)/projects/ProjectForm";
 import { safeQuery } from "@/lib/admin/safe-query";
 import { dummyProjects } from "@/lib/admin/dummy-data";
 

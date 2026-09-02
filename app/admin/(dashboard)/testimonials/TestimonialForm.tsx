@@ -1,7 +1,7 @@
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { createTestimonial, deleteTestimonial, updateTestimonial } from "@/app/admin/testimonials/actions";
+import { createTestimonial, deleteTestimonial, updateTestimonial } from "@/app/admin/(dashboard)/testimonials/actions";
 import type { Testimonial } from "@/app/generated/prisma/client";
 
 export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) {

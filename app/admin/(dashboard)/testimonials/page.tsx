@@ -10,7 +10,7 @@ import {
   moveTestimonial,
   toggleTestimonialApproved,
   toggleTestimonialPublished,
-} from "@/app/admin/testimonials/actions";
+} from "@/app/admin/(dashboard)/testimonials/actions";
 
 export default async function TestimonialsList() {
   const { data: testimonials, connected } = await safeQuery(

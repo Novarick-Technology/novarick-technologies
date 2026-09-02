@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
+import { logout } from "@/app/admin/login/actions";
 
 const links = [
   { href: "/admin", label: "Dashboard", exact: true },
@@ -36,6 +37,14 @@ export function AdminSidebar() {
           {link.label}
         </Link>
       ))}
+      <form action={logout} className="mt-auto">
+        <button
+          type="submit"
+          className="w-full rounded-pill px-4 py-2 text-left font-heading text-[14px] text-text-body transition-colors hover:bg-black/5 hover:text-black"
+        >
+          Log out
+        </button>
+      </form>
     </nav>
   );
 }
@@ -61,6 +70,14 @@ export function AdminMobileNav() {
             {link.label}
           </Link>
         ))}
+        <form action={logout}>
+          <button
+            type="submit"
+            className="shrink-0 rounded-pill border border-black/10 px-4 py-2 font-heading text-[14px] text-text-body"
+          >
+            Log out
+          </button>
+        </form>
       </div>
     </div>
   );

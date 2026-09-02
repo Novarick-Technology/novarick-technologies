@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { DbNotice } from "@/components/admin/DbNotice";
 import { safeQuery } from "@/lib/admin/safe-query";
 import { filterDummyPosts } from "@/lib/admin/dummy-data";
-import { buildPostsWhere } from "@/app/admin/posts/query";
+import { buildPostsWhere } from "@/app/admin/(dashboard)/posts/query";
 
 const filters = [
   { value: undefined, label: "All" },

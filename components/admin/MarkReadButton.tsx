@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Button } from "@/components/ui/Button";
-import { markSubmissionRead } from "@/app/admin/submissions/actions";
+import { markSubmissionRead } from "@/app/admin/(dashboard)/submissions/actions";
 
 export function MarkReadButton({ id, read }: { id: string; read: boolean }) {
   const [pending, startTransition] = useTransition();

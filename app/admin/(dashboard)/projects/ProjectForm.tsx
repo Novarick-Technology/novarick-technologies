@@ -2,7 +2,7 @@ import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { createProject, deleteProject, updateProject } from "@/app/admin/projects/actions";
+import { createProject, deleteProject, updateProject } from "@/app/admin/(dashboard)/projects/actions";
 import type { Project } from "@/app/generated/prisma/client";
 
 const caseStudyFields: { name: keyof Project; label: string }[] = [

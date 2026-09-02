@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/admin/PageHeader";
-import { ProjectForm } from "@/app/admin/projects/ProjectForm";
+import { ProjectForm } from "@/app/admin/(dashboard)/projects/ProjectForm";
 
 export default function NewProject() {
   return (

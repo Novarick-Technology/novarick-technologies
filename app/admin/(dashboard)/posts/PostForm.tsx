@@ -7,7 +7,7 @@ import { ImageUpload } from "@/components/admin/ImageUpload";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { VisibilityCard } from "@/components/admin/VisibilityCard";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { createPost, deletePost, updatePost } from "@/app/admin/posts/actions";
+import { createPost, deletePost, updatePost } from "@/app/admin/(dashboard)/posts/actions";
 import type { Post } from "@/app/generated/prisma/client";
 
 /**

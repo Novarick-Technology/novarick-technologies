@@ -8,7 +8,7 @@ Read `CLAUDE.md` first for design tokens and stack.
 
 ## Access
 
-No login screen, per the brief. That means one thing has to be true instead: **the routes must not be publicly reachable.**
+**The routes must not be publicly reachable.**
 
 An unauthenticated `/admin` on a live domain will be found. Bots crawl `/admin`, `/dashboard` and `/wp-admin` continuously. Anyone who lands on it can publish to the site and read every contact submission — real names, emails, phone numbers and free-text messages from prospective clients. Under Nigeria's NDPA that is a reportable breach.
 
@@ -22,9 +22,9 @@ export const config = { matcher: ["/admin/:path*", "/api/admin/:path*"] }
 Behaviour:
 
 - `ADMIN_PROTECTION=off` — routes open. Use this locally.
-- `ADMIN_PROTECTION=basic` — HTTP Basic Auth against `ADMIN_USER` and `ADMIN_PASSWORD`. **Default for production.**
+- `ADMIN_PROTECTION=session` — a real login page at `/admin/login` posts credentials (checked against `ADMIN_USER`/`ADMIN_PASSWORD`) to a Server Action, which sets a signed, stateless session cookie. **Default for production.**
 
-Basic Auth is roughly fifteen lines, needs no login page, no session handling and no database table. The browser remembers it. It is not a login screen in any way that costs you time, and it is the difference between a private tool and a public one.
+The original brief called for no login screen — HTTP Basic Auth against the same two env vars, no session handling, no database table. That shipped first and worked. It was deliberately replaced with a real login page (branded, on the design tokens) once a proper UI became worth the small amount of extra machinery: `lib/adminSession.ts` signs/verifies the cookie with HMAC-SHA256 via Web Crypto (works in both the Node.js login action and the Edge middleware) — still no sessions table, the cookie itself carries its own expiry and signature. `/admin/login` sits outside the `(dashboard)` route group so it renders without the sidebar; logging out clears the cookie via a Server Action reachable from the sidebar.
 
 Also add for every admin route:
 
@@ -213,9 +213,10 @@ DATABASE_URL
 BLOB_READ_WRITE_TOKEN
 RESEND_API_KEY
 CONTACT_NOTIFY_EMAIL
-ADMIN_PROTECTION      off | basic
+ADMIN_PROTECTION      off | session
 ADMIN_USER
 ADMIN_PASSWORD
+SESSION_SECRET        signs the admin session cookie — see lib/adminSession.ts
 NEXT_PUBLIC_SITE_URL
 ```
 

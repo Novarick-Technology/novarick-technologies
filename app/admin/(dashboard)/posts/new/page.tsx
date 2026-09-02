@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/admin/PageHeader";
-import { PostForm } from "@/app/admin/posts/PostForm";
+import { PostForm } from "@/app/admin/(dashboard)/posts/PostForm";
 
 export default function NewPost() {
   return (
