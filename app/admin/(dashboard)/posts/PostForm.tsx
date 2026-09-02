@@ -94,7 +94,7 @@ export function PostForm({ post }: { post?: Post }) {
       </div>
 
       <SaveBar
-        onDelete={post ? deletePost.bind(null, post.id) : undefined}
+        onDelete={post ? deletePost.bind(null, post.id, post.slug) : undefined}
         deleteLabel="Delete post"
         showPublish={false}
       />

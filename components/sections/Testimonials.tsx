@@ -1,5 +1,5 @@
 import { TestimonialCard } from "@/components/cards/TestimonialCard";
-import { testimonials } from "@/lib/data/testimonials";
+import { getPublishedTestimonials } from "@/lib/queries/testimonials";
 
 /**
  * Homepage (node 437:4367) and About Us (450:5966-ish) render just the
@@ -8,11 +8,14 @@ import { testimonials } from "@/lib/data/testimonials";
  * (p-80 desktop, px-16 py-40 mobile, gap-40/gap-28) instead of Section's —
  * `heading` switches to that configuration.
  */
-export function Testimonials({ heading }: { heading?: string }) {
+export async function Testimonials({ heading }: { heading?: string }) {
+  const testimonials = await getPublishedTestimonials();
+  if (testimonials.length === 0) return null;
+
   const grid = (
     <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
       {testimonials.map((t) => (
-        <TestimonialCard key={t.name} quote={t.quote} name={t.name} role={t.role} />
+        <TestimonialCard key={t.id} quote={t.quote} name={t.name} role={t.role} />
       ))}
     </div>
   );

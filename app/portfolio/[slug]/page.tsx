@@ -8,7 +8,11 @@ import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ProjectCard } from "@/components/cards/ProjectCard";
-import { getProjectDetail, projects } from "@/lib/data/projects";
+import {
+  getOtherPublishedProjects,
+  getPublishedProjectBySlug,
+  getPublishedProjectSlugs,
+} from "@/lib/queries/projects";
 
 /**
  * Case-study card (nodes 474:10293/10299 desktop, 532:70 mobile): the
@@ -50,8 +54,9 @@ function RoleRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const slugs = await getPublishedProjectSlugs();
+  return slugs.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -60,7 +65,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectDetail(slug);
+  const project = await getPublishedProjectBySlug(slug);
   if (!project) return {};
   return pageMetadata(project.title, project.summary);
 }
@@ -71,10 +76,10 @@ export default async function PortfolioDetails({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectDetail(slug);
+  const project = await getPublishedProjectBySlug(slug);
   if (!project) notFound();
 
-  const otherProjects = projects.filter((p) => p.slug !== slug).slice(0, 2);
+  const otherProjects = await getOtherPublishedProjects(slug, 2);
 
   const caseStudyRows = [
     { label: "About Project", value: project.aboutProject, bordered: false },
@@ -116,7 +121,7 @@ export default async function PortfolioDetails({
 
             <div className="relative h-[220px] w-full overflow-hidden rounded-panel lg:h-[500px]">
               <Image
-                src={project.coverDetailUrl}
+                src={project.coverUrl}
                 alt=""
                 fill
                 sizes="(min-width: 1024px) 1280px, 100vw"

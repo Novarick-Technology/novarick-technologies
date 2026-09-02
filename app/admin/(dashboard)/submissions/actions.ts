@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { safeMutate } from "@/lib/admin/safe-query";
+import { safeMutate } from "@/lib/safe-query";
 
 /**
  * Never log submission contents — this table holds personal data

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { MarkReadButton } from "@/components/admin/MarkReadButton";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummySubmissions } from "@/lib/admin/dummy-data";
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {

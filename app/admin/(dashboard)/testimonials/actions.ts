@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { safeMutate } from "@/lib/admin/safe-query";
+import { safeMutate } from "@/lib/safe-query";
 
 const testimonialSchema = z.object({
   quote: z.string().trim().min(1, "Quote is required"),
@@ -18,7 +18,7 @@ function parseTestimonialForm(formData: FormData) {
 }
 
 /** Nothing renders on the site unless both approved and published are true. */
-const REVALIDATE_PATHS = ["/", "/about", "/contact"];
+const REVALIDATE_PATHS = ["/", "/about", "/contact", "/book-call"];
 
 function revalidatePublicPaths() {
   for (const path of REVALIDATE_PATHS) revalidatePath(path);
@@ -87,4 +87,5 @@ export async function moveTestimonial(id: string, direction: "up" | "down") {
   if (!result.ok) return;
 
   revalidatePath("/admin/testimonials");
+  revalidatePublicPaths();
 }

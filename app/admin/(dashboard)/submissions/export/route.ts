@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { toCsv } from "@/lib/admin/csv";
 import { buildSubmissionsWhere } from "@/app/admin/(dashboard)/submissions/query";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { filterDummySubmissions } from "@/lib/admin/dummy-data";
 
 export async function GET(request: NextRequest) {

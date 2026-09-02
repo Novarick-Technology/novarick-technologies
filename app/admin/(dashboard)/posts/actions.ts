@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { safeMutate } from "@/lib/admin/safe-query";
+import { safeMutate } from "@/lib/safe-query";
 
 const postSchema = z.object({
   slug: z.string().trim().min(1, "Slug is required"),
@@ -32,6 +32,9 @@ export async function createPost(formData: FormData) {
   );
 
   revalidatePath("/admin/posts");
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${data.slug}`);
+  revalidatePath("/");
   redirect(result.ok ? `/admin/posts/${result.data.id}` : "/admin/posts");
 }
 
@@ -62,11 +65,15 @@ export async function updatePost(id: string, formData: FormData) {
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${id}`);
   revalidatePath("/blog");
+  revalidatePath(`/blog/${data.slug}`);
+  revalidatePath("/");
 }
 
-export async function deletePost(id: string) {
+export async function deletePost(id: string, slug: string) {
   await safeMutate(() => prisma.post.delete({ where: { id } }));
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
+  revalidatePath("/");
   redirect("/admin/posts");
 }

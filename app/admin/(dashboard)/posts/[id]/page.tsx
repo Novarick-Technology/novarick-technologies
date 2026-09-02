@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { PostForm } from "@/app/admin/(dashboard)/posts/PostForm";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummyPosts } from "@/lib/admin/dummy-data";
 
 export default async function EditPost({ params }: { params: Promise<{ id: string }> }) {

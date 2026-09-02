@@ -85,7 +85,10 @@ export function ProjectForm({ project }: { project?: Project }) {
         ))}
       </div>
 
-      <SaveBar onDelete={project ? deleteProject.bind(null, project.id) : undefined} deleteLabel="Delete project" />
+      <SaveBar
+        onDelete={project ? deleteProject.bind(null, project.id, project.slug) : undefined}
+        deleteLabel="Delete project"
+      />
     </form>
   );
 }

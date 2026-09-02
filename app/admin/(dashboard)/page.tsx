@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { StatCard } from "@/components/admin/StatCard";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { DbNotice } from "@/components/admin/DbNotice";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummyProjects, dummyPosts, dummyTestimonials, dummySubmissions } from "@/lib/admin/dummy-data";
 import type { Submission } from "@/app/generated/prisma/client";
 

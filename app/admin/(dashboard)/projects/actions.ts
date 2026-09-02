@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { safeMutate } from "@/lib/admin/safe-query";
+import { safeMutate } from "@/lib/safe-query";
 
 const projectSchema = z.object({
   slug: z.string().trim().min(1, "Slug is required"),
@@ -40,6 +40,9 @@ export async function createProject(formData: FormData) {
   const result = await safeMutate(() => prisma.project.create({ data: { ...data, published } }));
 
   revalidatePath("/admin/projects");
+  revalidatePath("/portfolio");
+  revalidatePath(`/portfolio/${data.slug}`);
+  revalidatePath("/");
   redirect(result.ok ? `/admin/projects/${result.data.id}` : "/admin/projects");
 }
 
@@ -57,19 +60,25 @@ export async function updateProject(id: string, formData: FormData) {
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${id}`);
   revalidatePath("/portfolio");
+  revalidatePath(`/portfolio/${data.slug}`);
+  revalidatePath("/");
 }
 
-export async function deleteProject(id: string) {
+export async function deleteProject(id: string, slug: string) {
   await safeMutate(() => prisma.project.delete({ where: { id } }));
   revalidatePath("/admin/projects");
   revalidatePath("/portfolio");
+  revalidatePath(`/portfolio/${slug}`);
+  revalidatePath("/");
   redirect("/admin/projects");
 }
 
-export async function toggleProjectPublished(id: string, published: boolean) {
+export async function toggleProjectPublished(id: string, slug: string, published: boolean) {
   await safeMutate(() => prisma.project.update({ where: { id }, data: { published } }));
   revalidatePath("/admin/projects");
   revalidatePath("/portfolio");
+  revalidatePath(`/portfolio/${slug}`);
+  revalidatePath("/");
 }
 
 export async function moveProject(id: string, direction: "up" | "down") {

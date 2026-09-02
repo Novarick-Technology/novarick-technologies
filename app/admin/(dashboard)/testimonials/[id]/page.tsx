@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { TestimonialForm } from "@/app/admin/(dashboard)/testimonials/TestimonialForm";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummyTestimonials } from "@/lib/admin/dummy-data";
 
 export default async function EditTestimonial({ params }: { params: Promise<{ id: string }> }) {

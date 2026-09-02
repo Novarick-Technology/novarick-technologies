@@ -11,10 +11,9 @@ import { Button } from "@/components/ui/Button";
 import { NumberedCard } from "@/components/ui/NumberedCard";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { ArticleCard } from "@/components/cards/ArticleCard";
+import { getPublishedProjects } from "@/lib/queries/projects";
+import { formatPostDate, getPublishedPosts } from "@/lib/queries/posts";
 
-// Placeholder project/post data — the real content is DB-driven per
-// ADMIN.md (Project/Post models). This mirrors the Figma placeholders
-// (which repeat the same handful of entries) until real records exist.
 const capabilities = [
   {
     tone: "dark" as const,
@@ -42,49 +41,6 @@ const capabilities = [
   },
 ];
 
-const projects = [
-  {
-    slug: "kolanut-africa",
-    coverUrl: "https://placehold.co/1160x760/7a7a7a/7a7a7a.png",
-    meta: "INSURANCE - 2026",
-    title: "Kolanut Africa Web Application",
-    summary:
-      "An insurtech platform where customers buy insurance, manage policies and track claims — with underwriter integrations.",
-    tags: ["PRODUCT", "DESIGN", "ENGINEERING", "HOSTED BY US"],
-  },
-  {
-    slug: "buyback-web",
-    coverUrl: "https://placehold.co/1160x760/7a7a7a/7a7a7a.png",
-    meta: "REAL ESTATE - 2025",
-    title: "Buyback Web Application",
-    summary:
-      "A web application where investors access the feature, start a transaction and follow every related activity in one place.",
-    tags: ["PRODUCT", "DESIGN", "ENGINEERING", "HOSTED BY US"],
-  },
-  {
-    slug: "buyback-mobile",
-    coverUrl: "https://placehold.co/1160x760/7a7a7a/7a7a7a.png",
-    meta: "REAL ESTATE - 2025",
-    title: "Buyback Mobile Application",
-    summary:
-      "A cross-platform application for iOS and Android on the same API layer as the web product, with status updates pushed as they happen.",
-    tags: ["PRODUCT", "DESIGN", "ENGINEERING", "HOSTED BY US"],
-  },
-  {
-    slug: "novarick-homes",
-    coverUrl: "https://placehold.co/1160x760/7a7a7a/7a7a7a.png",
-    meta: "REAL ESTATE · MARKETING SITE · 2025",
-    title: "Novarick Homes Website",
-    summary:
-      "A complete redesign — clearer property presentation, a stronger enquiry path, and a CMS the marketing team runs themselves.",
-    tags: ["PRODUCT", "DESIGN", "ENGINEERING", "HOSTED BY US"],
-    // Confirmed absent from the mobile Portfolio grid (504:8, 3 cards) but
-    // present on desktop (437:4222, 4 cards) — a real content difference,
-    // not an assumption.
-    desktopOnly: true,
-  },
-];
-
 const tracks = [
   {
     eyebrow: "TRACK 01",
@@ -108,18 +64,7 @@ const tracks = [
   },
 ];
 
-const posts = [
-  {
-    slug: "why-good-technology-starts-with-understanding-the-business",
-    coverUrl: "/images/blog-placeholder.png",
-    date: "12th August, 2026",
-    title: "Why good technology starts with understanding the business",
-    excerpt:
-      "Technology is easy to talk about. Building something that actually works for a business is a different challenge.",
-  },
-];
-
-export default function Home() {
+export default async function Home() {
   // Handled here rather than in middleware — matching the literal "/"
   // path in middleware.ts's matcher hit an edge-runtime bundling bug on
   // Vercel ("ReferenceError: __dirname is not defined"); a plain redirect
@@ -128,6 +73,9 @@ export default function Home() {
   if (process.env.ADMIN_ONLY_DEPLOYMENT === "true") {
     redirect("/admin");
   }
+
+  const projects = (await getPublishedProjects()).slice(0, 4);
+  const posts = (await getPublishedPosts()).slice(0, 3);
 
   return (
     <>
@@ -161,41 +109,45 @@ export default function Home() {
         <InfrastructureInner />
       </Section>
 
-      <Section>
-        <div className="flex w-full flex-col items-center gap-8 lg:gap-10">
-          <div className="flex w-full flex-col gap-3 text-center lg:gap-4">
-            <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:text-[60px] lg:tracking-[-3.6px]">
-              What we have delivered
-            </p>
-            <p className="mx-auto font-body text-[14px] leading-[22px] text-text-body lg:w-[560px] lg:text-[18px] lg:leading-6">
-              Every project follows the same arc: the business problem, what
-              we executed, the infrastructure it runs on, and what changed.
-            </p>
+      {projects.length > 0 && (
+        <Section>
+          <div className="flex w-full flex-col items-center gap-8 lg:gap-10">
+            <div className="flex w-full flex-col gap-3 text-center lg:gap-4">
+              <p className="font-heading text-[32px] font-medium tracking-[-1.92px] text-black lg:text-[60px] lg:tracking-[-3.6px]">
+                What we have delivered
+              </p>
+              <p className="mx-auto font-body text-[14px] leading-[22px] text-text-body lg:w-[560px] lg:text-[18px] lg:leading-6">
+                Every project follows the same arc: the business problem, what
+                we executed, the infrastructure it runs on, and what changed.
+              </p>
+            </div>
+            <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
+              {projects.map((p, i) => (
+                // 4th card is desktop-only — mobile shows 3 (Portfolio grid,
+                // node 504:8), desktop shows 4 (node 437:4222).
+                <div key={p.slug} className={i === 3 ? "hidden lg:block" : ""}>
+                  <ProjectCard
+                    slug={p.slug}
+                    coverUrl={p.coverUrl}
+                    meta={p.meta}
+                    title={p.title}
+                    summary={p.summary}
+                    tags={p.tags}
+                  />
+                </div>
+              ))}
+            </div>
+            <Button
+              variant="primary"
+              href="/portfolio"
+              fullWidthMobile={false}
+              className="w-full uppercase lg:w-auto"
+            >
+              View our portfolio
+            </Button>
           </div>
-          <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
-            {projects.map((p) => (
-              <div key={p.slug} className={p.desktopOnly ? "hidden lg:block" : ""}>
-                <ProjectCard
-                  slug={p.slug}
-                  coverUrl={p.coverUrl}
-                  meta={p.meta}
-                  title={p.title}
-                  summary={p.summary}
-                  tags={p.tags}
-                />
-              </div>
-            ))}
-          </div>
-          <Button
-            variant="primary"
-            href="/portfolio"
-            fullWidthMobile={false}
-            className="w-full uppercase lg:w-auto"
-          >
-            View our portfolio
-          </Button>
-        </div>
-      </Section>
+        </Section>
+      )}
 
       <Section tone="dark">
         <div className="flex w-full flex-col gap-6 lg:gap-10">
@@ -243,25 +195,27 @@ export default function Home() {
         <Testimonials />
       </Section>
 
-      <Section>
-        <div className="flex w-full flex-col gap-6 lg:gap-8">
-          <p className="font-heading text-[32px] font-medium leading-9 tracking-[-1.92px] text-black lg:w-[656px] lg:text-[52px] lg:leading-[60px] lg:tracking-[-3.12px]">
-            Latest thinking from the department
-          </p>
-          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[...posts, ...posts, ...posts].map((post, i) => (
-              <ArticleCard
-                key={`${post.slug}-${i}`}
-                slug={post.slug}
-                coverUrl={post.coverUrl}
-                date={post.date}
-                title={post.title}
-                excerpt={post.excerpt}
-              />
-            ))}
+      {posts.length > 0 && (
+        <Section>
+          <div className="flex w-full flex-col gap-6 lg:gap-8">
+            <p className="font-heading text-[32px] font-medium leading-9 tracking-[-1.92px] text-black lg:w-[656px] lg:text-[52px] lg:leading-[60px] lg:tracking-[-3.12px]">
+              Latest thinking from the department
+            </p>
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <ArticleCard
+                  key={post.slug}
+                  slug={post.slug}
+                  coverUrl={post.coverUrl}
+                  date={post.publishedAt ? formatPostDate(post.publishedAt) : ""}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </Section>
+        </Section>
+      )}
 
       <Section>
         <FinalCTA />

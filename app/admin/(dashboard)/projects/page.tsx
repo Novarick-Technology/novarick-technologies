@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { PublishToggle } from "@/components/admin/PublishToggle";
 import { ReorderButtons } from "@/components/admin/ReorderButtons";
 import { DbNotice } from "@/components/admin/DbNotice";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummyProjects } from "@/lib/admin/dummy-data";
 import { moveProject, toggleProjectPublished } from "@/app/admin/(dashboard)/projects/actions";
 
@@ -35,7 +35,7 @@ export default async function ProjectsList() {
               <span className="truncate font-heading text-[14px] font-medium text-black">{p.title}</span>
               <span className="truncate font-body text-[12px] text-text-body">{p.meta}</span>
             </Link>
-            <PublishToggle published={p.published} onToggle={toggleProjectPublished.bind(null, p.id)} />
+            <PublishToggle published={p.published} onToggle={toggleProjectPublished.bind(null, p.id, p.slug)} />
           </div>
         ))}
       </div>

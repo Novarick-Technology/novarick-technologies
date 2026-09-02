@@ -8,10 +8,11 @@ import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ArticleBody } from "@/components/sections/ArticleBody";
-import { blogPostSlugs, getBlogPost } from "@/lib/data/blog";
+import { getPublishedPostBySlug, getPublishedPostSlugs } from "@/lib/queries/posts";
 
-export function generateStaticParams() {
-  return blogPostSlugs.map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getPublishedPostSlugs();
+  return slugs.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -20,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await getPublishedPostBySlug(slug);
   if (!post) return {};
   const meta = pageMetadata(post.title, post.excerpt);
   return { ...meta, openGraph: { ...meta.openGraph, type: "article" } };
@@ -32,7 +33,7 @@ export default async function BlogDetails({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await getPublishedPostBySlug(slug);
   if (!post) notFound();
 
   return (
@@ -57,7 +58,7 @@ export default async function BlogDetails({
 
         <div className="relative h-[200px] w-full overflow-hidden rounded-panel lg:h-[500px]">
           <Image
-            src={post.coverDetailUrl}
+            src={post.coverUrl}
             alt=""
             fill
             sizes="(min-width: 1024px) 1116px, 100vw"

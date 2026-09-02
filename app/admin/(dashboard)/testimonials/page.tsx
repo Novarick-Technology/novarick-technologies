@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { PublishToggle } from "@/components/admin/PublishToggle";
 import { ReorderButtons } from "@/components/admin/ReorderButtons";
 import { DbNotice } from "@/components/admin/DbNotice";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummyTestimonials } from "@/lib/admin/dummy-data";
 import {
   moveTestimonial,

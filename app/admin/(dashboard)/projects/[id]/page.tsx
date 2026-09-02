@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { ProjectForm } from "@/app/admin/(dashboard)/projects/ProjectForm";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { dummyProjects } from "@/lib/admin/dummy-data";
 
 export default async function EditProject({ params }: { params: Promise<{ id: string }> }) {

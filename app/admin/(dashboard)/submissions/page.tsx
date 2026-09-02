@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { DbNotice } from "@/components/admin/DbNotice";
-import { safeQuery } from "@/lib/admin/safe-query";
+import { safeQuery } from "@/lib/safe-query";
 import { filterDummySubmissions } from "@/lib/admin/dummy-data";
 import { buildSubmissionsWhere } from "@/app/admin/(dashboard)/submissions/query";
 
