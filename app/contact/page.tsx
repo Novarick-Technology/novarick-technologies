@@ -9,7 +9,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 
 export const metadata = pageMetadata(
   "Contact",
-  "Let's talk about what you need. Schedule a call with our team so we can learn more about your vision, understand your goals, and explore how we can bring them to life."
+  "Let's talk about what you need. Our team will contact you so we can learn more about your vision, understand your goals, and explore how we can bring them to life."
 );
 
 /**
@@ -40,7 +40,7 @@ export default function Contact() {
       <WhoWeAre
         headline="Tell us what you need"
         gap="gap-4"
-        text="Let's talk about what you need. Schedule a call with our team so we can learn more about your vision, understand your goals, and explore how we can bring them to life."
+        text="Let's talk about what you need. Our team will contact you so we can learn more about your vision, understand your goals, and explore how we can bring them to life."
       />
 
       <div className="w-full px-4 pb-10 lg:px-20 lg:pb-6">
