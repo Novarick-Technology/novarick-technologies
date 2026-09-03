@@ -8,12 +8,14 @@ import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ArticleBody } from "@/components/sections/ArticleBody";
-import { getPublishedPostBySlug, getPublishedPostSlugs } from "@/lib/queries/posts";
+import { getPublishedPostBySlug } from "@/lib/queries/posts";
 
-export async function generateStaticParams() {
-  const slugs = await getPublishedPostSlugs();
-  return slugs.map(({ slug }) => ({ slug }));
-}
+/**
+ * No generateStaticParams here on purpose — see the identical note on
+ * app/portfolio/[slug]/page.tsx. A post published after the last deploy
+ * needs to resolve immediately, not wait for the next build.
+ */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { VisibilityCard } from "@/components/admin/VisibilityCard";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { createPost, deletePost, updatePost } from "@/app/admin/(dashboard)/posts/actions";
+import { fireToast } from "@/components/admin/Toast";
+import { createPost, deletePost, updatePost, type PostActionState } from "@/app/admin/(dashboard)/posts/actions";
 import type { Post } from "@/app/generated/prisma/client";
+
+const initialState: PostActionState = { status: "idle" };
 
 /**
  * Shopify-style blog post editor: a wide content column (title, body,
@@ -20,13 +23,18 @@ import type { Post } from "@/app/generated/prisma/client";
  */
 export function PostForm({ post }: { post?: Post }) {
   const action = post ? updatePost.bind(null, post.id) : createPost;
+  const [state, formAction] = useActionState(action, initialState);
 
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
 
+  useEffect(() => {
+    if (state.status === "saved" || state.status === "error") fireToast(state.status);
+  }, [state]);
+
   return (
-    <form action={action} className="flex flex-col gap-6">
+    <form action={formAction} className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
         <div className="flex min-w-0 flex-col gap-6">
           <div className="flex flex-col gap-1.5">

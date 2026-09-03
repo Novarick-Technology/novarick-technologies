@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { safeMutate } from "@/lib/safe-query";
+import { toastQuery } from "@/lib/admin/toast";
 
 const postSchema = z.object({
   slug: z.string().trim().min(1, "Slug is required"),
@@ -21,7 +22,15 @@ function parsePostForm(formData: FormData) {
   return postSchema.parse(raw);
 }
 
-export async function createPost(formData: FormData) {
+export type PostActionState = { status: "idle" | "saved" | "error" };
+
+/** See ProjectActionState's comment in the projects actions file for why
+ * create/delete use a query-param redirect while update returns state
+ * instead. */
+export async function createPost(
+  _prevState: PostActionState,
+  formData: FormData,
+): Promise<PostActionState> {
   const data = parsePostForm(formData);
   const published = formData.get("published") === "true";
 
@@ -35,7 +44,11 @@ export async function createPost(formData: FormData) {
   revalidatePath("/blog");
   revalidatePath(`/blog/${data.slug}`);
   revalidatePath("/");
-  redirect(result.ok ? `/admin/posts/${result.data.id}` : "/admin/posts");
+  redirect(
+    result.ok
+      ? `/admin/posts/${result.data.id}?${toastQuery("created")}`
+      : `/admin/posts?${toastQuery("error")}`,
+  );
 }
 
 /**
@@ -46,11 +59,15 @@ export async function createPost(formData: FormData) {
  * while a post stays visible, set once on the transition into visible,
  * and cleared on hide.
  */
-export async function updatePost(id: string, formData: FormData) {
+export async function updatePost(
+  id: string,
+  _prevState: PostActionState,
+  formData: FormData,
+): Promise<PostActionState> {
   const data = parsePostForm(formData);
   const published = formData.get("published") === "true";
 
-  await safeMutate(async () => {
+  const result = await safeMutate(async () => {
     const existing = await prisma.post.findUnique({ where: { id }, select: { publishedAt: true } });
     return prisma.post.update({
       where: { id },
@@ -67,13 +84,14 @@ export async function updatePost(id: string, formData: FormData) {
   revalidatePath("/blog");
   revalidatePath(`/blog/${data.slug}`);
   revalidatePath("/");
+  return { status: result.ok ? "saved" : "error" };
 }
 
 export async function deletePost(id: string, slug: string) {
-  await safeMutate(() => prisma.post.delete({ where: { id } }));
+  const result = await safeMutate(() => prisma.post.delete({ where: { id } }));
   revalidatePath("/admin/posts");
   revalidatePath("/blog");
   revalidatePath(`/blog/${slug}`);
   revalidatePath("/");
-  redirect("/admin/posts");
+  redirect(`/admin/posts?${toastQuery(result.ok ? "deleted" : "error")}`);
 }

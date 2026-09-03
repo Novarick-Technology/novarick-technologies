@@ -8,11 +8,7 @@ import { Footer } from "@/components/ui/Footer";
 import { Section } from "@/components/ui/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ProjectCard } from "@/components/cards/ProjectCard";
-import {
-  getOtherPublishedProjects,
-  getPublishedProjectBySlug,
-  getPublishedProjectSlugs,
-} from "@/lib/queries/projects";
+import { getOtherPublishedProjects, getPublishedProjectBySlug } from "@/lib/queries/projects";
 
 /**
  * Case-study card (nodes 474:10293/10299 desktop, 532:70 mobile): the
@@ -54,10 +50,16 @@ function RoleRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export async function generateStaticParams() {
-  const slugs = await getPublishedProjectSlugs();
-  return slugs.map(({ slug }) => ({ slug }));
-}
+/**
+ * No generateStaticParams here on purpose — a project published after
+ * the last deploy needs to resolve immediately, not wait for the next
+ * build. With generateStaticParams returning a fixed set (empty until
+ * something is published), Next treats every other slug as permanently
+ * 404, since it prerenders exactly that set rather than falling back to
+ * per-request rendering for anything published later. force-dynamic
+ * renders this route fresh on every request instead, same as /admin.
+ */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

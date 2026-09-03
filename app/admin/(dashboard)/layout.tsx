@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { AdminSidebar, AdminMobileNav } from "@/components/admin/AdminSidebar";
+import { Toast } from "@/components/admin/Toast";
 
 /**
  * Every admin page reads live data and sits behind auth — never
@@ -22,6 +24,9 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
       <main className="min-w-0 flex-1 px-4 py-6 lg:px-8 lg:py-8">
         <div className="mx-auto w-full max-w-[960px]">{children}</div>
       </main>
+      <Suspense fallback={null}>
+        <Toast />
+      </Suspense>
     </div>
   );
 }

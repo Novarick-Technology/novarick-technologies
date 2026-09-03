@@ -1,9 +1,20 @@
+"use client";
+
+import { useActionState, useEffect } from "react";
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { createProject, deleteProject, updateProject } from "@/app/admin/(dashboard)/projects/actions";
+import { fireToast } from "@/components/admin/Toast";
+import {
+  createProject,
+  deleteProject,
+  updateProject,
+  type ProjectActionState,
+} from "@/app/admin/(dashboard)/projects/actions";
 import type { Project } from "@/app/generated/prisma/client";
+
+const initialState: ProjectActionState = { status: "idle" };
 
 const caseStudyFields: { name: keyof Project; label: string }[] = [
   { name: "aboutProject", label: "About Project" },
@@ -24,9 +35,14 @@ const roleFields: { name: keyof Project; label: string }[] = [
 
 export function ProjectForm({ project }: { project?: Project }) {
   const action = project ? updateProject.bind(null, project.id) : createProject;
+  const [state, formAction] = useActionState(action, initialState);
+
+  useEffect(() => {
+    if (state.status === "saved" || state.status === "error") fireToast(state.status);
+  }, [state]);
 
   return (
-    <form action={action} className="flex flex-col gap-10">
+    <form action={formAction} className="flex flex-col gap-10">
       <div className="flex flex-col gap-4">
         <h2 className="font-heading text-[15px] font-semibold text-black">Card</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

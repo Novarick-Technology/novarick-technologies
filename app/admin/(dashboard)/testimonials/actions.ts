@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { safeMutate } from "@/lib/safe-query";
+import { toastQuery } from "@/lib/admin/toast";
 
 const testimonialSchema = z.object({
   quote: z.string().trim().min(1, "Quote is required"),
@@ -24,21 +25,37 @@ function revalidatePublicPaths() {
   for (const path of REVALIDATE_PATHS) revalidatePath(path);
 }
 
-export async function createTestimonial(formData: FormData) {
+export type TestimonialActionState = { status: "idle" | "saved" | "error" };
+
+/** See ProjectActionState's comment in the projects actions file for why
+ * create/delete use a query-param redirect while update returns state
+ * instead. */
+export async function createTestimonial(
+  _prevState: TestimonialActionState,
+  formData: FormData,
+): Promise<TestimonialActionState> {
   const data = parseTestimonialForm(formData);
   const published = formData.get("publish") === "true";
 
   const result = await safeMutate(() => prisma.testimonial.create({ data: { ...data, published } }));
 
   revalidatePath("/admin/testimonials");
-  redirect(result.ok ? `/admin/testimonials/${result.data.id}` : "/admin/testimonials");
+  redirect(
+    result.ok
+      ? `/admin/testimonials/${result.data.id}?${toastQuery("created")}`
+      : `/admin/testimonials?${toastQuery("error")}`,
+  );
 }
 
-export async function updateTestimonial(id: string, formData: FormData) {
+export async function updateTestimonial(
+  id: string,
+  _prevState: TestimonialActionState,
+  formData: FormData,
+): Promise<TestimonialActionState> {
   const data = parseTestimonialForm(formData);
   const published = formData.get("publish") === "true" ? true : undefined;
 
-  await safeMutate(() =>
+  const result = await safeMutate(() =>
     prisma.testimonial.update({
       where: { id },
       data: published !== undefined ? { ...data, published } : data,
@@ -48,13 +65,14 @@ export async function updateTestimonial(id: string, formData: FormData) {
   revalidatePath("/admin/testimonials");
   revalidatePath(`/admin/testimonials/${id}`);
   revalidatePublicPaths();
+  return { status: result.ok ? "saved" : "error" };
 }
 
 export async function deleteTestimonial(id: string) {
-  await safeMutate(() => prisma.testimonial.delete({ where: { id } }));
+  const result = await safeMutate(() => prisma.testimonial.delete({ where: { id } }));
   revalidatePath("/admin/testimonials");
   revalidatePublicPaths();
-  redirect("/admin/testimonials");
+  redirect(`/admin/testimonials?${toastQuery(result.ok ? "deleted" : "error")}`);
 }
 
 export async function toggleTestimonialPublished(id: string, published: boolean) {

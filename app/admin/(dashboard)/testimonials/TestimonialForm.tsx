@@ -1,14 +1,30 @@
+"use client";
+
+import { useActionState, useEffect } from "react";
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { createTestimonial, deleteTestimonial, updateTestimonial } from "@/app/admin/(dashboard)/testimonials/actions";
+import { fireToast } from "@/components/admin/Toast";
+import {
+  createTestimonial,
+  deleteTestimonial,
+  updateTestimonial,
+  type TestimonialActionState,
+} from "@/app/admin/(dashboard)/testimonials/actions";
 import type { Testimonial } from "@/app/generated/prisma/client";
+
+const initialState: TestimonialActionState = { status: "idle" };
 
 export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) {
   const action = testimonial ? updateTestimonial.bind(null, testimonial.id) : createTestimonial;
+  const [state, formAction] = useActionState(action, initialState);
+
+  useEffect(() => {
+    if (state.status === "saved" || state.status === "error") fireToast(state.status);
+  }, [state]);
 
   return (
-    <form action={action} className="flex flex-col gap-6">
+    <form action={formAction} className="flex flex-col gap-6">
       {testimonial && !testimonial.approved && (
         <p className="rounded-panel bg-paper-muted px-4 py-3 font-body text-[13px] text-black">
           Not yet approved by the person quoted — won&rsquo;t render on the site even if published. Approve it

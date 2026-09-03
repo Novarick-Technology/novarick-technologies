@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { safeMutate } from "@/lib/safe-query";
+import { toastQuery } from "@/lib/admin/toast";
 
 const projectSchema = z.object({
   slug: z.string().trim().min(1, "Slug is required"),
@@ -33,7 +34,22 @@ function parseProjectForm(formData: FormData) {
   return projectSchema.parse(raw);
 }
 
-export async function createProject(formData: FormData) {
+export type ProjectActionState = { status: "idle" | "saved" | "error" };
+
+/**
+ * create/delete genuinely navigate to a different page, so their toast
+ * rides a `?created=1`-style query param on the redirect target (proven
+ * reliable for that case). update deliberately does NOT redirect —
+ * staying on the same edit page after Save is the actual intended UX,
+ * and a Server Action redirecting to the exact pathname it's already on
+ * doesn't reliably deliver a query param or cookie to the client (see
+ * Toast.tsx and lib/admin/toast.ts). Returning state here instead, read
+ * via useActionState in ProjectForm, sidesteps that entirely.
+ */
+export async function createProject(
+  _prevState: ProjectActionState,
+  formData: FormData,
+): Promise<ProjectActionState> {
   const data = parseProjectForm(formData);
   const published = formData.get("publish") === "true";
 
@@ -43,14 +59,22 @@ export async function createProject(formData: FormData) {
   revalidatePath("/portfolio");
   revalidatePath(`/portfolio/${data.slug}`);
   revalidatePath("/");
-  redirect(result.ok ? `/admin/projects/${result.data.id}` : "/admin/projects");
+  redirect(
+    result.ok
+      ? `/admin/projects/${result.data.id}?${toastQuery("created")}`
+      : `/admin/projects?${toastQuery("error")}`,
+  );
 }
 
-export async function updateProject(id: string, formData: FormData) {
+export async function updateProject(
+  id: string,
+  _prevState: ProjectActionState,
+  formData: FormData,
+): Promise<ProjectActionState> {
   const data = parseProjectForm(formData);
   const published = formData.get("publish") === "true" ? true : undefined;
 
-  await safeMutate(() =>
+  const result = await safeMutate(() =>
     prisma.project.update({
       where: { id },
       data: published !== undefined ? { ...data, published } : data,
@@ -62,15 +86,16 @@ export async function updateProject(id: string, formData: FormData) {
   revalidatePath("/portfolio");
   revalidatePath(`/portfolio/${data.slug}`);
   revalidatePath("/");
+  return { status: result.ok ? "saved" : "error" };
 }
 
 export async function deleteProject(id: string, slug: string) {
-  await safeMutate(() => prisma.project.delete({ where: { id } }));
+  const result = await safeMutate(() => prisma.project.delete({ where: { id } }));
   revalidatePath("/admin/projects");
   revalidatePath("/portfolio");
   revalidatePath(`/portfolio/${slug}`);
   revalidatePath("/");
-  redirect("/admin/projects");
+  redirect(`/admin/projects?${toastQuery(result.ok ? "deleted" : "error")}`);
 }
 
 export async function toggleProjectPublished(id: string, slug: string, published: boolean) {
