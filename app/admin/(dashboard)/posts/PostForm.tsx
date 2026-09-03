@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
@@ -10,6 +10,7 @@ import { SaveBar } from "@/components/admin/SaveBar";
 import { fireToast } from "@/components/admin/Toast";
 import { createPost, deletePost, updatePost, type PostActionState } from "@/app/admin/(dashboard)/posts/actions";
 import type { Post } from "@/app/generated/prisma/client";
+import { slugify } from "@/lib/slugify";
 
 const initialState: PostActionState = { status: "idle" };
 
@@ -28,6 +29,11 @@ export function PostForm({ post }: { post?: Post }) {
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
+  // Slug auto-fills from the title while creating a new post, right up
+  // until the admin edits the slug field themselves — a deliberate edit
+  // always wins, and editing an existing post's title never auto-changes
+  // its slug (that could silently break an already-published URL).
+  const slugTouched = useRef(!!post);
 
   useEffect(() => {
     if (state.status === "saved" || state.status === "error") fireToast(state.status);
@@ -46,7 +52,10 @@ export function PostForm({ post }: { post?: Post }) {
               name="title"
               required
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (!slugTouched.current) setSlug(slugify(e.target.value));
+              }}
               placeholder="Post title"
               className="w-full rounded-input border border-black/10 bg-white px-4 py-4 font-heading text-[22px] font-medium text-black placeholder:text-text-body focus:outline-none focus:ring-1 focus:ring-black/20"
             />
@@ -94,7 +103,10 @@ export function PostForm({ post }: { post?: Post }) {
               name="slug"
               required
               value={slug}
-              onChange={(e) => setSlug(e.target.value)}
+              onChange={(e) => {
+                slugTouched.current = true;
+                setSlug(e.target.value);
+              }}
               hint="Used in the URL, e.g. /blog/your-slug"
             />
           </div>

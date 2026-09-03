@@ -33,7 +33,7 @@ export function ArticleCard({
             <p className="font-heading text-[20px] font-medium leading-[26px] tracking-[-0.8px] text-black">
               {title}
             </p>
-            <p className="line-clamp-1 font-body text-[16px] text-text-body">
+            <p className="line-clamp-2 font-body text-[16px] text-text-body">
               {excerpt}
             </p>
           </div>
