@@ -14,7 +14,6 @@ Figma file: `TAJ0j8I2mJfXwDlDw05tX7`, page "Website Design". Desktop frames and 
 - Vercel Blob for image uploads
 - Motion for animation
 - Resend for transactional email
-- Cal.com for booking (see Booking section)
 - Deployed on Vercel
 
 Do not add a UI component library. The design system here is specific and small; shadcn or MUI will fight it.
@@ -160,10 +159,10 @@ The navbar on desktop is a pill with the logo, six links and a lime CTA. On mobi
 6. **Portfolio details** — Navbar, title, cover, case-study card, roles card, Other Projects, Final CTA, Footer
 7. **Blog list** — Navbar, Who we are, article grid, Final CTA, Footer
 8. **Blog details** — Navbar, back link, title, cover, article body, Final CTA, Footer
-9. **Contact** — Navbar, Who we are, form card, contact details card, Testimonials, Footer
-10. **Book call** — Navbar, Who we are, calendar, time picker, Testimonials, Footer
-11. **Book call confirmed** — Navbar, confirmation, appointment card, Footer
-12. **Pricing** — Navbar, Who we are, pricing plans, terms Detail, Footer
+9. **Contact** — Navbar, Who we are, form card, contact details card, Testimonials, Footer. The single lead-capture path: every "Start a project" CTA site-wide links here, and a successful submission shows an in-place confirmation on the same page rather than moving elsewhere.
+10. **Pricing** — Navbar, Who we are, pricing plans, terms Detail, Footer
+
+Book call / Book call confirmed (originally pages 10–11 in the Figma file) were removed by deliberate decision — see Booking section below.
 
 Infrastructure inner, Testimonials, Final CTA and the pricing block are identical across the pages that use them. Build each once.
 
@@ -181,11 +180,9 @@ Blog details renders the article body from a rich text field. Support headings, 
 
 ## Booking
 
-Do not build the booking backend. Availability, timezone handling, DST, double-booking prevention, calendar sync and invite emails are a genuine product, not a feature.
+Dropped. The `/book-call` and `/book-call/confirmed` pages, `BookingWidget`, `AppointmentCard` and `lib/booking.ts` were built as static UI early in the project (Cal.com was never actually wired up — see the original plan below), then removed entirely once the decision was made to route every "Start a project" CTA straight to the Contact form instead, with an in-place success message on submission. There is currently no booking flow anywhere on the site.
 
-Use **Cal.com Platform** with their atoms, which let you keep the designed UI while Cal owns the logic. The calendar card and time picker in the design map onto their booker components. The confirmation page renders from the booking webhook payload.
-
-Preserve the designed states exactly: outlined available days, lime fill on the selected day, 40% opacity on unavailable time slots, lime border on the selected slot.
+If booking comes back later, the original plan was: do not build the booking backend yourself (availability, timezone handling, DST, double-booking prevention, calendar sync and invite emails are a genuine product, not a feature) — use **Cal.com Platform** with their atoms, which let you keep a designed UI while Cal owns the logic.
 
 ---
 
@@ -200,12 +197,11 @@ Commit at each step.
 5. Homepage
 6. About Us, What we do, Infrastructure
 7. Portfolio list and details, Blog list and details
-8. Contact form with validation and submission handling
-9. Booking integration and confirmation
-10. Pricing
-11. Admin (see `ADMIN.md`)
-12. SEO, sitemap, robots, Open Graph, analytics
-13. Accessibility and performance pass
+8. Contact form with validation and submission handling — the site's single lead-capture path (see Booking)
+9. Pricing
+10. Admin (see `ADMIN.md`)
+11. SEO, sitemap, robots, Open Graph, analytics
+12. Accessibility and performance pass
 
 Before step 3, produce a component inventory across all twelve pages. The same card pattern recurs under different Figma layer names — resolve it to one component per pattern, not one per page.
 

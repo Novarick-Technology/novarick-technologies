@@ -23,8 +23,7 @@ function ProcessCard({ index, label }: { index: number; label: string }) {
  * 503:11). The feature-card grid (Hosting and environments / Deployment
  * and release / Monitoring and maintenance / Backups, recovery and
  * security) was removed from the Figma file everywhere this section
- * appears — Book a Strategy Call now follows straight after the process
- * strip.
+ * appears — the CTA now follows straight after the process strip.
  */
 export function InfrastructureInner() {
   return (
@@ -73,7 +72,7 @@ export function InfrastructureInner() {
           fullWidthMobile={false}
           className="w-full lg:w-[222px]"
         >
-          Book a Strategy Call
+          Start a project
         </Button>
       </div>
     </div>

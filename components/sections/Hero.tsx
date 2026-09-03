@@ -14,10 +14,11 @@ import { navLinks } from "@/components/ui/navLinks";
  * instead of stacking the generic Navbar component above it — confirmed
  * against both breakpoints (nodes 450:5410 desktop, 499:5 mobile).
  *
- * Note: the mobile primary CTA's literal copy is "Book a Strategy Call"
- * (uppercased via CSS, node 499:76) while desktop's is the literal string
- * "BUILD WITH US" (node 450:5485) — a real inconsistency in the source,
- * not normalized here.
+ * Desktop's primary CTA keeps the literal source string "BUILD WITH US"
+ * (node 450:5485); mobile's and the navbar overlay's now read "Start a
+ * project" — a deliberate departure from the Figma copy ("Book a
+ * Strategy Call"), since booking was dropped in favor of the contact
+ * form as the single lead-capture path.
  */
 export function Hero() {
   const [open, setOpen] = useState(false);
@@ -72,7 +73,7 @@ export function Hero() {
          * visibility on a wrapper instead. */}
         <div className="hidden min-[900px]:block">
           <Button variant="dark" darkFill="black" height="h-10" fullWidthMobile={false} href="/contact">
-            Book a Strategy Call
+            Start a project
           </Button>
         </div>
       </div>
@@ -96,14 +97,11 @@ export function Hero() {
           </p>
         </div>
         <div className="flex w-full flex-col items-start gap-3 min-[900px]:w-auto min-[900px]:flex-row min-[900px]:items-center">
-          {/* Literal copy differs by breakpoint in the source, not just
-           * casing: mobile is "Book a Strategy Call" (uppercased via CSS,
-           * node 499:76), desktop is the literal string "BUILD WITH US"
-           * (node 450:5485). Visibility toggled on wrappers, not Button's
-           * own className — see note above. */}
+          {/* Visibility toggled on wrappers, not Button's own className —
+           * see note above. */}
           <div className="w-full min-[900px]:hidden">
             <Button variant="primary" href="/contact" className="w-full uppercase">
-              Book a Strategy Call
+              Start a project
             </Button>
           </div>
           <div className="hidden min-[900px]:block">

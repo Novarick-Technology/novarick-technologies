@@ -46,7 +46,7 @@ export function PricingCard({
   period,
   description,
   features,
-  ctaLabel = "Book a Strategy Call",
+  ctaLabel = "Start a project",
   ctaHref = "/contact",
 }: {
   tone?: Tone;

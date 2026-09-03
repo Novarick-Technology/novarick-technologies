@@ -90,6 +90,23 @@ function Field({
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(submitContactForm, initialState);
 
+  if (state.status === "success") {
+    return (
+      <Card
+        tone="light"
+        radius="panel"
+        className="flex w-full flex-col items-start gap-3 border border-black/5 px-4 py-10 text-center lg:items-center lg:px-6 min-[1300px]:w-[767px]"
+      >
+        <p className="w-full font-heading text-[24px] font-medium tracking-[-0.05em] text-black lg:text-[28px]">
+          Message sent
+        </p>
+        <p className="w-full font-body text-[15px] text-text-body lg:text-[16px]">
+          Thanks for reaching out — we&rsquo;ve got your details and will be in touch shortly.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card
       tone="light"
@@ -160,7 +177,7 @@ export function ContactForm() {
         )}
 
         <Button type="submit" variant="primary" className="w-full uppercase">
-          {pending ? "Sending…" : "Book a Strategy Call"}
+          {pending ? "Sending…" : "Send message"}
         </Button>
       </form>
     </Card>

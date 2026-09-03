@@ -167,7 +167,7 @@ export default async function Home() {
                 fullWidthMobile={false}
                 className="w-full lg:w-[222px]"
               >
-                Book a Strategy Call
+                Start a project
               </Button>
             </div>
           </div>

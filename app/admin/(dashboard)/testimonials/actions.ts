@@ -19,7 +19,7 @@ function parseTestimonialForm(formData: FormData) {
 }
 
 /** Nothing renders on the site unless both approved and published are true. */
-const REVALIDATE_PATHS = ["/", "/about", "/contact", "/book-call"];
+const REVALIDATE_PATHS = ["/", "/about", "/contact"];
 
 function revalidatePublicPaths() {
   for (const path of REVALIDATE_PATHS) revalidatePath(path);
