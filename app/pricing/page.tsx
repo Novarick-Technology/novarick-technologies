@@ -8,7 +8,7 @@ import { PricingPlans } from "@/components/sections/PricingPlans";
 
 export const metadata = pageMetadata(
   "Pricing",
-  "Final pricing follows a strategy call and a written scope. We would rather quote something we can stand behind than surprise you later."
+  "Final pricing follows a conversation with our team and a written scope. We would rather quote something we can stand behind than surprise you later."
 );
 
 const terms = [
@@ -47,7 +47,7 @@ export default function Pricing() {
       <WhoWeAre
         headline="What it costs to build and run it"
         text={[
-          "Final pricing follows a strategy call and a written scope.",
+          "Final pricing follows a conversation with our team and a written scope.",
           "We would rather quote something we can stand behind than surprise you later.",
         ]}
       />
