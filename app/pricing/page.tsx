@@ -68,7 +68,7 @@ export default function Pricing() {
             </p>
             <p className="font-body text-[14px] leading-[22px] text-text-body lg:w-[534px] lg:text-[18px] lg:leading-6">
               No hidden mechanics. If something here does not fit your
-              situation, raise it on the call.
+              situation, raise it with our team.
             </p>
           </div>
           <div className="flex w-full flex-col">
