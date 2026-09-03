@@ -131,9 +131,20 @@ export async function submitContactForm(
     if (process.env.RESEND_API_KEY && process.env.CONTACT_NOTIFY_EMAIL) {
       const resend = new Resend(process.env.RESEND_API_KEY);
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-      await resend.emails.send({
-        from: "Novarick Technologies <notifications@novaricktech.com>",
+      // Resend's SDK returns { data, error } rather than throwing on an
+      // API-level failure (e.g. the sandbox's to-address restriction) —
+      // the submission itself is already saved at this point regardless,
+      // so a failed notification email logs (no submission contents,
+      // per ADMIN.md) rather than reporting the whole request as failed.
+      const { error: emailError } = await resend.emails.send({
+        // Resend's sandbox only allows sending from this address, to the
+        // exact email the account was signed up with, until a real
+        // domain is verified — see .env.example. Swap to a verified
+        // "Novarick Technologies <notifications@yourdomain.com>" once
+        // that's done; nothing else here needs to change.
+        from: "Novarick Technologies <onboarding@resend.dev>",
         to: process.env.CONTACT_NOTIFY_EMAIL,
+        replyTo: parsed.data.email,
         subject: `New enquiry from ${parsed.data.fullName}`,
         text: [
           `${parsed.data.fullName} <${parsed.data.email}>${parsed.data.phone ? ` / ${parsed.data.phone}` : ""}`,
@@ -145,6 +156,9 @@ export async function submitContactForm(
           `${siteUrl}/admin/submissions/${submission.id}`,
         ].join("\n"),
       });
+      if (emailError) {
+        console.error("Contact form: notification email failed —", emailError.message, submission.id);
+      }
     }
 
   } catch {
