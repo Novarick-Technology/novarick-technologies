@@ -67,7 +67,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getPublishedProjectBySlug(slug);
+  const project = await getPublishedProjectBySlug(decodeURIComponent(slug));
   if (!project) return {};
   return pageMetadata(project.title, project.summary);
 }
@@ -77,7 +77,8 @@ export default async function PortfolioDetails({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const project = await getPublishedProjectBySlug(slug);
   if (!project) notFound();
 

@@ -8,7 +8,11 @@ import { safeMutate } from "@/lib/safe-query";
 import { toastQuery } from "@/lib/admin/toast";
 
 const projectSchema = z.object({
-  slug: z.string().trim().min(1, "Slug is required"),
+  slug: z
+    .string()
+    .trim()
+    .min(1, "Slug is required")
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens only"),
   title: z.string().trim().min(1, "Title is required"),
   meta: z.string().trim().min(1, "Meta is required"),
   summary: z.string().trim().min(1, "Summary is required"),
