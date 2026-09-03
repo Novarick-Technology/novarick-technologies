@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Field } from "@/components/admin/form/Field";
 import { TextAreaField } from "@/components/admin/form/TextAreaField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
@@ -13,6 +13,7 @@ import {
   type ProjectActionState,
 } from "@/app/admin/(dashboard)/projects/actions";
 import type { Project } from "@/app/generated/prisma/client";
+import { slugify } from "@/lib/slugify";
 
 const initialState: ProjectActionState = { status: "idle" };
 
@@ -37,6 +38,13 @@ export function ProjectForm({ project }: { project?: Project }) {
   const action = project ? updateProject.bind(null, project.id) : createProject;
   const [state, formAction] = useActionState(action, initialState);
 
+  // Slug auto-fills from the title while creating a new project, right
+  // up until the admin edits the slug field themselves — a deliberate
+  // edit always wins, and editing an existing (already-published, maybe
+  // already-linked-to) project never auto-changes its slug at all.
+  const [slug, setSlug] = useState(project?.slug ?? "");
+  const slugTouched = useRef(!!project);
+
   useEffect(() => {
     if (state.status === "saved" || state.status === "error") fireToast(state.status);
   }, [state]);
@@ -46,11 +54,29 @@ export function ProjectForm({ project }: { project?: Project }) {
       <div className="flex flex-col gap-4">
         <h2 className="font-heading text-[15px] font-semibold text-black">Card</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Title" name="title" required defaultValue={project?.title} />
-          <Field label="Slug" name="slug" required defaultValue={project?.slug} hint="Used in the URL, e.g. /portfolio/your-slug" />
+          <Field
+            label="Title"
+            name="title"
+            required
+            defaultValue={project?.title}
+            onChange={(e) => {
+              if (!slugTouched.current) setSlug(slugify(e.target.value));
+            }}
+          />
+          <Field
+            label="Slug"
+            name="slug"
+            required
+            value={slug}
+            onChange={(e) => {
+              slugTouched.current = true;
+              setSlug(e.target.value);
+            }}
+            hint="Used in the URL, e.g. /portfolio/your-slug"
+          />
         </div>
         <Field
-          label="Meta"
+          label="Industry category"
           name="meta"
           required
           defaultValue={project?.meta}

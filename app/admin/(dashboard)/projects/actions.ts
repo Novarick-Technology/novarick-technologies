@@ -6,6 +6,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { safeMutate } from "@/lib/safe-query";
 import { toastQuery } from "@/lib/admin/toast";
+import { slugify } from "@/lib/slugify";
 
 const projectSchema = z.object({
   // Normalized rather than rejected — a slug typed (or inherited from
@@ -15,7 +16,7 @@ const projectSchema = z.object({
     .string()
     .trim()
     .min(1, "Slug is required")
-    .transform((v) => v.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""))
+    .transform(slugify)
     .refine((v) => v.length > 0, "Slug must contain at least one letter or number"),
   title: z.string().trim().min(1, "Title is required"),
   meta: z.string().trim().min(1, "Meta is required"),
