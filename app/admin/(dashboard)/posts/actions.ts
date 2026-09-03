@@ -8,11 +8,15 @@ import { safeMutate } from "@/lib/safe-query";
 import { toastQuery } from "@/lib/admin/toast";
 
 const postSchema = z.object({
+  // Normalized rather than rejected — a slug typed (or inherited from
+  // older data saved before this existed) with spaces/uppercase/etc.
+  // just becomes URL-safe automatically instead of blocking the save.
   slug: z
     .string()
     .trim()
     .min(1, "Slug is required")
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens only"),
+    .transform((v) => v.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""))
+    .refine((v) => v.length > 0, "Slug must contain at least one letter or number"),
   title: z.string().trim().min(1, "Title is required"),
   excerpt: z.string().trim().min(1, "Excerpt is required"),
   coverUrl: z.string().trim().min(1, "Cover image is required"),
